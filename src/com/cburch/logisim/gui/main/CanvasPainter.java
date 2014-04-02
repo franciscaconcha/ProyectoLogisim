@@ -183,7 +183,9 @@ class CanvasPainter implements PropertyChangeListener {
 		Set<WidthIncompatibilityData> exceptions;
 		exceptions = proj.getCurrentCircuit().getWidthIncompatibilityData();
 		if (exceptions == null || exceptions.size() == 0) return;
-
+		
+//TO DO (Grupo de Errores)		
+		
 		g.setColor(Value.WIDTH_ERROR_COLOR);
 		GraphicsUtil.switchToWidth(g, 2);
 		FontMetrics fm = base.getFontMetrics(g.getFont());
