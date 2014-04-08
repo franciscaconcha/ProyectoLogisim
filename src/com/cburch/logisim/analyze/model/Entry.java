@@ -5,6 +5,7 @@ package com.cburch.logisim.analyze.model;
 
 import com.cburch.logisim.util.StringGetter;
 
+//Cami: Valores de las variables
 public class Entry {
 	public static final Entry ZERO = new Entry("0");
 	public static final Entry ONE = new Entry("1");
