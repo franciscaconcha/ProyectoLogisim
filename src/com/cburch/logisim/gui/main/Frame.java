@@ -13,12 +13,17 @@ import java.awt.GraphicsEnvironment;
 import java.awt.IllegalComponentStateException;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -166,6 +171,10 @@ public class Frame extends LFrame implements LocaleListener {
 	private SimulationExplorer simExplorer;
 	private AttrTable       attrTable;
 	private ZoomControl     zoom;
+	private JMenuBar		menuPrueba;
+	private JMenu			menu;
+	private JMenuItem		opcion1;
+	private JMenuItem		opcion2;
 	
 	// for the Layout view
 	private LayoutToolbarModel layoutToolbarModel;
@@ -217,6 +226,32 @@ public class Frame extends LFrame implements LocaleListener {
 		explorerPane.setView(VIEW_TOOLBOX);
 		attrTable = new AttrTable(this);
 		zoom = new ZoomControl(layoutZoomModel);
+		menuPrueba = new JMenuBar();
+		menu = new JMenu("Menu");
+		opcion1 = new JMenuItem("opcion1");
+		opcion2 = new JMenuItem("salir");
+		opcion1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				System.out.println("somos la raja");
+				
+			}
+		});
+		opcion2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+		});
+		
+		menu.add(opcion1);
+		menu.add(opcion2);
+		menuPrueba.add(menu);
+		//zoom1 = new ZoomControl(layoutZoomModel);
 
 		// set up the central area
 		CanvasPane canvasPane = new CanvasPane(layoutCanvas);
@@ -235,7 +270,10 @@ public class Frame extends LFrame implements LocaleListener {
 		explPanel.add(explorerPane, BorderLayout.CENTER);
 		JPanel attrPanel = new JPanel(new BorderLayout());
 		attrPanel.add(attrTable, BorderLayout.CENTER);
-		attrPanel.add(zoom, BorderLayout.SOUTH);
+		JPanel ejemplo = new JPanel(new BorderLayout());
+		ejemplo.add(menuPrueba, BorderLayout.CENTER);
+		ejemplo.add(zoom, BorderLayout.WEST);
+		attrPanel.add(ejemplo, BorderLayout.SOUTH);
 
 		leftRegion = new HorizontalSplitPane(explPanel, attrPanel,
 				AppPreferences.WINDOW_LEFT_SPLIT.get().doubleValue());
