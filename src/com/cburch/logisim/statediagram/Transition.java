@@ -3,8 +3,6 @@ package com.cburch.logisim.statediagram;
 
 public class Transition {
 	static class InvalidTransitionException extends Exception {	}
-	private static int ONE=1;
-	private static int ZERO=1;
 	private State origin;
 	private State destiny;
 	private String input;
