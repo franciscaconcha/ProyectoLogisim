@@ -1,5 +1,6 @@
 package com.cburch.logisim.statediagram;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,13 +8,20 @@ public class StateDiagram {
 	static class AbsentStateException extends Exception {	}
 	static class InconsistentInputLengthException extends Exception {	}
 	static class InconsistentOutputLengthException extends Exception {	}
-	private Set<State> states;
-	private Set<Transition> transitions;
+	private ArrayList<State> states;
+	private ArrayList<Transition> transitions;
+	private int nextStateId;
 	public StateDiagram(){
-		states = new HashSet<State>();
-		transitions = new HashSet<Transition>();
+		states = new ArrayList<State>();
+		transitions = new ArrayList<Transition>();
+		nextStateId=0;
 	}
-	public void addState(State s){
+	public void addState(String name){
+		State s=new State(nextStateId, name);
+		nextStateId++;
+		this.addState(s);
+	}
+	private void addState(State s){
 		states.add(s);
 	}
 	public void addTransition(Transition t) throws AbsentStateException{
@@ -24,6 +32,9 @@ public class StateDiagram {
 	}
 	public boolean isState(State s){
 		return states.contains(s);
+	}
+	public State getState(int id){
+		return states.get(id);
 	}
 	public boolean isTransition(Transition t){
 		return transitions.contains(t);
