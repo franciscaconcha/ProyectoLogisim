@@ -53,6 +53,7 @@ class MenuProject extends Menu {
 	private MenuItemImpl viewSimulation = new MenuItemImpl(this, LogisimMenuBar.VIEW_SIMULATION);
 	private MenuItemImpl analyze = new MenuItemImpl(this, LogisimMenuBar.ANALYZE_CIRCUIT);
 	private MenuItemImpl stats = new MenuItemImpl(this, LogisimMenuBar.CIRCUIT_STATS);
+	private MenuItemImpl drawStateDiagram = new MenuItemImpl(this,LogisimMenuBar.DRAW_STATE_DIAGRAM);
 	private JMenuItem options = new JMenuItem();
 
 	MenuProject(LogisimMenuBar menubar) {
@@ -74,6 +75,7 @@ class MenuProject extends Menu {
 		menubar.registerItem(LogisimMenuBar.VIEW_SIMULATION, viewSimulation);
 		menubar.registerItem(LogisimMenuBar.ANALYZE_CIRCUIT, analyze);
 		menubar.registerItem(LogisimMenuBar.CIRCUIT_STATS, stats);
+		menubar.registerItem(LogisimMenuBar.DRAW_STATE_DIAGRAM, drawStateDiagram);
 		options.addActionListener(myListener);
 		
 		loadLibrary.add(loadBuiltin);
@@ -97,6 +99,8 @@ class MenuProject extends Menu {
 		addSeparator();
 		add(analyze);
 		add(stats);
+		addSeparator();
+		add(drawStateDiagram);
 		addSeparator();
 		add(options);
 
@@ -129,6 +133,7 @@ class MenuProject extends Menu {
 		viewSimulation.setText(Strings.get("projectViewSimulationItem"));
 		analyze.setText(Strings.get("projectAnalyzeCircuitItem"));
 		stats.setText(Strings.get("projectGetCircuitStatisticsItem"));
+		drawStateDiagram.setText(Strings.get("projectDrawStateDiagram"));
 		options.setText(Strings.get("projectOptionsItem"));
 	}
 	
