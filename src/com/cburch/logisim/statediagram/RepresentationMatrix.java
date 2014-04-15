@@ -33,6 +33,18 @@ public class RepresentationMatrix {
 				}
 		return s;			
 	}
+	public String getInput(int o, int d){
+		return matrix[o][d][0];
+	}
+	public String getOutput(int o, int d){
+		return matrix[o][d][1];
+	}
+	public void setInput(int o, int d, String in){
+		 matrix[o][d][0]=in;
+	}
+	public void setOutput(int o, int d, String out){
+		matrix[o][d][1]=out;
+	}
 	public String [][][] getMatrix() {
 		return matrix;
 	}

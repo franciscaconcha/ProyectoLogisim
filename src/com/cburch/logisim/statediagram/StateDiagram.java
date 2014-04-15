@@ -6,15 +6,18 @@ import java.util.Set;
 
 public class StateDiagram {
 	static class AbsentStateException extends Exception {	}
-	static class InconsistentInputLengthException extends Exception {	}
-	static class InconsistentOutputLengthException extends Exception {	}
 	private ArrayList<State> states;
 	private ArrayList<Transition> transitions;
 	private int nextStateId;
+	private StateDiagramChecker checker;
 	public StateDiagram(){
 		states = new ArrayList<State>();
 		transitions = new ArrayList<Transition>();
 		nextStateId=0;
+		checker=new StateDiagramChecker();
+	}
+	public void isCorrect(){
+		checker.checkAll(this);
 	}
 	public void addState(String name){
 		State s=new State(nextStateId, name);
@@ -39,39 +42,19 @@ public class StateDiagram {
 	public boolean isTransition(Transition t){
 		return transitions.contains(t);
 	}
-	public void checkTransitionsLength(){
-		try {
-			this.checkInputsLengths();
-		} catch (InconsistentInputLengthException e) {
-			System.out.println("Inputs de distinto largo");
-			e.printStackTrace();
-		}
-		try {
-			this.checkOuputLengths();
-		} catch (InconsistentOutputLengthException e) {
-			System.out.println("Outputs de distinto largo");
-			e.printStackTrace();
-		}
-
-		
+	public ArrayList<Transition> getTransitions(){
+		return this.transitions;
 	}
-	public void checkInputsLengths() throws InconsistentInputLengthException {
-		Transition[] t=(Transition [])transitions.toArray();
-		Transition test=t[0];
-		for (int i=1; i<t.length; i++)
-			if (t[i].getInput().length()!=test.getInput().length())
-				throw new InconsistentInputLengthException();
-				
-			
-	}
-	
-	public void checkOuputLengths() throws InconsistentOutputLengthException{
-		Transition[] t=(Transition [])transitions.toArray();
-		Transition test=t[0];
-		for (int i=1; i<t.length; i++)
-			if (t[i].getOutput().length()!=test.getInput().length())
-				throw new InconsistentOutputLengthException();
-			
-			
+	public RepresentationMatrix getRepresentationMatrix(){
+		RepresentationMatrix m=new RepresentationMatrix(states.size());
+		for (Transition t: transitions){
+			int o=t.getOrigin().getId();
+			int d=t.getDestiny().getId();
+			String in=t.getInput();
+			String out=t.getOutput();
+			m.setInput(o, d, in);
+			m.setOutput(o, d, out);
+		}
+		return m;							
 	}
 }
