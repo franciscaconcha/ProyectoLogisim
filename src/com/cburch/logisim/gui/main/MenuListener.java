@@ -27,6 +27,7 @@ import com.cburch.logisim.gui.menu.SimulateListener;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.proj.ProjectEvent;
 import com.cburch.logisim.proj.ProjectListener;
+import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
 
 class MenuListener {
 	interface EnabledListener {
@@ -143,6 +144,7 @@ class MenuListener {
 			menubar.addActionListener(LogisimMenuBar.REVERT_APPEARANCE, this);
 			menubar.addActionListener(LogisimMenuBar.ANALYZE_CIRCUIT, this);
 			menubar.addActionListener(LogisimMenuBar.CIRCUIT_STATS, this);
+			menubar.addActionListener(LogisimMenuBar.DRAW_STATE_DIAGRAM, this);
 			
 			computeEnabled();
 		}
@@ -200,6 +202,8 @@ class MenuListener {
 				ProjectCircuitActions.doAnalyze(proj, cur);
 			} else if (src == LogisimMenuBar.CIRCUIT_STATS) {
 				StatisticsDialog.show(frame, proj.getLogisimFile(), cur);
+			} else if (src == LogisimMenuBar.DRAW_STATE_DIAGRAM){
+				ExternalDiagramDrawer.show();
 			}
 		}
 		
@@ -243,6 +247,7 @@ class MenuListener {
 			menubar.setEnabled(LogisimMenuBar.REVERT_APPEARANCE, canRevert);
 			menubar.setEnabled(LogisimMenuBar.ANALYZE_CIRCUIT, true);
 			menubar.setEnabled(LogisimMenuBar.CIRCUIT_STATS, true);
+			menubar.setEnabled(LogisimMenuBar.DRAW_STATE_DIAGRAM,true);
 			fireEnableChanged();
 		}
 		

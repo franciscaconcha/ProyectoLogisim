@@ -111,6 +111,7 @@ class MenuProject extends Menu {
 		loadJar.setEnabled(known);
 		unload.setEnabled(known);
 		options.setEnabled(known);
+		drawStateDiagram.setEnabled(known);
 		computeEnabled();
 	}
 	
