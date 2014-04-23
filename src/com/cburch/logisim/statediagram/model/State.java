@@ -1,4 +1,4 @@
-package com.cburch.logisim.statediagram;
+package com.cburch.logisim.statediagram.model;
 
 public class State {
 	private int id;

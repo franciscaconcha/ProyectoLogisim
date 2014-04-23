@@ -1,7 +1,7 @@
-package com.cburch.logisim.statediagram;
+package com.cburch.logisim.statediagram.model;
 
-import com.cburch.logisim.statediagram.StateDiagram.AbsentStateException;
-import com.cburch.logisim.statediagram.Transition.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.StateDiagram.AbsentStateException;
+import com.cburch.logisim.statediagram.model.Transition.InvalidTransitionException;
 
 public class RepresentationMatrix {
 	private String[][][] matrix;

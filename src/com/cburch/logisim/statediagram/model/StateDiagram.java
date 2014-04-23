@@ -1,4 +1,4 @@
-package com.cburch.logisim.statediagram;
+package com.cburch.logisim.statediagram.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
