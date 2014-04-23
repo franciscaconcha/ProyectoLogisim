@@ -105,8 +105,6 @@ public class Diagram implements Serializable, Cloneable {
 		// Should be done now!
 		return a;
 	}
-	
-
 
 	/**
 	 * Retrieves all transitions that eminate from a state.
@@ -390,7 +388,7 @@ public class Diagram implements Serializable, Cloneable {
 	 *         derive from
 	 */
 	protected Class getTransitionClass() {
-        return TransitionObject.PDATransition.class;
+        return TransitionObject.StateTransition.class;
 	}
 
 	/**

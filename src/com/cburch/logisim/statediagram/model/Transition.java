@@ -1,6 +1,7 @@
 package com.cburch.logisim.statediagram.model;
 
 
+
 public class Transition {
 	static class InvalidTransitionException extends Exception {	}
 	private State origin;

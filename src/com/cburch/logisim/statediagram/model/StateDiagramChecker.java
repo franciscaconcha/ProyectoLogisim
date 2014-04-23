@@ -1,6 +1,5 @@
 package com.cburch.logisim.statediagram.model;
 
-import java.util.ArrayList;
 
 
 
@@ -34,19 +33,17 @@ public class StateDiagramChecker {
 		}
 	}
 	public void checkInputsLengths(StateDiagram sd) throws InconsistentInputLengthException {
-		ArrayList<Transition> t=sd.getTransitions();
-		Transition test=t.get(0);
-		int testLength=test.getInput().length();
-		for (Transition trans: t)
-			if (trans.getInput().length()!=testLength)
+		Transition[] t=(Transition [])sd.getTransitions().toArray();
+		Transition test=t[0];
+		for (int i=1; i<t.length; i++)
+			if (t[i].getInput().length()!=test.getInput().length())
 				throw new InconsistentInputLengthException();
 	}
 	public void checkOuputLengths(StateDiagram sd) throws InconsistentOutputLengthException{
-		ArrayList<Transition> t=sd.getTransitions();
-		Transition test=t.get(0);
-		int testLength=test.getInput().length();
-		for (Transition trans: t)
-			if (trans.getOutput().length()!=testLength)
+		Transition[] t=(Transition [])sd.getTransitions().toArray();
+		Transition test=t[0];
+		for (int i=1; i<t.length; i++)
+			if (t[i].getOutput().length()!=test.getInput().length())
 				throw new InconsistentOutputLengthException();
 	}
 

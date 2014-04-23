@@ -201,7 +201,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
      * @author Ryan Cavalcante
      */
 
-    public static class PDATransition extends TransitionObject {
+    public static class StateTransition extends TransitionObject {
         /**
          * Instantiates a new <CODE>PDATransition</CODE> object.
          *
@@ -217,12 +217,12 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @param stringToPush
          *            the string that the machine should push on to the stack.
          */
-        public PDATransition(StateObject from, StateObject to, String inputToRead,
-                String stringToPop, String stringToPush) {
+        public StateTransition(StateObject from, StateObject to, String input,
+                String output) {
             super(from, to);
-            setInputToRead(inputToRead);
-            setStringToPop(stringToPop);
-            setStringToPush(stringToPush);
+            setInput(input);
+           // setStringToPop(stringToPop);
+            setOutput(output);
         }
 
         /**
@@ -235,16 +235,16 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @return a copy of this trnasition with the new from and to states
          */
         public TransitionObject copy(StateObject from, StateObject to) {
-            return new PDATransition(from, to, getInputToRead(), getStringToPop(),
-                    getStringToPush());
+            return new StateTransition(from, to, getInput(), 
+                    getOutput());
         }
 
         /**
          * Returns the input to read portion of the transition label for this
          * transition.
          */
-        public String getInputToRead() {
-            return myInputToRead;
+        public String getInput() {
+            return myInput;
         }
 
         /**
@@ -254,19 +254,19 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @param inputToRead
          *            the input to read portion of the transition label.
          */
-        protected void setInputToRead(String inputToRead) {
+        protected void setInput(String inputToRead) {
             /*
              * if (!automata.StringChecker.isAlphanumeric(inputToRead)) throw new
              * IllegalArgumentException("Label must be alphanumeric!");
              */
-            myInputToRead = inputToRead;
+            myInput = inputToRead;
         }
 
         /**
          * Returns the string to pop from stack portion of the transition label for
          * this transition.
          */
-        public String getStringToPop() {
+       /* public String getStringToPop() {
             return myStringToPop;
         }
 
@@ -277,12 +277,12 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @param stringToPop
          *            the string to pop from the stack.
          */
-        protected void setStringToPop(String stringToPop) {
+       /*protected void setStringToPop(String stringToPop) {
             /*
              * if (!automata.StringChecker.isAlphanumeric(stringToPop)) throw new
              * IllegalArgumentException("Pop string must "+ "be alphanumeric!");
              */
-            if (stringToPop.length() > 1){
+          /*  if (stringToPop.length() > 1){
                 throw new IllegalArgumentException("Pop string must have no more than one character!");
             }
             myStringToPop = stringToPop;
@@ -292,8 +292,8 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * Returns the string to push on to the stack portion of the transition
          * label for this transition.
          */
-        public String getStringToPush() {
-            return myStringToPush;
+        public String getOutput() {
+            return myOutput;
 
         }
 
@@ -304,7 +304,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @param stringToPush
          *            the string to push on to the stack.
          */
-        protected void setStringToPush(String stringToPush) {
+        protected void setOutput(String stringToPush) {
             /*
              * if (!automata.StringChecker.isAlphanumeric(stringToPush)) throw new
              * IllegalArgumentException("Push string must "+ "be alphanumeric!");
@@ -312,7 +312,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
             if ( stringToPush.length() > 1)
                 throw new IllegalArgumentException(
                         "Push string must have no more than one character!");
-            myStringToPush = stringToPush;
+            myOutput = stringToPush;
         }
 
         /**
@@ -322,16 +322,15 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          *         pop off the stack, and the string to push on the stack.
          */
         public String getDescription() {
-            String input = getInputToRead();
+            String input = getInput();
             if (input.length() == 0)
                 input = "\u03BB";
-            String toPop = getStringToPop();
-            if (toPop.length() == 0)
-                toPop = "\u03BB";
-            String toPush = getStringToPush();
+           // if (toPop.length() == 0)
+           //     toPop = "\u03BB";
+            String toPush = getOutput();
             if (toPush.length() == 0)
                 toPush = "\u03BB";
-            return input + " , " + toPop + " ; " + toPush;
+            return input + " ; " + toPush;
         }
 
         /**
@@ -340,8 +339,8 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @return the hashcode for this transition
          */
         public int hashCode() {
-            return super.hashCode() ^ myInputToRead.hashCode()
-                    ^ myStringToPop.hashCode() ^ myStringToPush.hashCode();
+            return super.hashCode() ^ myInput.hashCode()
+                    ^ myOutput.hashCode();
         }
 
         /**
@@ -354,11 +353,10 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          */
         public boolean equals(Object object) {
             try {
-                PDATransition t = (PDATransition) object;
+                StateTransition t = (StateTransition) object;
                 return super.equals(object)
-                        && myInputToRead.equals(t.myInputToRead)
-                        && myStringToPop.equals(t.myStringToPop)
-                        && myStringToPush.equals(t.myStringToPush);
+                        && myInput.equals(t.myInput)
+                        && myOutput.equals(t.myOutput);
             } catch (ClassCastException e) {
                 return false;
             }
@@ -373,17 +371,17 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          * @return a string representation of this object
          */
         public String toString() {
-            return super.toString() + ": \"" + getInputToRead() + "\"" + ": \""
-                    + getStringToPop() + "\"" + ": \"" + getStringToPush() + "\"";
+            return super.toString() + ": \"" + getInput() + "\"" + ": \""
+                    + getOutput() + "\"";
         }
 
         /** The input to read portion of the transition label. */
-        protected String myInputToRead;
+        protected String myInput;
 
         /** The string to pop off the stack. */
-        protected String myStringToPop;
+       // protected String myStringToPop;
 
         /** The string to push on the stack. */
-        protected String myStringToPush;
+        protected String myOutput;
     }
 }
