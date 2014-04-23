@@ -70,10 +70,7 @@ public class EditCanvas extends DiagramPane {
 	 *            the graphics object to draw upon
 	 */
 	public void paintComponent(Graphics g) {
-		if (getCreator().diagram.getEnvironmentFrame() !=null)
-		if (!((DiagramEnvironment)(getCreator().diagram.getEnvironmentFrame().getEnvironment())).shouldPaint())
-			return;
-//		EDebug.print(Thread.currentThread().getName());
+
 		super.paintComponent(g);
 		toolbar.drawTool(g);
 		Graphics2D g2 = (Graphics2D) g;

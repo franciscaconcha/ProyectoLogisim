@@ -79,8 +79,7 @@ public class DeleteTool extends Tool {
 	 *            the mouse event
 	 */
 	public void mouseClicked(MouseEvent event) {
-		if (getDrawer().getDiagram().getEnvironmentFrame() !=null)
-    		((DiagramEnvironment)getDrawer().getDiagram().getEnvironmentFrame().getEnvironment()).saveStatus();
+		
 		StateObject state = getDrawer().stateAtPoint(event.getPoint());
 		if (state != null) {
 			getDiagram().removeState(state);

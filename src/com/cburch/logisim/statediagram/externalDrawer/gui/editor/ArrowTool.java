@@ -137,10 +137,9 @@ public class ArrowTool extends Tool {
 	 * popup trigger.
 	 */
 	public void mousePressed(MouseEvent event) {
-		if (getDrawer().getDiagram().getEnvironmentFrame() !=null)
-    		((DiagramEnvironment)getDrawer().getDiagram().getEnvironmentFrame().getEnvironment()).saveStatus();
-        else
-		initialPointClick.setLocation(event.getPoint());
+		
+        if (getDrawer().getDiagram().getEnvironmentFrame() ==null)
+        	initialPointClick.setLocation(event.getPoint());
 		lastClickedState = getDrawer().stateAtPoint(event.getPoint());
 		if (lastClickedState == null)
 			lastClickedTransition = getDrawer().transitionAtPoint(
@@ -373,9 +372,7 @@ public class ArrowTool extends Tool {
 
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-            if (getDrawer().getDiagram().getEnvironmentFrame() !=null)
-                ((DiagramEnvironment)getDrawer().getDiagram().getEnvironmentFrame().getEnvironment()).saveStatus();
-
+         
 			if (item == changeLabel) {
 				String oldlabel = state.getLabel();
 				oldlabel = oldlabel == null ? "" : oldlabel;
