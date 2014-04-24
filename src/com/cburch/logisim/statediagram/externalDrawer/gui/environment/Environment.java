@@ -20,10 +20,6 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.gui.environment;
 
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.tag.CriticalTag;
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.tag.EditorTag;
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.tag.Tag;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -86,8 +82,8 @@ public abstract class Environment extends JPanel {
 	 *            with it
 	 * @see gui.environment.tag
 	 */
-	public void add(Component component, String name, Tag tags) {
-	//	componentTags.put(component, tags);
+	public void add(Component component, String name) {
+
 		tabbed.addTab(name, component);
 
 	}
@@ -100,7 +96,7 @@ public abstract class Environment extends JPanel {
 	 *            enabled, <CODE>false</CODE> if editor tagged objects should
 	 *            be disabled
 	 */
-	public void setEnabledEditorTagged(boolean enabled) {
+	/*public void setEnabledEditorTagged(boolean enabled) {
 		for (int i = 0; i < tabbed.getTabCount(); i++) {
 			Component c = tabbed.getComponentAt(i);
 			if (((Tag) componentTags.get(c)) instanceof EditorTag)
@@ -152,15 +148,15 @@ public abstract class Environment extends JPanel {
 	 */
 	public void remove(Component component) {
 		tabbed.remove(component);
-		Tag tag = (Tag) componentTags.remove(component);
+		componentTags.remove(component);
 
 		// Takes care of the deactivation of EditorTag tagged
 		// components in the event that such action is appropriate.
-		if (tag instanceof CriticalTag) {
+		/*if (tag instanceof CriticalTag) {
 			criticalObjects--;
 			if (criticalObjects == 0)
 				setEnabledEditorTagged(true);
-		}
+		}*/
 
 		distributeChangeEvent();
 	}

@@ -51,7 +51,7 @@ public class LambdaCellRenderer extends DefaultTableCellRenderer {
      * string.
      */
     public LambdaCellRenderer() {
-        this("\u03BB");
+        this("0");
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value,

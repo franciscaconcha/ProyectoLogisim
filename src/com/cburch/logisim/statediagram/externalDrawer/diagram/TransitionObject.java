@@ -67,7 +67,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
 	 * 
 	 * @return a copy of this transition as described
 	 */
-	public Object clone() {
+	/*public Object clone() {
 		TransitionObject res = copy(getFromState(), getToState());
         res.isSelected = this.isSelected;
         res.myControlPoint = this.myControlPoint == null? null : new Point(this.myControlPoint);
@@ -324,13 +324,13 @@ public abstract class TransitionObject implements Serializable, Cloneable {
         public String getDescription() {
             String input = getInput();
             if (input.length() == 0)
-                input = "\u03BB";
+                input = "0";
            // if (toPop.length() == 0)
            //     toPop = "\u03BB";
-            String toPush = getOutput();
-            if (toPush.length() == 0)
-                toPush = "\u03BB";
-            return input + " ; " + toPush;
+            String output = getOutput();
+            if (output.length() == 0)
+                output = "0";
+            return input + " / " + output;
         }
 
         /**

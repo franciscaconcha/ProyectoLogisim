@@ -5,8 +5,7 @@ import com.cburch.logisim.statediagram.externalDrawer.gui.editor.EditorPane;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.DiagramEnvironment;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.Environment;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.tag.EditorTag;
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.tag.PermanentTag;
+
 
 import java.awt.*;
 
@@ -20,7 +19,7 @@ public class ExternalDiagramDrawer {
         Environment env = new DiagramEnvironment(aut);
         EditorPane editor = new EditorPane(aut);
 
-        env.add(editor, "State Diagram Drawer", new EditorPTag());
+        env.add(editor, "State Diagram Drawer");
 
         EnvironmentFrame frame = new EnvironmentFrame(env);
 
@@ -35,7 +34,7 @@ public class ExternalDiagramDrawer {
         frame.setSize(new Dimension(width, height));
         frame.setVisible(true);
     }
-    public static class EditorPTag implements EditorTag, PermanentTag {
-    };
+ //   public static class EditorPTag implements EditorTag, PermanentTag {
+  //  };
 
 }
