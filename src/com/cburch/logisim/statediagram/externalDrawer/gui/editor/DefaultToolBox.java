@@ -49,6 +49,7 @@ public class DefaultToolBox implements ToolBox {
 		list.add(new StateTool(view, drawer));
 		list.add(new TransitionTool(view, drawer));
 		list.add(new DeleteTool(view, drawer));
+		list.add(new GenerateCircuitTool(view,drawer));
 
 		return list;
 	}

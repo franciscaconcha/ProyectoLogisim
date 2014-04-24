@@ -18,17 +18,17 @@ public class ExternalDiagramDrawer {
         Diagram aut = new Diagram();
         Environment env = new DiagramEnvironment(aut);
         EditorPane editor = new EditorPane(aut);
-
+        
         env.add(editor, "State Diagram Drawer");
 
         EnvironmentFrame frame = new EnvironmentFrame(env);
+        editor.setFrame(frame);
 
         aut.setEnvironmentFrame(frame);
 
         frame.pack();
-
         int width = 600, height = 400;
-
+        
         width = Math.max(width, frame.getSize().width);
         height = Math.max(height, frame.getSize().height);
         frame.setSize(new Dimension(width, height));

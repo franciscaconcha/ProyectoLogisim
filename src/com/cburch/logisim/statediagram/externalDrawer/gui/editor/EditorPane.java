@@ -21,11 +21,13 @@
 package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
+import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.SelectionDrawer;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+
 import java.awt.*;
 //import automata.Note;
 
@@ -143,6 +145,18 @@ public class EditorPane extends JComponent {
 		return diagram;
 	}
 
+
+	public EnvironmentFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(EnvironmentFrame frame) {
+		this.frame = frame;
+		//propagation
+		pane.setFrame(frame);
+	}
+
+
 	/** The diagram. */
 	protected Diagram diagram;
 
@@ -154,4 +168,8 @@ public class EditorPane extends JComponent {
 
 	/** The tool bar. */
 	protected ToolBar toolbar;
+	
+	/**The frame where the editor is*/
+	private EnvironmentFrame frame;
+
 }

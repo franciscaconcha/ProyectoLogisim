@@ -40,7 +40,6 @@ public class DiagramEnvironment extends Environment {
 		super(diagram);
 		Listener listener = new Listener();
 
-		//initUndoKeeper();
 	}
 
 	/**
@@ -48,7 +47,7 @@ public class DiagramEnvironment extends Environment {
 	 * 
 	 * @return the diagram that this environment manages
 	 */
-	public Diagram getAutomaton() {
+	public Diagram getDiagram() {
 		return (Diagram) super.getObject();
 	}
   

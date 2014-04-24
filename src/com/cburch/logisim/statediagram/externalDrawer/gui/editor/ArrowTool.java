@@ -22,7 +22,6 @@ package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
 import com.cburch.logisim.statediagram.externalDrawer.diagram.StateObject;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject;
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.DiagramEnvironment;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.CurvedArrow;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
