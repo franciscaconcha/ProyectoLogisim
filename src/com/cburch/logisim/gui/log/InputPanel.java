@@ -18,14 +18,12 @@ public class InputPanel extends LogPanel {
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return Strings.get("inputTab");
 	}
 
 	@Override
 	public String getHelpText() {
-		// TODO Auto-generated method stub
-		return null;
+		return Strings.get("inputTabHelp");
 	}
 
 	@Override
