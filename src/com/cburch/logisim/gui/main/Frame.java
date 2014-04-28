@@ -140,7 +140,8 @@ public class Frame extends LFrame implements LocaleListener {
 	private JMenuBar		menuPrueba;
 	private JMenu			menu;
 	private JMenuItem		opcion1;
-		
+	
+	
 	// for the Layout view
 	private LayoutToolbarModel layoutToolbarModel;
 	private Canvas          layoutCanvas;
