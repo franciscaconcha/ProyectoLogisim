@@ -22,9 +22,11 @@ public class TruthTable {
 			fireStructureChanged(event);
 		}
 		
+		
+		//Cami: Este metodo maneja los cambios de las variables (columnas) en la tabla de verdad
 		private void inputsChanged(VariableListEvent event) {
 			int action = event.getType();
-			if (action == VariableListEvent.ADD) {
+			if (action == VariableListEvent.ADD) { //Cami: Esto puede servir para pasar tabla codificada a tabla Logisim
 				for (Map.Entry<String,Entry[]> curEntry : outputColumns.entrySet()) {
 					String output = curEntry.getKey();
 					Entry[] column = curEntry.getValue();
@@ -71,6 +73,7 @@ public class TruthTable {
 			}           
 		}
 		
+		//Cami: Usado por inputsChanged cuando se detecta eliminacion de variable
 		private Entry[] removeInput(Entry[] old, int index) {
 			int oldInputCount = model.getInputs().size() + 1;
 			Entry[] ret = new Entry[old.length / 2];

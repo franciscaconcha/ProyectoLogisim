@@ -48,6 +48,8 @@ public class LogisimMenuBar extends JMenuBar {
 	public static final LogisimMenuItem REVERT_APPEARANCE = new LogisimMenuItem("RevertAppearance");
 	public static final LogisimMenuItem ANALYZE_CIRCUIT = new LogisimMenuItem("AnalyzeCircuit");
 	public static final LogisimMenuItem CIRCUIT_STATS = new LogisimMenuItem("GetCircuitStatistics");
+	public static final LogisimMenuItem DRAW_STATE_DIAGRAM = new LogisimMenuItem("DrawStateDiagram");
+	
 	
 	public static final LogisimMenuItem SIMULATE_ENABLE = new LogisimMenuItem("SimulateEnable");
 	public static final LogisimMenuItem SIMULATE_STEP = new LogisimMenuItem("SimulateStep");
