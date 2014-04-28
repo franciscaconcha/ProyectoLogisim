@@ -198,6 +198,8 @@ public class Frame extends LFrame implements LocaleListener {
 		opcion1 = new JMenuItem("Opcion de prueba");
 		menu.add(opcion1);
 		menuPrueba.add(menu);
+		opcion1.addActionListener(new ActionItemError(proj));
+
 		//zoom1 = new ZoomControl(layoutZoomModel);
 
 		// set up the central area

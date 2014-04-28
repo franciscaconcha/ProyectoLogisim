@@ -14,7 +14,7 @@ import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Direction;
 import com.cburch.logisim.instance.StdAttr;
 
-class GateAttributes extends AbstractAttributeSet {
+public class GateAttributes extends AbstractAttributeSet {
 	static final int MAX_INPUTS = 32;
 	static final int DELAY = 1;
 
