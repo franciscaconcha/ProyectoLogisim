@@ -3,33 +3,6 @@
 
 package com.cburch.logisim.gui.main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.IllegalComponentStateException;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import com.cburch.draw.toolbar.Toolbar;
 import com.cburch.draw.toolbar.ToolbarModel;
 import com.cburch.logisim.circuit.Circuit;
@@ -42,28 +15,21 @@ import com.cburch.logisim.data.Direction;
 import com.cburch.logisim.file.LibraryEvent;
 import com.cburch.logisim.file.LibraryListener;
 import com.cburch.logisim.gui.appear.AppearanceView;
-import com.cburch.logisim.gui.generic.AttrTable;
-import com.cburch.logisim.gui.generic.AttrTableModel;
-import com.cburch.logisim.gui.generic.BasicZoomModel;
-import com.cburch.logisim.gui.generic.CanvasPane;
-import com.cburch.logisim.gui.generic.CardPanel;
-import com.cburch.logisim.gui.generic.LFrame;
-import com.cburch.logisim.gui.generic.ZoomControl;
-import com.cburch.logisim.gui.generic.ZoomModel;
+import com.cburch.logisim.gui.generic.*;
 import com.cburch.logisim.gui.menu.LogisimMenuBar;
 import com.cburch.logisim.prefs.AppPreferences;
-import com.cburch.logisim.proj.Project;
-import com.cburch.logisim.proj.ProjectActions;
-import com.cburch.logisim.proj.ProjectEvent;
-import com.cburch.logisim.proj.ProjectListener;
-import com.cburch.logisim.proj.Projects;
+import com.cburch.logisim.proj.*;
 import com.cburch.logisim.tools.Tool;
-import com.cburch.logisim.util.HorizontalSplitPane;
-import com.cburch.logisim.util.JFileChoosers;
-import com.cburch.logisim.util.LocaleListener;
-import com.cburch.logisim.util.LocaleManager;
-import com.cburch.logisim.util.StringUtil;
-import com.cburch.logisim.util.VerticalSplitPane;
+import com.cburch.logisim.util.*;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 public class Frame extends LFrame implements LocaleListener {
 	public static final String EDITOR_VIEW = "editorView";
@@ -174,7 +140,7 @@ public class Frame extends LFrame implements LocaleListener {
 	private JMenuBar		menuPrueba;
 	private JMenu			menu;
 	private JMenuItem		opcion1;
-	private JMenuItem		opcion2;
+	
 	
 	// for the Layout view
 	private LayoutToolbarModel layoutToolbarModel;
@@ -227,29 +193,10 @@ public class Frame extends LFrame implements LocaleListener {
 		attrTable = new AttrTable(this);
 		zoom = new ZoomControl(layoutZoomModel);
 		menuPrueba = new JMenuBar();
-		menu = new JMenu("Menu");
-		opcion1 = new JMenuItem("opcion1");
-		opcion2 = new JMenuItem("salir");
-		opcion1.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				System.out.println("somos la raja");
-				
-			}
-		});
-		opcion2.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				System.exit(0);
-			}
-		});
 		
+		menu = new JMenu("Menu");
+		opcion1 = new JMenuItem("Opcion de prueba");
 		menu.add(opcion1);
-		menu.add(opcion2);
 		menuPrueba.add(menu);
 		//zoom1 = new ZoomControl(layoutZoomModel);
 

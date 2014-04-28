@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.cburch.logisim.statediagram.Transition.InvalidTransitionException;
+
 public class StateDiagram {
 	static class AbsentStateException extends Exception {	}
 	private ArrayList<State> states;
@@ -27,11 +29,14 @@ public class StateDiagram {
 	private void addState(State s){
 		states.add(s);
 	}
-	public void addTransition(Transition t) throws AbsentStateException{
-		if (states.contains(t.getOrigin()) && states.contains(t.getDestiny()))
-			transitions.add(t);
+	public void addTransition(State o, State d, String in, String out) throws AbsentStateException, InvalidTransitionException{
+		if (states.contains(o) && states.contains(d))
+			addTransition(new Transition(o,d,in,out));
 		else
-			throw new AbsentStateException();	
+			throw new AbsentStateException();
+	}
+	public void addTransition(Transition t)throws AbsentStateException, InvalidTransitionException{
+		transitions.add(t);
 	}
 	public boolean isState(State s){
 		return states.contains(s);
