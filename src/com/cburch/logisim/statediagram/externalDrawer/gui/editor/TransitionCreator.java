@@ -91,7 +91,7 @@ public abstract class TransitionCreator {
 	public static TransitionCreator creatorForAutomaton(Diagram diagram,
 			DiagramPane parent) {
 
-			return new PDATransitionCreator(parent);
+			return new StateTransitionCreator(parent);
 
 	}
 

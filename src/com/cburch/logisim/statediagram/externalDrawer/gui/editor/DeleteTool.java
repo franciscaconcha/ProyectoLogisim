@@ -27,7 +27,14 @@ import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
 
 import javax.swing.*;
+
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 /**
  * A tool that handles the deletion of states and transitions.
  * 
@@ -79,8 +86,7 @@ public class DeleteTool extends Tool {
 	 *            the mouse event
 	 */
 	public void mouseClicked(MouseEvent event) {
-		if (getDrawer().getDiagram().getEnvironmentFrame() !=null)
-    		((DiagramEnvironment)getDrawer().getDiagram().getEnvironmentFrame().getEnvironment()).saveStatus();
+		
 		StateObject state = getDrawer().stateAtPoint(event.getPoint());
 		if (state != null) {
 			getDiagram().removeState(state);
@@ -92,5 +98,14 @@ public class DeleteTool extends Tool {
 			getDiagram().removeTransition(trans);
 			getView().repaint();
 		}
+	}
+	@Override
+	public void select(Component view){
+		Toolkit toolkit = Toolkit.getDefaultToolkit();  
+	    URL url = getClass().getResource("/ICON/deletecursor.gif");
+	    Image image = toolkit.getImage(url);
+	    Point hotSpot = new Point(5,5);  
+	    Cursor cursor = toolkit.createCustomCursor(image, hotSpot, "Delete");  
+	    view.setCursor(cursor);
 	}
 }

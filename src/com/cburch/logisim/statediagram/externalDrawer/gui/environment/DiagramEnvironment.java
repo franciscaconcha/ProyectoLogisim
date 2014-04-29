@@ -25,7 +25,6 @@ import com.cburch.logisim.statediagram.externalDrawer.diagram.event.StateEvent;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.StateListener;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionEvent;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionListener;
-import com.cburch.logisim.statediagram.externalDrawer.gui.editor.UndoKeeper;
 
 public class DiagramEnvironment extends Environment {
 	/**
@@ -41,7 +40,6 @@ public class DiagramEnvironment extends Environment {
 		super(diagram);
 		Listener listener = new Listener();
 
-		initUndoKeeper();
 	}
 
 	/**
@@ -49,26 +47,10 @@ public class DiagramEnvironment extends Environment {
 	 * 
 	 * @return the diagram that this environment manages
 	 */
-	public Diagram getAutomaton() {
+	public Diagram getDiagram() {
 		return (Diagram) super.getObject();
 	}
-	
-	/*Start undo methods*/
-   /* public UndoKeeper getUndoKeeper(){
-        return myKeeper;	
-    }*/
-    public void initUndoKeeper(){
-        myKeeper = new UndoKeeper(getAutomaton());
-    }
-    public void saveStatus(){
-        myKeeper.saveStatus();	
-    }
-    
-    public boolean shouldPaint(){
-        return myKeeper == null ? true: !myKeeper.sensitive;
-    }
-	
-	private UndoKeeper myKeeper;
+  
 	/**
 	 * The transition and state listener for an diagram detects if there are
 	 * changes in the environment, and if so, sets the dirty bit.

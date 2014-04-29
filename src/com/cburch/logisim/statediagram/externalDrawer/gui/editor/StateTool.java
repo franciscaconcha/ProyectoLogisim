@@ -68,8 +68,7 @@ public class StateTool extends Tool {
 	 *            the mouse event
 	 */
 	public void mousePressed(MouseEvent event) {
-		if (getDrawer().getDiagram().getEnvironmentFrame() !=null)
-    		((DiagramEnvironment)getDrawer().getDiagram().getEnvironmentFrame().getEnvironment()).saveStatus();
+
 		state = getDiagram().createState(event.getPoint());
 		getView().repaint();
 	}

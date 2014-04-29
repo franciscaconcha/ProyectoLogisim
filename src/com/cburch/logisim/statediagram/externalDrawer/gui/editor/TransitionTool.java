@@ -77,8 +77,7 @@ public class TransitionTool extends Tool {
 	 *            the mouse event
 	 */
 	public void mousePressed(MouseEvent event) {
-		if (getDrawer().getDiagram().getEnvironmentFrame() !=null)
-    		((DiagramEnvironment)getDrawer().getDiagram().getEnvironmentFrame().getEnvironment()).saveStatus();
+	
 		first = getDrawer().stateAtPoint(event.getPoint());
 		if (first == null)
 			return;

@@ -21,6 +21,7 @@
 package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.DiagramEnvironment;
+import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
 
@@ -70,10 +71,7 @@ public class EditCanvas extends DiagramPane {
 	 *            the graphics object to draw upon
 	 */
 	public void paintComponent(Graphics g) {
-		if (getCreator().diagram.getEnvironmentFrame() !=null)
-		if (!((DiagramEnvironment)(getCreator().diagram.getEnvironmentFrame().getEnvironment())).shouldPaint())
-			return;
-//		EDebug.print(Thread.currentThread().getName());
+
 		super.paintComponent(g);
 		toolbar.drawTool(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -83,7 +81,18 @@ public class EditCanvas extends DiagramPane {
 		g2.translate(-transform.getTranslateX(), -transform.getTranslateY());
 	}
 
+	public EnvironmentFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(EnvironmentFrame frame) {
+		this.frame = frame;
+	}
+
 	/** The toolbar that is used for this edit canvas. */
 	private ToolBar toolbar;
+	
+	/**The frame where de canvas is*/
+	private EnvironmentFrame frame;
 	
 }

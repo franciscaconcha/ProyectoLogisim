@@ -22,6 +22,7 @@ package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
 import com.cburch.logisim.statediagram.externalDrawer.diagram.StateObject;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject;
+import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject.StateTransition;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
 
 import javax.swing.table.AbstractTableModel;
@@ -33,7 +34,7 @@ import javax.swing.table.TableModel;
  * @author Thomas Finley
  */
 
-public class PDATransitionCreator extends TableTransitionCreator {
+public class StateTransitionCreator extends TableTransitionCreator {
 	/**
 	 * Instantiates a new <CODE>PDATransitionCreator</CODE>.
 	 * 
@@ -41,7 +42,7 @@ public class PDATransitionCreator extends TableTransitionCreator {
 	 *            the parent of whatever dialogs/windows get brought up by this
 	 *            creator
 	 */
-	public PDATransitionCreator(DiagramPane parent) {
+	public StateTransitionCreator(DiagramPane parent) {
 		super(parent);
 	}
 
@@ -54,7 +55,7 @@ public class PDATransitionCreator extends TableTransitionCreator {
 	 *            to too state
 	 */
 	protected TransitionObject initTransition(StateObject from, StateObject to) {
-		return new TransitionObject.PDATransition(from, to, "", "", "");
+		return new TransitionObject.StateTransition(from, to, "", "");
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class PDATransitionCreator extends TableTransitionCreator {
 	 * @return a table model for the transition
 	 */
 	protected TableModel createModel(TransitionObject transition) {
-		final TransitionObject.PDATransition t = (TransitionObject.PDATransition) transition;
+		final TransitionObject.StateTransition t = (TransitionObject.StateTransition) transition;
 		return new AbstractTableModel() {
 			public Object getValueAt(int row, int column) {
 				return s[column];
@@ -84,31 +85,28 @@ public class PDATransitionCreator extends TableTransitionCreator {
 			}
 
 			public int getColumnCount() {
-				return 3;
+				return 2;
 			}
 
 			public String getColumnName(int c) {
 				return NAME[c];
 			}
 
-			String s[] = new String[] { t.getInputToRead(), t.getStringToPop(),
-					t.getStringToPush() };
+			String s[] = new String[] { t.getInput(), t.getOutput()};
 		};
 	}
 
-	private static final String NAME[] = { "Read", "Pop", "Push" };
+	private static final String NAME[] = { "Input","Output" };
 
 	/**
 	 * Modifies a transition according to what's in the table.
 	 */
 	public TransitionObject modifyTransition(TransitionObject transition, TableModel model) {
 		String input = (String) model.getValueAt(0, 0);
-		String pop = (String) model.getValueAt(0, 1);
-		String push = (String) model.getValueAt(0, 2);
-		TransitionObject.PDATransition t = (TransitionObject.PDATransition) transition;
+		String output = (String) model.getValueAt(0, 1);
+		StateTransition t = (StateTransition) transition;
 		try {
-			return new TransitionObject.PDATransition(t.getFromState(), t.getToState(), input,
-					pop, push);
+			return new StateTransition(t.getFromState(), t.getToState(), input,output);
 		} catch (IllegalArgumentException e) {
 			reportException(e);
 			return null;

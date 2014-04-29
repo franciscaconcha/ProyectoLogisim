@@ -111,21 +111,13 @@ public class ToolBar extends JToolBar implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Tool tool = (Tool) buttonsToTools.get(e.getSource());
+		
 		if (tool != null) {
 			adapter.setAdapter(tool);
 			currentTool = tool;
-			view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			tool.select(view);
 		}
-		if(tool instanceof DeleteTool){
-			   Toolkit toolkit = Toolkit.getDefaultToolkit();  
-			   //Image image = toolkit.getImage("/JFLAP09CVS/ICON/deletecursor.gif");   
-			   URL url = getClass().getResource("/ICON/deletecursor.gif");
-			   Image image = getToolkit().getImage(url);
-			   Point hotSpot = new Point(5,5);  
-			   Cursor cursor = toolkit.createCustomCursor(image, hotSpot, "Delete");  
-			   view.setCursor(cursor);
 
-		}
 	}
 
 	/**

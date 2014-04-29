@@ -20,7 +20,6 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.gui.viewer;
 
-import com.cburch.logisim.statediagram.Transition;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.StateObject;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject;
@@ -532,7 +531,7 @@ public class DiagramDrawer {
 	/**
 	 * Map of curvatures for transitions
 	 */
-	public HashMap<Transition, Float> curveTransitionMap = new HashMap();
+	public HashMap<TransitionObject, Float> curveTransitionMap = new HashMap();
 
 	/**
 	 * A map of curved arrows to transitions. This object is also used for

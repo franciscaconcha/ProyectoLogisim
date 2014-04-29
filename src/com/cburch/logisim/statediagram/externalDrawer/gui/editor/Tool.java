@@ -26,6 +26,7 @@ import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 /**
@@ -154,6 +155,12 @@ public abstract class Tool extends SuperMouseAdapter {
 		if (index != -1)
 			return index;
 		return string.indexOf(Character.toLowerCase(c));
+	}
+	/**
+	 * Allow to manage the event on select tool
+	 */
+	public void select(Component view){
+		view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	/** The view we receive events from. */

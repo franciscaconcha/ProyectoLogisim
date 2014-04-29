@@ -15,9 +15,6 @@
  */
 
 
-
-
-
 package com.cburch.logisim.statediagram.externalDrawer.diagram;
 
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.StateEvent;
@@ -54,59 +51,6 @@ public class Diagram implements Serializable, Cloneable {
 		states = new HashSet();
 		transitions = new HashSet();
 	}
-
-	/**
-	 * Creates a clone of this diagram.
-	 * 
-	 * @return a clone of this diagram, or <CODE>null</CODE> if the clone
-	 *         failed
-	 */
-	public Object clone() {
-		Diagram a;
-		// Try to create a new object.
-		try {
-				a = (Diagram) getClass().newInstance();
-		} catch (Throwable e) {
-			// Well golly, we're sure screwed now!
-			System.err.println("Warning: clone of diagram failed!");
-			return null;
-		}
-		a.setEnvironmentFrame(this.getEnvironmentFrame());
-		
-		
-		// Copy over the states.
-		HashMap map = new HashMap(); // Old states to new states.
-		Iterator it = states.iterator();
-		while (it.hasNext()) {
-
-			StateObject state = (StateObject) it.next();
-			StateObject nstate = new StateObject(state.getID(),
-					new Point(state.getPoint()), a);
-			nstate.setLabel(state.getLabel());
-			nstate.setName(state.getName());
-			map.put(state, nstate);
-			a.addState(nstate);
-		}
-		it = states.iterator();
-		while (it.hasNext()) {
-			StateObject state = (StateObject) it.next();
-			TransitionObject[] ts = getTransitionsFromState(state);
-			StateObject from = (StateObject) map.get(state);
-			for (int i = 0; i < ts.length; i++) {
-				StateObject to = (StateObject) map.get(ts[i].getToState());
-                TransitionObject toBeAdded = (TransitionObject) ts[i].clone(); //call clone instead of copy so that the gui stuff can get appropriately updated
-                toBeAdded.setFromState(from);
-                toBeAdded.setToState(to);
-//				a.addTransition(ts[i].copy(from, to));
-				a.addTransition(toBeAdded);
-			}
-		}
-
-		// Should be done now!
-		return a;
-	}
-	
-
 
 	/**
 	 * Retrieves all transitions that eminate from a state.
@@ -390,7 +334,7 @@ public class Diagram implements Serializable, Cloneable {
 	 *         derive from
 	 */
 	protected Class getTransitionClass() {
-        return TransitionObject.PDATransition.class;
+        return TransitionObject.StateTransition.class;
 	}
 
 	/**
