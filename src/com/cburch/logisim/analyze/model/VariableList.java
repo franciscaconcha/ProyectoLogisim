@@ -87,6 +87,7 @@ public class VariableList {
 	}
 	
 	public void setAll(List<String> values) {
+		//Cami: Guarda variables en data (llamado por setVariables de AnalyzerModel)
 		if (values.size() > maxSize) {
 			throw new IllegalArgumentException("maximum size is " + maxSize);
 		}

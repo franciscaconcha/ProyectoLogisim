@@ -4,10 +4,12 @@
 package com.cburch.logisim.circuit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -26,6 +28,7 @@ import com.cburch.logisim.instance.Instance;
 import com.cburch.logisim.instance.InstanceState;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Project;
+import com.cburch.logisim.statediagram.model.DiagramTable;
 import com.cburch.logisim.std.wiring.Pin;
 
 public class Analyze {
@@ -204,6 +207,7 @@ public class Analyze {
 			model.getOutputExpressions().setExpression(outputNames.get(i),
 					expressionMap.get(pin.getLocation()));
 		}
+		
 	}
 
 	private static class ExpressionMap extends HashMap<Location,Expression> {
@@ -357,9 +361,19 @@ public class Analyze {
 			}
 		}
 		
+		//Cami: Con esto se setea la tabla completa
+		//Cami: Setea nombre de columnas
 		model.setVariables(inputNames, outputNames);
+		//Cami: Setea valores de las salidas
 		for (int i = 0; i < columns.length; i++) {
 			model.getTruthTable().setOutputColumn(i, columns[i]);
 		}
+	}
+	
+	//Cami: Modificacion: metodo agregado. A mi criterio deberia ir aqui. Por revisar ubicacion!
+	//Carga DiagramTable. De momento solo carga el Default.
+	public static void loadDiagramTable(AnalyzerModel model){
+		DiagramTable diagramTable = new DiagramTable(); //Crea default
+		diagramTable.loadIntoModel(model); //Carga
 	}
 }

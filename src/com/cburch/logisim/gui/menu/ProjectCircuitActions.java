@@ -28,6 +28,7 @@ import com.cburch.logisim.file.LogisimFileActions;
 import com.cburch.logisim.instance.Instance;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Project;
+import com.cburch.logisim.statediagram.model.DiagramTable;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.tools.AddTool;
 import com.cburch.logisim.tools.Library;
@@ -175,7 +176,13 @@ public class ProjectCircuitActions {
 	private static void configureAnalyzer(Project proj, Circuit circuit,
 			Analyzer analyzer, Map<Instance, String> pinNames,
 			ArrayList<String> inputNames, ArrayList<String> outputNames) {
+		
 		analyzer.getModel().setVariables(inputNames, outputNames);
+		
+		//Cami: Agregado, por default carga DiagramTable. Solo para demostracion.
+		Analyze.loadDiagramTable(analyzer.getModel()); //Actualiza el modelo
+		analyzer.setSelectedTab(Analyzer.TABLE_TAB); //Actualiza la ventana
+		//Fin Agregado
 		
 		// If there are no inputs, we stop with that tab selected
 		if (inputNames.size() == 0) {

@@ -3,6 +3,7 @@
 
 package com.cburch.logisim.analyze.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.cburch.logisim.circuit.Circuit;
