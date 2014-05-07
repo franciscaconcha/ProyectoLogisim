@@ -58,9 +58,11 @@ import com.cburch.logisim.util.LocaleListener;
 import com.cburch.logisim.util.LocaleManager;
 import com.cburch.logisim.util.StringGetter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JViewport;
@@ -712,7 +714,15 @@ public class Canvas extends JPanel
 			viewport.setWidthMessage(null);
 			return;
 		}
-
+		
+		
+		for(WidthIncompatibilityData w : exceptions){
+			proj.getCurrentCircuit().getComponents(w.getPoint(0));
+			w.size(); // cantidad de puntos de tamaños distintos
+			w.getPoint(0); //coordenadas del primer punto de error
+			w.getBitWidth(0); // ancho del primer punto de error
+		}
+		
 		Rectangle viewableBase;
 		Rectangle viewable;
 		if (canvasPane != null) {
