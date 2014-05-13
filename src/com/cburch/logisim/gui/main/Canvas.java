@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import com.cburch.ElementException;
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitEvent;
 import com.cburch.logisim.circuit.CircuitListener;
@@ -715,13 +716,7 @@ public class Canvas extends JPanel
 			return;
 		}
 		
-		
-		for(WidthIncompatibilityData w : exceptions){
-			proj.getCurrentCircuit().getComponents(w.getPoint(0));
-			w.size(); // cantidad de puntos de tamaños distintos
-			w.getPoint(0); //coordenadas del primer punto de error
-			w.getBitWidth(0); // ancho del primer punto de error
-		}
+		exceptionProcess(exceptions);
 		
 		Rectangle viewableBase;
 		Rectangle viewable;
@@ -780,6 +775,21 @@ public class Canvas extends JPanel
 					else if (isWest)    viewport.setWest(true);
 				}
 			}
+		}
+	}
+
+	private void exceptionProcess(Set<WidthIncompatibilityData> exceptions) {
+		ArrayList<ElementException>  elementList= new ArrayList<ElementException>();
+		ElementException element;
+		for(WidthIncompatibilityData w : exceptions){
+			proj.getCurrentCircuit().getComponents(w.getPoint(0));
+			w.size(); // cantidad de puntos de tamaños distintos
+			element = new ElementException();
+			for(int i = 0;i<w.size();i++){
+				element.add(w.getBitWidth(i).getWidth()); //Agregar width
+				element.add(w.getPoint(i)); //Agregar location
+			}
+			elementList.add(element);
 		}
 	}
 
