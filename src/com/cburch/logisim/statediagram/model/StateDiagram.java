@@ -4,28 +4,31 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 public class StateDiagram {
-	static class AbsentStateException extends Exception {	}
+
 	private ArrayList<State> states;
 	private ArrayList<Transition> transitions;
-	private int nextStateId;
 	private StateDiagramChecker checker;
 	public StateDiagram(){
 		states = new ArrayList<State>();
 		transitions = new ArrayList<Transition>();
-		nextStateId=0;
 		checker=new StateDiagramChecker();
 	}
 	public void isCorrect(){
 		checker.checkAll(this);
 	}
-	public void addState(String name){
-		State s=new State(nextStateId, name);
-		nextStateId++;
+	public void addState(String name, int id){
+		State s=new State(id, name);
 		this.addState(s);
 	}
 	private void addState(State s){
 		states.add(s);
+	}
+	public void addTransition(State origin, State destiny, String input, String output) throws InvalidTransitionException, AbsentStateException{
+		Transition t=new Transition(origin, destiny, input, output);
+		this.addTransition(t);
 	}
 	public void addTransition(Transition t) throws AbsentStateException{
 		if (states.contains(t.getOrigin()) && states.contains(t.getDestiny()))
@@ -39,6 +42,7 @@ public class StateDiagram {
 	public State getState(int id){
 		return states.get(id);
 	}
+
 	public boolean isTransition(Transition t){
 		return transitions.contains(t);
 	}

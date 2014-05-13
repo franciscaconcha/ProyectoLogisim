@@ -17,11 +17,14 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.diagram;
 
+import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject.StateTransition;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.StateEvent;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.StateListener;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionEvent;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionListener;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
+import com.cburch.logisim.statediagram.model.*;
+
 
 import java.awt.*;
 import java.io.Serializable;
@@ -436,6 +439,28 @@ public class Diagram implements Serializable, Cloneable {
 			ret+=((TransitionObject) o).specialHash();
 
 		return ret;
+	}
+	public StateDiagram getAlternativeModel() throws InvalidTransitionException, AbsentStateException{
+		StateDiagram toGet=new StateDiagram();
+		StateObject[] states=this.getStates();
+		for(StateObject s: states){
+			String name=s.getName();
+			int id=s.getID();
+			toGet.addState(name, id);
+		}
+		TransitionObject[] trans=this.getTransitions();
+		for(TransitionObject t: trans){
+			int originID=t.getFromState().getID();
+			int destinyID=t.getToState().getID();
+			State origin=toGet.getState(originID);
+			State destiny=toGet.getState(destinyID);
+			String input=((StateTransition) t).getInput();
+			String output=((StateTransition) t).getOutput();
+			toGet.addTransition(origin, destiny, input, output);
+		}
+		
+		return toGet;
+		
 	}
 
 	private EnvironmentFrame myEnvFrame = null;

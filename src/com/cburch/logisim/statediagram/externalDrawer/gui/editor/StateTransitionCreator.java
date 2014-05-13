@@ -55,7 +55,7 @@ public class StateTransitionCreator extends TableTransitionCreator {
 	 *            to too state
 	 */
 	protected TransitionObject initTransition(StateObject from, StateObject to) {
-		return new TransitionObject.StateTransition(from, to, "", "");
+		return new TransitionObject.StateTransition(from, to, "*", "*");
 	}
 
 	/**
