@@ -3,7 +3,13 @@ package com.cburch.logisim.statediagram.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * Clase de Diagrama de Estados, maneja sus estados y transiciones.
+ * También tiene un objeto que puede checkear la correctitud y validez
+ * del diagrama.
+ * @author Cate
+ *
+ */
 
 
 public class StateDiagram {
@@ -16,6 +22,10 @@ public class StateDiagram {
 		transitions = new ArrayList<Transition>();
 		checker=new StateDiagramChecker();
 	}
+	/**
+	 * Este método se ocupa al final y es el que verifica que el diagrama esté
+	 * correcto. 
+	 */
 	public void isCorrect(){
 		checker.checkAll(this);
 	}
@@ -30,6 +40,12 @@ public class StateDiagram {
 		Transition t=new Transition(origin, destiny, input, output);
 		this.addTransition(t);
 	}
+	/**
+	 * Agrega una transición, verificando que los estados de la transición
+	 * especificados en ella sean del diagrama (nunca debería pasar).
+	 * @param t
+	 * @throws AbsentStateException
+	 */
 	public void addTransition(Transition t) throws AbsentStateException{
 		if (states.contains(t.getOrigin()) && states.contains(t.getDestiny()))
 			transitions.add(t);
@@ -49,6 +65,12 @@ public class StateDiagram {
 	public ArrayList<Transition> getTransitions(){
 		return this.transitions;
 	}
+	/**
+	 * Este método sirve para obtener la matriz que ocupará la Cami para generar
+	 * su tabla de verdad. 
+	 * @see RepresentationMatrix
+	 * @return m
+	 */
 	public RepresentationMatrix getRepresentationMatrix(){
 		RepresentationMatrix m=new RepresentationMatrix(states.size());
 		for (Transition t: transitions){

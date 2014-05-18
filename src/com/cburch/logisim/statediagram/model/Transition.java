@@ -1,6 +1,11 @@
 package com.cburch.logisim.statediagram.model;
 
-
+/**
+ * Clase Transición. Contiene setters y getters para los estados que relaciona la transición 
+ * (origen y destino) y para los strings de la transición (input y output).
+ * @author Cate
+ *
+ */
 
 public class Transition {
 	private State origin;
@@ -25,11 +30,23 @@ public class Transition {
 		String s=origin.toString()+"--"+input+"/"+output+"->"+destiny.toString();
 		return s;
 	}
+	/**
+	 * Verifica que los strings de la transición sean válidos
+	 * @see checkTransitionMember
+	 * @param in
+	 * @param out
+	 * @return validIn && validOut
+	 */
 	private boolean checkTransition(String in, String out){
 		boolean validIn=checkTransitionMember(in);
 		boolean validOut=checkTransitionMember(out);
 		return (validIn && validOut);
 	}
+	/**
+	 * Verifica que cada caracter en un string sea 0, 1 o *
+	 * @param mem
+	 * @return valid
+	 */
 	private boolean checkTransitionMember(String mem){
 		boolean valid=true;
 		char[] charArray=mem.toCharArray();
