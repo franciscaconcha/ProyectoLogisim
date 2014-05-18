@@ -67,13 +67,14 @@ public class StateDiagram {
 	}
 	/**
 	 * Este método sirve para obtener la matriz que ocupará la Cami para generar
-	 * su tabla de verdad. 
+	 * su tabla de verdad. Si se realiza un cambio en el diagrama, hay que generar
+	 * la matriz de nuevo, ya que no es dinámica.
 	 * @see RepresentationMatrix
 	 * @return m
 	 */
 	public RepresentationMatrix getRepresentationMatrix(){
 		RepresentationMatrix m=new RepresentationMatrix(states.size());
-		for (Transition t: transitions){
+		for (Transition t: this.getTransitions()){
 			int o=t.getOrigin().getId();
 			int d=t.getDestiny().getId();
 			String in=t.getInput();
@@ -82,5 +83,8 @@ public class StateDiagram {
 			m.setOutput(o, d, out);
 		}
 		return m;							
+	}
+	public ArrayList<State> getStates() {
+		return this.states;
 	}
 }

@@ -1,8 +1,19 @@
 package com.cburch.logisim.statediagram.model;
 
-import com.cburch.logisim.statediagram.model.StateDiagram.AbsentStateException;
-import com.cburch.logisim.statediagram.model.Transition.InvalidTransitionException;
-
+import com.cburch.logisim.statediagram.model.AbsentStateException;
+import com.cburch.logisim.statediagram.model.InvalidTransitionException;
+/**
+ * 
+ * @author Cate
+ * Clase de la Matriz de Representación. Tiene muchos getters y setters para 
+ * acceder la matriz por índice. Es básicamente la matriz de adyacencia de 
+ * un grafo, pero guarda 2 strings en cada celda, input y output.
+ * Para acceder a la transición que va desde el estado A (id a) al estado B 
+ * (id b), hay que hacer get/set Input/Output (a,b (String a settear si 
+ * corresponde)). Las dimensiones de la matriz están determinadas por size, que
+ * es la cantidad de estados del diagrama a partir del cual se quiere generar
+ * la matriz, luego la matriz es de tamaño nxnx2. 
+ */
 public class RepresentationMatrix {
 	private String[][][] matrix;
 	private int size;
@@ -10,29 +21,7 @@ public class RepresentationMatrix {
 		size=n;
 		this.matrix= new String [n][n][2];	
 	}
-	public StateDiagram generateDiagram(){
-		StateDiagram s= new StateDiagram();
-		int i=1;
-		while (i<=this.getSize())
-				s.addState(i+"");
-		int j, k;
-		Transition t;
-		for(j=0;j<size;j++)
-			for(k=0;k<size;k++)
-				if (!matrix[j][k][0].isEmpty()){
-					try {
-						t=new Transition(s.getState(j), s.getState(k), matrix[j][k][0], matrix[j][k][1]);
-						s.addTransition(t);
-					} catch (InvalidTransitionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (AbsentStateException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-		return s;			
-	}
+	
 	public String getInput(int o, int d){
 		return matrix[o][d][0];
 	}

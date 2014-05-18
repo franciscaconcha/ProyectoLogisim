@@ -27,5 +27,8 @@ public class State {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public boolean equals(State s){
+		return (this.getId()==s.getId() && this.getName()==s.getName());
+	}
 
 }
