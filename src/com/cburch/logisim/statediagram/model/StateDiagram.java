@@ -46,21 +46,27 @@ public class StateDiagram {
 	 * @param t
 	 * @throws AbsentStateException
 	 */
-	public void addTransition(Transition t) throws AbsentStateException{
-		if (states.contains(t.getOrigin()) && states.contains(t.getDestiny()))
+	private void addTransition(Transition t) throws AbsentStateException{
+		if (this.isState(t.getOrigin()) && this.isState(t.getDestiny()))
 			transitions.add(t);
 		else
 			throw new AbsentStateException();	
 	}
-	public boolean isState(State s){
-		return states.contains(s);
+	public boolean isState(State s) {
+		for(State st: states){
+			if(st.equals(s)){
+				return true;}}
+		return false;
 	}
 	public State getState(int id){
 		return states.get(id);
 	}
 
 	public boolean isTransition(Transition t){
-		return transitions.contains(t);
+		for(Transition trans: transitions)
+			if(trans.equals(t))
+				return true;
+		return false;
 	}
 	public ArrayList<Transition> getTransitions(){
 		return this.transitions;
@@ -74,7 +80,7 @@ public class StateDiagram {
 	 */
 	public RepresentationMatrix getRepresentationMatrix(){
 		RepresentationMatrix m=new RepresentationMatrix(states.size());
-		for (Transition t: this.getTransitions()){
+		for (Transition t: transitions){
 			int o=t.getOrigin().getId();
 			int d=t.getDestiny().getId();
 			String in=t.getInput();

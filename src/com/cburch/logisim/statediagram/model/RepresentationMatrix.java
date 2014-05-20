@@ -19,7 +19,8 @@ public class RepresentationMatrix {
 	private int size;
 	public RepresentationMatrix(int n){
 		size=n;
-		this.matrix= new String [n][n][2];	
+		this.matrix= new String [n][n][2];
+		
 	}
 	
 	public String getInput(int o, int d){
@@ -37,14 +38,9 @@ public class RepresentationMatrix {
 	public String [][][] getMatrix() {
 		return matrix;
 	}
-	public void setMatrix(String[][][] matrix) {
-		this.matrix = matrix;
-	}
+
 	public int getSize() {
 		return size;
-	}
-	public void setSize(int size) {
-		this.size = size;
 	}
 		
 

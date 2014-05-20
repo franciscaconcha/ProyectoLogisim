@@ -55,7 +55,10 @@ public class Transition {
 				valid=false;
 		}
 		return valid;
-
+	}
+	public boolean equals(Transition t){
+		return (this.getOrigin()==t.getOrigin()) && (this.getDestiny()==t.getDestiny()
+				&& (this.getInput()==t.getInput())&&(this.getOutput()==t.getOutput()));
 	}
 	public State getOrigin() {
 		return origin;
