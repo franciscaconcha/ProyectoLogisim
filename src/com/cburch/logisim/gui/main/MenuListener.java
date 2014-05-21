@@ -27,6 +27,7 @@ import com.cburch.logisim.gui.menu.SimulateListener;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.proj.ProjectEvent;
 import com.cburch.logisim.proj.ProjectListener;
+import com.cburch.logisim.statediagram.externalDrawer.CircuitGenerator;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
 
 class MenuListener {
@@ -203,7 +204,8 @@ class MenuListener {
 			} else if (src == LogisimMenuBar.CIRCUIT_STATS) {
 				StatisticsDialog.show(frame, proj.getLogisimFile(), cur);
 			} else if (src == LogisimMenuBar.DRAW_STATE_DIAGRAM){
-				ExternalDiagramDrawer.show();
+				ExternalDiagramDrawer externalDiagramDrawer = new ExternalDiagramDrawer(new CircuitGenerator());
+				externalDiagramDrawer.show();
 			}
 		}
 		

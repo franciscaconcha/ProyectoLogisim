@@ -1,11 +1,12 @@
 package com.cburch.logisim.statediagram.externalDrawer.gui.viewer;
 
+import com.cburch.logisim.statediagram.externalDrawer.CircuitGenerator;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
+import com.cburch.logisim.statediagram.externalDrawer.gui.editor.DefaultToolBox;
 import com.cburch.logisim.statediagram.externalDrawer.gui.editor.EditorPane;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.DiagramEnvironment;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.Environment;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
-
 
 import java.awt.*;
 
@@ -13,11 +14,20 @@ import java.awt.*;
  * Created by romina on 4/15/14.
  */
 public class ExternalDiagramDrawer {
-    static public void show(){
+	
+	CircuitGenerator circuitGenerator;
+	
+	public ExternalDiagramDrawer(CircuitGenerator circuitGenerator){
+		
+		this.circuitGenerator = circuitGenerator;
+		
+	}
+	
+    public void show(){
 
         Diagram aut = new Diagram();
         Environment env = new DiagramEnvironment(aut);
-        EditorPane editor = new EditorPane(aut);
+        EditorPane editor = new EditorPane(new SelectionDrawer(aut), new DefaultToolBox(),false,circuitGenerator);
         
         env.add(editor, "State Diagram Drawer");
 

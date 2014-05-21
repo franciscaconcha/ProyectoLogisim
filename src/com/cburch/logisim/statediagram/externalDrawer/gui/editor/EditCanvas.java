@@ -20,7 +20,7 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
-import com.cburch.logisim.statediagram.externalDrawer.gui.environment.DiagramEnvironment;
+import com.cburch.logisim.statediagram.externalDrawer.CircuitGenerator;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
@@ -46,8 +46,10 @@ public class EditCanvas extends DiagramPane {
 	 *            <CODE>true</CODE> if the diagram should change its size to
 	 *            fit in the diagram; this can be very annoying
 	 */
-	public EditCanvas(DiagramDrawer drawer, boolean fit) {
+	public EditCanvas(DiagramDrawer drawer, boolean fit, CircuitGenerator circuitGenerator) {
 		super(drawer, fit);
+		this.circuitGenerator = circuitGenerator;
+		
 	}
 
 	/**
@@ -89,10 +91,22 @@ public class EditCanvas extends DiagramPane {
 		this.frame = frame;
 	}
 
+	
+	public CircuitGenerator getCircuitGenerator() {
+		return circuitGenerator;
+	}
+
+	public void setCircuitGenerator(CircuitGenerator circuitGenerator) {
+		this.circuitGenerator = circuitGenerator;
+	}
+
 	/** The toolbar that is used for this edit canvas. */
 	private ToolBar toolbar;
 	
 	/**The frame where de canvas is*/
 	private EnvironmentFrame frame;
+	
+	/** The object that will generate the circuit*/
+	private CircuitGenerator circuitGenerator;
 	
 }

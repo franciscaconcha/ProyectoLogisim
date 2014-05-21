@@ -1,4 +1,5 @@
 /*
+ * **Simplified instance of JFLAP to draw state diagrams into Logisim**
  *  JFLAP - Formal Languages and Automata Package
  * 
  * 

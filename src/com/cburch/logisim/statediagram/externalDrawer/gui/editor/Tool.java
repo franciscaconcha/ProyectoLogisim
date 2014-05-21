@@ -159,7 +159,7 @@ public abstract class Tool extends SuperMouseAdapter {
 	/**
 	 * Allow to manage the event on select tool
 	 */
-	public void select(Component view){
+	public void select(EditCanvas view){
 		view.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 

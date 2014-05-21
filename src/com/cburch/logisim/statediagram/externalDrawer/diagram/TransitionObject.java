@@ -1,4 +1,5 @@
 /*
+ * **Simplified instance of JFLAP to draw state diagrams into Logisim**
  *  JFLAP - Formal Languages and Automata Package
  * 
  * 
@@ -21,7 +22,6 @@
 package com.cburch.logisim.statediagram.externalDrawer.diagram;
 
 import java.awt.*;
-import java.io.Serializable;
 
 /**
  * A <CODE>Transition</CODE> object is a simple abstract class representing a
@@ -35,7 +35,7 @@ import java.io.Serializable;
  * @author Thomas Finley, Henry Qin
  */
 
-public abstract class TransitionObject implements Serializable, Cloneable {
+public abstract class TransitionObject{
 	/**
 	 * Instantiates a new <CODE>Transition</CODE>.
 	 * 
@@ -48,37 +48,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
 		this.from = from;
 		this.to = to;
 	}
-
-	/**
-	 * Returns a copy of this transition, except for a new <CODE>from</CODE>
-	 * and <CODE>to</CODE> state.
-	 * 
-	 * @param from
-	 *            the state this transition goes to
-	 * @param to
-	 *            the state this transition comes from
-	 * @return a copy of this transition as described
-	 */
-	public abstract TransitionObject copy(StateObject from, StateObject to);
-
-	/**
-	 * Returns a copy of this transition with the same <CODE>from</CODE> and
-	 * <CODE>to</CODE> state.
-	 * 
-	 * @return a copy of this transition as described
-	 */
-	/*public Object clone() {
-		TransitionObject res = copy(getFromState(), getToState());
-        res.isSelected = this.isSelected;
-        res.myControlPoint = this.myControlPoint == null? null : new Point(this.myControlPoint);
-        return res;
-	}
-
-	/**
-	 * Returns the state this transition eminates from.
-	 * 
-	 * @return the state this transition eminates from
-	 */
+	
 	public StateObject getFromState() {
 		return this.from;
 	}
@@ -255,37 +225,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          *            the input to read portion of the transition label.
          */
         protected void setInput(String inputToRead) {
-            /*
-             * if (!automata.StringChecker.isAlphanumeric(inputToRead)) throw new
-             * IllegalArgumentException("Label must be alphanumeric!");
-             */
             myInput = inputToRead;
-        }
-
-        /**
-         * Returns the string to pop from stack portion of the transition label for
-         * this transition.
-         */
-       /* public String getStringToPop() {
-            return myStringToPop;
-        }
-
-        /**
-         * Sets the string to pop from stack portion of the transition label for
-         * this transition.
-         *
-         * @param stringToPop
-         *            the string to pop from the stack.
-         */
-       /*protected void setStringToPop(String stringToPop) {
-            /*
-             * if (!automata.StringChecker.isAlphanumeric(stringToPop)) throw new
-             * IllegalArgumentException("Pop string must "+ "be alphanumeric!");
-             */
-          /*  if (stringToPop.length() > 1){
-                throw new IllegalArgumentException("Pop string must have no more than one character!");
-            }
-            myStringToPop = stringToPop;
         }
 
         /**
@@ -305,10 +245,7 @@ public abstract class TransitionObject implements Serializable, Cloneable {
          *            the string to push on to the stack.
          */
         protected void setOutput(String stringToPush) {
-            /*
-             * if (!automata.StringChecker.isAlphanumeric(stringToPush)) throw new
-             * IllegalArgumentException("Push string must "+ "be alphanumeric!");
-             */
+
             if ( stringToPush.length() > 1)
                 throw new IllegalArgumentException(
                         "Push string must have no more than one character!");
@@ -325,8 +262,6 @@ public abstract class TransitionObject implements Serializable, Cloneable {
             String input = getInput();
             if (input.length() == 0)
                 input = "0";
-           // if (toPop.length() == 0)
-           //     toPop = "\u03BB";
             String output = getOutput();
             if (output.length() == 0)
                 output = "0";

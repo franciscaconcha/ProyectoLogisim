@@ -1,4 +1,7 @@
 /*
+ *  **Model of simplified instance of JFLAP to draw state diagrams into Logisim**
+ *  
+ *  
  *  JFLAP - Formal Languages and Automata Package
  * 
  * 
@@ -24,15 +27,15 @@ import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionEv
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionListener;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
 import com.cburch.logisim.statediagram.model.*;
-
-
-import java.awt.*;
 import java.io.Serializable;
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
 
 /**
+ * ** Model of external state diagram drawer**
+ * 
  * The automata object is the root class for the representation of all forms of
  * automata, including FSA, PDA, and Turing machines. This object does NOT
  * simulate the behavior of any of those machines; it simply maintains a
@@ -45,18 +48,18 @@ import java.util.List;
  * @author Thomas Finley
  */
 
-public class Diagram implements Serializable, Cloneable {
+public class Diagram implements Serializable{
 	/**
 	 * Creates an instance of <CODE>Diagram</CODE>. The created instance
 	 * has no states and no transitions.
 	 */
 	public Diagram() {
-		states = new HashSet();
-		transitions = new HashSet();
+		states = new HashSet<StateObject>();
+		transitions = new HashSet<TransitionObject>();
 	}
 
 	/**
-	 * Retrieves all transitions that eminate from a state.
+	 * Retrieves all transitions that eliminate from a state.
 	 * 
 	 * @param from
 	 *            the <CODE>State</CODE> from which returned transitions
@@ -65,11 +68,11 @@ public class Diagram implements Serializable, Cloneable {
 	 *         this state
 	 */
 	public TransitionObject[] getTransitionsFromState(StateObject from) {
-		TransitionObject[] toReturn = (TransitionObject[]) transitionArrayFromStateMap
+		TransitionObject[] toReturn = transitionArrayFromStateMap
 				.get(from);
 		if (toReturn == null) {
-			List list = (List) transitionFromStateMap.get(from);
-			toReturn = (TransitionObject[]) list.toArray(new TransitionObject[0]);
+			List<TransitionObject> list = transitionFromStateMap.get(from);
+			toReturn = list.toArray(new TransitionObject[0]);
 			transitionArrayFromStateMap.put(from, toReturn);
 		}
 		return toReturn;
@@ -85,11 +88,11 @@ public class Diagram implements Serializable, Cloneable {
 	 *         State
 	 */
 	public TransitionObject[] getTransitionsToState(StateObject to) {
-		TransitionObject[] toReturn = (TransitionObject[]) transitionArrayToStateMap
+		TransitionObject[] toReturn = transitionArrayToStateMap
 				.get(to);
 		if (toReturn == null) {
-			List list = (List) transitionToStateMap.get(to);
-			toReturn = (TransitionObject[]) list.toArray(new TransitionObject[0]);
+			List<TransitionObject> list = transitionToStateMap.get(to);
+			toReturn = list.toArray(new TransitionObject[0]);
 			transitionArrayToStateMap.put(to, toReturn);
 		}
 		return toReturn;
@@ -108,11 +111,11 @@ public class Diagram implements Serializable, Cloneable {
 	 */
 	public TransitionObject[] getTransitionsFromStateToState(StateObject from, StateObject to) {
 		TransitionObject[] t = getTransitionsFromState(from);
-		ArrayList list = new ArrayList();
+		ArrayList<TransitionObject> list = new ArrayList<TransitionObject>();
 		for (int i = 0; i < t.length; i++)
 			if (t[i].getToState() == to)
 				list.add(t[i]);
-		return (TransitionObject[]) list.toArray(new TransitionObject[0]);
+		return list.toArray(new TransitionObject[0]);
 	}
 
 	/**
@@ -122,7 +125,7 @@ public class Diagram implements Serializable, Cloneable {
 	 */
 	public TransitionObject[] getTransitions() {
 		if (cachedTransitions == null)
-			cachedTransitions = (TransitionObject[]) transitions
+			cachedTransitions = transitions
 					.toArray(new TransitionObject[0]);
 		return cachedTransitions;
 	}
@@ -140,11 +143,11 @@ public class Diagram implements Serializable, Cloneable {
 			return;
         if(trans.getToState() == null || trans.getFromState() == null) return;
 		transitions.add(trans);
-        if(transitionFromStateMap == null) transitionFromStateMap = new HashMap();
-		List list = (List) transitionFromStateMap.get(trans.getFromState());
+        if(transitionFromStateMap == null) transitionFromStateMap = new HashMap<StateObject, LinkedList<TransitionObject>>();
+		List<TransitionObject> list = transitionFromStateMap.get(trans.getFromState());
 		list.add(trans);
-        if(transitionToStateMap == null) transitionToStateMap = new HashMap();
-		list = (List)transitionToStateMap.get(trans.getToState()) ;
+        if(transitionToStateMap == null) transitionToStateMap = new HashMap<StateObject, LinkedList<TransitionObject>>();
+		list = transitionToStateMap.get(trans.getToState()) ;
 		list.add(trans);
 		transitionArrayFromStateMap.remove(trans.getFromState());
 		transitionArrayToStateMap.remove(trans.getToState());
@@ -180,9 +183,9 @@ public class Diagram implements Serializable, Cloneable {
 					"Replacing transition that not already in the diagram!");
 		}
 		transitions.add(newTrans);
-		List list = (List) transitionFromStateMap.get(oldTrans.getFromState());
+		List<TransitionObject> list = transitionFromStateMap.get(oldTrans.getFromState());
 		list.set(list.indexOf(oldTrans), newTrans);
-		list = (List) transitionToStateMap.get(oldTrans.getToState());
+		list = transitionToStateMap.get(oldTrans.getToState());
 		list.set(list.indexOf(oldTrans), newTrans);
 		transitionArrayFromStateMap.remove(oldTrans.getFromState());
 		transitionArrayToStateMap.remove(oldTrans.getToState());
@@ -199,9 +202,9 @@ public class Diagram implements Serializable, Cloneable {
 	 */
 	public void removeTransition(TransitionObject trans) {
 		transitions.remove(trans);
-		List l = (List) transitionFromStateMap.get(trans.getFromState());
+		List<TransitionObject> l = transitionFromStateMap.get(trans.getFromState());
 		l.remove(trans);
-		l = (List) transitionToStateMap.get(trans.getToState());
+		l = transitionToStateMap.get(trans.getToState());
 		l.remove(trans);
 		// Remove cached arrays.
 		transitionArrayFromStateMap.remove(trans.getFromState());
@@ -238,8 +241,8 @@ public class Diagram implements Serializable, Cloneable {
 	 */
 	protected final void addState(StateObject state) {
 		states.add(state);
-		transitionFromStateMap.put(state, new LinkedList());
-		transitionToStateMap.put(state, new LinkedList());
+		transitionFromStateMap.put(state, new LinkedList<TransitionObject>());
+		transitionToStateMap.put(state, new LinkedList<TransitionObject>());
 		cachedStates = null;
 		distributeStateEvent(new StateEvent(this, state, true, false,
 				false));
@@ -281,10 +284,10 @@ public class Diagram implements Serializable, Cloneable {
 	 */
 	public StateObject[] getStates() {
 		if (cachedStates == null) {
-			cachedStates = (StateObject[]) states.toArray(new StateObject[0]);
-			Arrays.sort(cachedStates, new Comparator() {
-				public int compare(Object o1, Object o2) {
-					return ((StateObject) o1).getID() - ((StateObject) o2).getID();
+			cachedStates = states.toArray(new StateObject[0]);
+			Arrays.sort(cachedStates, new Comparator<StateObject>() {
+				public int compare(StateObject o1, StateObject o2) {
+					return o1.getID() - o2.getID();
 				}
 
 				public boolean equals(Object o) {
@@ -315,9 +318,9 @@ public class Diagram implements Serializable, Cloneable {
 	 *         ID, or <CODE>null</CODE> if no such state exists
 	 */
 	public StateObject getStateWithID(int id) {
-		Iterator it = states.iterator();
+		Iterator<StateObject> it = states.iterator();
 		while (it.hasNext()) {
-			StateObject state = (StateObject) it.next();
+			StateObject state = it.next();
 			if (state.getID() == id)
 				return state;
 		}
@@ -336,7 +339,7 @@ public class Diagram implements Serializable, Cloneable {
 	 * @return the <CODE>Class</CODE> object that all added transitions should
 	 *         derive from
 	 */
-	protected Class getTransitionClass() {
+	protected Class<StateTransition> getTransitionClass() {
         return TransitionObject.StateTransition.class;
 	}
 
@@ -392,9 +395,9 @@ public class Diagram implements Serializable, Cloneable {
 	 *            the event to distribute
 	 */
 	void distributeStateEvent(StateEvent event) {
-		Iterator it = stateListeners.iterator();
+		Iterator<StateListener> it = stateListeners.iterator();
 		while (it.hasNext()) {
-			StateListener listener = (StateListener) it.next();
+			StateListener listener = it.next();
 			listener.diagramStateChange(event);
 		}
 	}
@@ -407,9 +410,9 @@ public class Diagram implements Serializable, Cloneable {
 	 *            the event to distribute
 	 */
 	void distributeTransitionEvent(TransitionEvent event) {
-		Iterator it = transitionListeners.iterator();
+		Iterator<TransitionListener> it = transitionListeners.iterator();
 		while (it.hasNext()) {
-			TransitionListener listener = (TransitionListener) it
+			TransitionListener listener = it
 					.next();
 			listener.diagramTransitionChange(event);
 		}
@@ -440,6 +443,14 @@ public class Diagram implements Serializable, Cloneable {
 
 		return ret;
 	}
+	
+	/**
+	 * **get model used by Logisim from JFLAP model**
+	 * 
+	 * @return internal model
+	 * @throws InvalidTransitionException
+	 * @throws AbsentStateException
+	 */
 	public StateDiagram getAlternativeModel() throws InvalidTransitionException, AbsentStateException{
 		StateDiagram toGet=new StateDiagram();
 		StateObject[] states=this.getStates();
@@ -466,7 +477,7 @@ public class Diagram implements Serializable, Cloneable {
 	private EnvironmentFrame myEnvFrame = null;
 
 	/** The collection of states in this diagram. */
-	protected Set states;
+	protected Set<StateObject> states;
 
 	/** The cached array of states. */
 	private StateObject[] cachedStates = null;
@@ -475,34 +486,34 @@ public class Diagram implements Serializable, Cloneable {
 	private TransitionObject[] cachedTransitions = null;
 
 	/** The list of transitions in this diagram. */
-	protected Set transitions;
+	protected Set<TransitionObject> transitions;
 
 	/**
 	 * A mapping from states to a list holding transitions from those states.
 	 */
-	private HashMap transitionFromStateMap = new HashMap();
+	private HashMap<StateObject, LinkedList<TransitionObject>> transitionFromStateMap = new HashMap<StateObject, LinkedList<TransitionObject>>();
 
 	/**
 	 * A mapping from state to a list holding transitions to those states.
 	 */
-	private HashMap transitionToStateMap = new HashMap();
+	private HashMap<StateObject, LinkedList<TransitionObject>> transitionToStateMap = new HashMap<StateObject, LinkedList<TransitionObject>>();
 
 	/**
 	 * A mapping from states to an array holding transitions from a state. This
 	 * is a sort of cashing.
 	 */
-	private HashMap transitionArrayFromStateMap = new HashMap();
+	private HashMap<StateObject, TransitionObject[]> transitionArrayFromStateMap = new HashMap<StateObject, TransitionObject[]>();
 
 	/**
 	 * A mapping from states to an array holding transitions from a state. This
 	 * is a sort of cashing.
 	 */
-	private HashMap transitionArrayToStateMap = new HashMap();
+	private HashMap<StateObject, TransitionObject[]> transitionArrayToStateMap = new HashMap<StateObject, TransitionObject[]>();
 
 
 
-	private transient HashSet transitionListeners = new HashSet();
+	private transient HashSet<TransitionListener> transitionListeners = new HashSet<TransitionListener>();
 
-	private transient HashSet stateListeners = new HashSet();
+	private transient HashSet<StateListener> stateListeners = new HashSet<StateListener>();
 
 }

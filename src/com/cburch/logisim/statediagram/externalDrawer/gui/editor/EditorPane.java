@@ -20,6 +20,7 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
+import com.cburch.logisim.statediagram.externalDrawer.CircuitGenerator;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
@@ -39,37 +40,7 @@ import java.awt.*;
  */
 
 public class EditorPane extends JComponent {
-	/**
-	 * Instantiates a new editor pane for the given diagram.
-	 * 
-	 * @param diagram
-	 *            the diagram to create the editor pane for
-	 */
-	public EditorPane(Diagram diagram) {
-		this(new SelectionDrawer(diagram));
-	}
 
-	/**
-	 * Instantiates a new editor pane with a given diagram drawer.
-	 * 
-	 * @param drawer
-	 *            the special diagram drawer for this editor
-	 */
-	public EditorPane(DiagramDrawer drawer) {
-		this(drawer, new DefaultToolBox());
-	}
-
-	/**
-	 * Instantiates a new editor pane with a given diagram drawer.
-	 * 
-	 * @param drawer
-	 *            the special diagram drawer for this editor
-	 * @param box
-	 *            the tool box to get the tools from
-	 */
-	public EditorPane(DiagramDrawer drawer, ToolBox box) {
-		this(drawer, box, false);
-	}
 
 	/**
 	 * Instantiates a new editor pane with a given diagram drawer.
@@ -83,8 +54,8 @@ public class EditorPane extends JComponent {
 	 *            fit the diagram; note that this can be <I>very</I> annoying
 	 *            if the diagram changes
 	 */
-	public EditorPane(DiagramDrawer drawer, ToolBox box, boolean fit) {
-		pane = new EditCanvas(drawer, fit);
+	public EditorPane(DiagramDrawer drawer, ToolBox box, boolean fit, CircuitGenerator circuitGenerator) {
+		pane = new EditCanvas(drawer, fit, circuitGenerator);
 		pane.setCreator(this);
 		this.drawer = drawer;
 		this.diagram = drawer.getDiagram();

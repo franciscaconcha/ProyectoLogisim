@@ -104,7 +104,7 @@ public class StateTransitionCreator extends TableTransitionCreator {
 	public TransitionObject modifyTransition(TransitionObject transition, TableModel model) {
 		String input = (String) model.getValueAt(0, 0);
 		String output = (String) model.getValueAt(0, 1);
-		StateTransition t = (StateTransition) transition;
+		TransitionObject t = (TransitionObject) transition;
 		try {
 			return new StateTransition(t.getFromState(), t.getToState(), input,output);
 		} catch (IllegalArgumentException e) {

@@ -28,7 +28,6 @@ import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
 
 import javax.swing.*;
 
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
@@ -100,7 +99,7 @@ public class DeleteTool extends Tool {
 		}
 	}
 	@Override
-	public void select(Component view){
+	public void select(EditCanvas view){
 		Toolkit toolkit = Toolkit.getDefaultToolkit();  
 	    URL url = getClass().getResource("/ICON/deletecursor.gif");
 	    Image image = toolkit.getImage(url);

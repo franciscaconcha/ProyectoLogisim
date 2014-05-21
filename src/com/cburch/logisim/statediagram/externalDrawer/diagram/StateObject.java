@@ -1,4 +1,6 @@
-/*
+/* 
+ * **Simplified instance of JFLAP to draw state diagrams into Logisim**
+
  *  JFLAP - Formal Languages and Automata Package
  * 
  * 
@@ -23,7 +25,6 @@ package com.cburch.logisim.statediagram.externalDrawer.diagram;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.StateEvent;
 
 import java.awt.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -35,7 +36,7 @@ import java.util.StringTokenizer;
  * @version 1.0
  */
 
-public class StateObject implements Serializable {
+public class StateObject{
 	/**
 	 * Instantiates a new state.
 	 * 
@@ -160,7 +161,7 @@ public class StateObject implements Serializable {
 			labels = new String[0];
 		} else {
 			StringTokenizer st = new StringTokenizer(label, "\n");
-			ArrayList lines = new ArrayList();
+			ArrayList<String> lines = new ArrayList<String>();
 			while (st.hasMoreTokens())
 				lines.add(st.nextToken());
 			labels = (String[]) lines.toArray(new String[0]);

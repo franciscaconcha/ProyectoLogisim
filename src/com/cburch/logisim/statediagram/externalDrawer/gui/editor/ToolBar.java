@@ -23,6 +23,7 @@ package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -147,13 +148,13 @@ public class ToolBar extends JToolBar implements ActionListener {
 		AbstractButton button;
 	}
 
-	private Component view;
+	private EditCanvas view;
 
 	private DiagramDrawer drawer;
 
-	private List tools;
+	private List<Tool> tools;
 
-	private HashMap buttonsToTools = new HashMap();
+	private HashMap<JToggleButton, Tool> buttonsToTools = new HashMap<JToggleButton, Tool>();
 
 	private ToolAdapter adapter;
 

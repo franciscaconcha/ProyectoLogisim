@@ -1,25 +1,11 @@
 package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-
 import javax.swing.Icon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
-
-import com.cburch.logisim.statediagram.externalDrawer.diagram.StateObject;
-import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject;
 
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
+import com.cburch.logisim.statediagram.externalDrawer.CircuitGenerator;
 
 /**
  * The arrow tool is used mostly for editing existing objects.
@@ -74,10 +60,11 @@ public class GenerateCircuitTool extends Tool {
 	}
 	
 	@Override
-	public void select(Component view){
-		//TODO
-		System.out.println("Genetaring :D");
-		((EditCanvas)view).getFrame().dispose();
+	public void select(EditCanvas view){
+		//TODO 
+		view.getCircuitGenerator().generate();
+		
+		view.getFrame().dispose();
 	}
 
 }
