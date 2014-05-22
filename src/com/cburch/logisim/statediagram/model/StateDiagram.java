@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.cburch.logisim.statediagram.Transition.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.Transition.InvalidTransitionException;
 
 public class StateDiagram {
 	static class AbsentStateException extends Exception {	}
@@ -35,7 +35,7 @@ public class StateDiagram {
 		else
 			throw new AbsentStateException();
 	}
-	public void addTransition(Transition t)throws AbsentStateException, InvalidTransitionException{
+	public void addTransition(Transition t)throws AbsentStateException{
 		transitions.add(t);
 	}
 	public boolean isState(State s){
