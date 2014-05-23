@@ -32,20 +32,22 @@ import java.util.ArrayList;
 class InputPanel extends LogPanel {
 
 	private static final Font BODY_FONT = new Font("Serif", Font.PLAIN, 14);
+	private  ArrayList<Integer> selectedIndex=new ArrayList<Integer>();
+	private MyListener myListener = new MyListener();
+	final JPanel entriesPanel = new JPanel();
+	private ArrayList<JTextField> entries= new ArrayList<JTextField>();
+	
 	
 	private class MyListener implements ModelListener {
 		public void selectionChanged(ModelEvent event) {
 			computePreferredSize();
 		}
-		public void entryAdded(ModelEvent event, Value[] values) { repaint(); }
+		public void entryAdded(ModelEvent event, Value[] values) { 
+			repaint();
+		}
 		
 		public void filePropertyChanged(ModelEvent event) { }
 	}
-	
-	private  ArrayList<Integer> selectedIndex=new ArrayList<Integer>();
-	private MyListener myListener = new MyListener();
-	final JPanel panelEntradas = new JPanel();
-	private ArrayList<JTextField> entradas= new ArrayList<JTextField>();
 	
 	public InputPanel(LogFrame frame) {
 		super(frame);
@@ -91,38 +93,38 @@ class InputPanel extends LogPanel {
 			return;
 		}
 		this.setLayout(new GridLayout(0,1));
-		JPanel titulos = new JPanel();
-		titulos.setLayout(new GridLayout(0, columns));		
+		JPanel titles = new JPanel();
+		titles.setLayout(new GridLayout(0, columns));		
 		
 		for (int i = 0; i < columns; i++) {
-			titulos.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()), JLabel.CENTER);
+			titles.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()), JLabel.CENTER);
 		}
-		this.add(titulos, BorderLayout.NORTH);
-		final JPanel panelEntradas = new JPanel();
-		panelEntradas.setLayout(new GridLayout(0, columns));
+		this.add(titles, BorderLayout.NORTH);
+		final JPanel entriesPanel = new JPanel();
+		entriesPanel.setLayout(new GridLayout(0, columns));
 		for (int i = 0; i < columns; i++) {
-	        	entradas.add(new JTextField());
-	            panelEntradas.add(entradas.get(i));
+	        	entries.add(new JTextField());
+	            entriesPanel.add(entries.get(i));
 	    }
-		JScrollPane panelEntradasScroll = new JScrollPane(panelEntradas);
-        this.add(panelEntradasScroll,BorderLayout.CENTER);
+		JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
+        this.add(scrollEntriesPanel,BorderLayout.CENTER);
         
         
-        JPanel botones = new JPanel();
-        botones.add(new JButton(new AbstractAction("Agregar Entrada") {
+        JPanel buttons = new JPanel();
+        buttons.add(new JButton(new AbstractAction("Agregar Entrada") {
         	@Override
             public void actionPerformed(ActionEvent e) {
             	
                 
                 for (int i = 0; i < selectedIndex.size(); i++) {
                 JTextField p=new JTextField();
-                entradas.add(p);
-                panelEntradas.add(p);}
+                entries.add(p);
+                entriesPanel.add(p);}
                 InputPanel.this.validate();
             }
         }));
    
-        this.add(botones, BorderLayout.SOUTH);
+        this.add(buttons, BorderLayout.SOUTH);
 		
 		
 	}
