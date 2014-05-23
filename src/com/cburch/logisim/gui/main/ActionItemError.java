@@ -36,7 +36,7 @@ public class ActionItemError implements ActionListener {
 				Strings.getter("selectionAttributeAction"));
 		for (Location location : locations) {
 			for (Component comp : circuit.getComponents(location)) {
-				if (comp instanceof Wire) {
+				if (!(comp instanceof Wire)) {
 					if (!(comp.getFactory() instanceof Pin)) {
 						//act.set(comp, GateAttributes.ATTR_INPUTS, 15);
 					}
