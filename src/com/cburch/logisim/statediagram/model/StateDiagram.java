@@ -88,6 +88,8 @@ public class StateDiagram {
 			m.setInput(o, d, in);
 			m.setOutput(o, d, out);
 		}
+		m.setInputLength(m.getInput(0, 0).length());
+		m.setOutputLength(m.getOutput(0, 0).length());
 		return m;							
 	}
 	public ArrayList<State> getStates() {

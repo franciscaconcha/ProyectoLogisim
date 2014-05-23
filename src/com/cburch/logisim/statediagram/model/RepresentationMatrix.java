@@ -17,6 +17,8 @@ import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 public class RepresentationMatrix {
 	private String[][][] matrix;
 	private int size;
+	private int inputLength;
+	private int outputLength;
 	public RepresentationMatrix(int n){
 		size=n;
 		this.matrix= new String [n][n][2];
@@ -41,6 +43,18 @@ public class RepresentationMatrix {
 
 	public int getSize() {
 		return size;
+	}
+	public int getInputLength(){
+		return this.inputLength;
+	}
+	public int getOutputLength(){
+		return this.outputLength;
+	}
+	public void setInputLength(int n){
+		this.inputLength=n;
+	}
+	public void setOutputLength(int n){
+		this.outputLength=n;
 	}
 		
 
