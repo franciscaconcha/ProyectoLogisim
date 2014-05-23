@@ -847,15 +847,10 @@ public class Canvas extends JPanel implements LocaleListener,
 	}
 
 	private void exceptionProcess(Set<WidthIncompatibilityData> exceptions) {
-		ArrayList<ElementException> elementList = new ArrayList<ElementException>();
-		ElementException element;
 		JMenu menuSugerencias = proj.getFrame().getMenuSugerencias();
 		menuSugerencias.removeAll();
 		int count = 1;
 		for (WidthIncompatibilityData w : exceptions) {
-			proj.getCurrentCircuit().getComponents(w.getPoint(0));
-			w.size(); // cantidad de puntos de tamaños distintos
-			element = new ElementException();
 			
 			//crear submenu
 			JMenu jmenuNuevo = new JMenu("Circuito " + count);
@@ -865,18 +860,17 @@ public class Canvas extends JPanel implements LocaleListener,
 			for(int i = 0; i < w.size(); i++){
 				locations.add(w.getPoint(i));
 			}
-			
+			ArrayList<Integer> repetidos = new ArrayList<Integer>();
 			for (int i = 0; i < w.size(); i++) {
-				JMenuItem jmenuItemNuevo = new JMenuItem("Entrada " + w.getBitWidth(i).getWidth());
-				jmenuItemNuevo.addActionListener(new ActionItemError(locations, w.getBitWidth(i).getWidth(), proj));
-				jmenuNuevo.add(jmenuItemNuevo);
-				
-				
-				element.add(w.getBitWidth(i).getWidth()); // Agregar width
-				element.add(w.getPoint(i)); // Agregar location
+				int width = w.getBitWidth(i).getWidth();
+				if(!repetidos.contains(width)){
+					JMenuItem jmenuItemNuevo = new JMenuItem("Establecer Bits de Datos " + width);
+					jmenuItemNuevo.addActionListener(new ActionItemError(locations, width, proj));
+					jmenuNuevo.add(jmenuItemNuevo);
+					repetidos.add(width);
+				}
 			}
 			menuSugerencias.add(jmenuNuevo);
-			elementList.add(element);
 			count++;
 		}
 	}
