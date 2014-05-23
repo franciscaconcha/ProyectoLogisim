@@ -25,8 +25,11 @@ public class StateDiagram {
 	/**
 	 * Este metodo se ocupa al final y es el que verifica que el diagrama este
 	 * correcto. 
+	 * @throws notStronglyConnectedDiagram 
+	 * @throws InconsistentOutputLengthException 
+	 * @throws InconsistentInputLengthException 
 	 */
-	public void isCorrect(){
+	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, notStronglyConnectedDiagram{
 		checker.checkAll(this);
 	}
 	public void addState(String name, int id){

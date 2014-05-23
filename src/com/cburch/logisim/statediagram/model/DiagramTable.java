@@ -11,7 +11,7 @@ public class DiagramTable {
 	
 	private List<String> inputNames;
 	private List<String> outputNames;
-	private Entry[][] outputValues;
+	private Entry[][] outputValues; //[Columna][Fila]
 	
 	private int logicInputNumber; //Numero de bits de entrada del diagrama
 	private int logicOutputNumber; //Numero de bits de salida del diagrama
@@ -22,12 +22,13 @@ public class DiagramTable {
 	//TODO Constructor que reciba objeto RepresentationMatrix
 	
 	/**
-	 * Constructor momentaneo, util para demostraciones. Genera una tabla default.
+	 * Constructor momentaneo, util para demostraciones.
+	 * Genera una tabla default.
 	 */
 	public DiagramTable(){
-		List<String> inputNames = Arrays.asList("Q0", "X0");
-		List<String> outputNames = Arrays.asList("D0", "Z0");
-		Entry[][] outputValues = new Entry[2][1 << 2];
+		inputNames = Arrays.asList("Q0", "X0");
+		outputNames = Arrays.asList("D0", "Z0");
+		outputValues = new Entry[2][1 << 2];
 		outputValues[0][0] = Entry.ONE;
 		outputValues[0][1] = Entry.ZERO;
 		outputValues[0][2] = Entry.ONE;
@@ -40,50 +41,55 @@ public class DiagramTable {
 		this.memoryBitNumber = 1;
 		this.logicInputNumber = 1;
 		this.logicOutputNumber = 1;
-		
-		this.inputNames = inputNames;
-		this.outputNames = outputNames;
-		this.outputValues = outputValues;
 	}
 	
+	/**
+	 * Crea objeto DiagramTable a partir de un objeto RepresentationMatrix
+	 * @param matrix
+	 */
+	public DiagramTable(RepresentationMatrix matrix){
+		this.memoryBitNumber = calculateBitNumber(matrix.getSize());
+		this.logicInputNumber = matrix.getInputLength();
+		this.logicOutputNumber = matrix.getOutputLength();
+		
+		this.inputNames= generateNameList("Q", this.memoryBitNumber);
+		this.inputNames.addAll( generateNameList("x", this.logicInputNumber) );
+		
+		this.outputNames= generateNameList("D", this.memoryBitNumber);
+		this.outputNames.addAll( generateNameList("z", this.logicOutputNumber) );
+		//Falta outputValues!!
+	}
+	
+	/**
+	 * Retorna el numero de bits necesarios para codificar el parametro de entrada en base 2.
+	 * @param stateNumber	Numero a codificar
+	 * @return 				Numero de bits necesarios
+	 */
+	private int calculateBitNumber(int stateNumber){
+		return (int) Math.ceil(Math.log(stateNumber)/Math.log(2));
+	}
+	
+	/**
+	 * Genera una lista de strings que corresponden a los nombres de las columnas en la tabla
+	 * Revisar!
+	 * @param name
+	 * @param length
+	 * @return
+	 */
+	private List<String> generateNameList(String name, int length){
+		List<String> list = new ArrayList();
+		for (int i=0; i<length; i++)
+			list.add(name + i);
+		return list;
+	}
+	
+	/**
+	 * Actualiza la tabla actual de logisim segun los datos de DiagramTable.
+	 * @param model
+	 */
 	public void loadIntoModel(AnalyzerModel model){
 		model.setVariables(this.inputNames, this.outputNames);
 		for (int i = 0; i < this.outputValues.length; i++) // i es el numero de columna
 			model.getTruthTable().setOutputColumn(i, this.outputValues[i]);
-	}
-	
-	//
-	//De aqui en adelante es trabajo por completar. De momento no se utiliza.
-	//
-	
-	public DiagramTable(RepresentationMatrix matrix){
-		
-	}
-	
-	/**
-	 * Constructor momentaneo de DiagramTable. Inicializa lo minimo de DiagramTable.
-	 * Aun por decidir la version final.
-	 * @param stateNumber	Numero de estados del diagrama
-	 * @param logicInputNumber	Numero de inputs del diagrama (no considera los inputs que representan memoria)
-	 * @param logicOutputNumber	Numero de outputs del diagrama (no considera los outputs que representan memoria)
-	 */
-	public DiagramTable(int stateNumber, int logicInputNumber, int logicOutputNumber) {
-		this.memoryBitNumber = (int) Math.ceil(Math.log(stateNumber)/Math.log(2));
-		this.logicInputNumber = logicInputNumber;
-		this.logicOutputNumber = logicOutputNumber;
-		
-		this.inputNames = new ArrayList<String>();
-		this.outputNames = new ArrayList<String>();
-		this.outputValues = new Entry[logicOutputNumber+memoryBitNumber][1 << (logicInputNumber + memoryBitNumber)]; //[Columnas][Filas]
-	}
-	
-	public DiagramTable(List<String> inputNames, List<String> outputNames, Entry[][] outputValues, int memoryBitNumber){
-		this.memoryBitNumber = memoryBitNumber;
-		this.logicInputNumber = inputNames.size() - memoryBitNumber;
-		this.logicOutputNumber = outputNames.size() - memoryBitNumber;
-		
-		this.inputNames = inputNames;
-		this.outputNames = outputNames;
-		this.outputValues = outputValues; //[Columnas][Filas]
 	}
 }

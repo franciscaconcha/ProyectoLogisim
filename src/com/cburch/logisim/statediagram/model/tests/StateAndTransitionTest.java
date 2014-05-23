@@ -2,9 +2,11 @@ package com.cburch.logisim.statediagram.model.tests;
 
 import static org.junit.Assert.*;
 
-import com.cburch.logisim.statediagram.model.*;
-
 import org.junit.Test;
+
+import com.cburch.logisim.statediagram.model.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.State;
+import com.cburch.logisim.statediagram.model.Transition;
 
 public class StateAndTransitionTest {
 	State s1;
