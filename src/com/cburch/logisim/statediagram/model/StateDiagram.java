@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 /**
  * Clase de Diagrama de Estados, maneja sus estados y transiciones.
- * También tiene un objeto que puede checkear la correctitud y validez
+ * Tambien tiene un objeto que puede checkear la correctitud y validez
  * del diagrama.
  * @author Cate
  *
@@ -23,7 +23,7 @@ public class StateDiagram {
 		checker=new StateDiagramChecker();
 	}
 	/**
-	 * Este método se ocupa al final y es el que verifica que el diagrama esté
+	 * Este metodo se ocupa al final y es el que verifica que el diagrama este
 	 * correcto. 
 	 */
 	public void isCorrect(){
@@ -41,8 +41,8 @@ public class StateDiagram {
 		this.addTransition(t);
 	}
 	/**
-	 * Agrega una transición, verificando que los estados de la transición
-	 * especificados en ella sean del diagrama (nunca debería pasar).
+	 * Agrega una transicion, verificando que los estados de la transicion
+	 * especificados en ella sean del diagrama (nunca deberia pasar).
 	 * @param t
 	 * @throws AbsentStateException
 	 */
@@ -72,9 +72,9 @@ public class StateDiagram {
 		return this.transitions;
 	}
 	/**
-	 * Este método sirve para obtener la matriz que ocupará la Cami para generar
+	 * Este metodo sirve para obtener la matriz que ocupara la Cami para generar
 	 * su tabla de verdad. Si se realiza un cambio en el diagrama, hay que generar
-	 * la matriz de nuevo, ya que no es dinámica.
+	 * la matriz de nuevo, ya que no es dinamica.
 	 * @see RepresentationMatrix
 	 * @return m
 	 */

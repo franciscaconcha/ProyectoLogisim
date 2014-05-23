@@ -5,12 +5,12 @@ import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 /**
  * 
  * @author Cate
- * Clase de la Matriz de Representación. Tiene muchos getters y setters para 
- * acceder la matriz por índice. Es básicamente la matriz de adyacencia de 
+ * Clase de la Matriz de Representacion. Tiene muchos getters y setters para 
+ * acceder a la matriz por indice. Es basicamente la matriz de adyacencia de 
  * un grafo, pero guarda 2 strings en cada celda, input y output.
- * Para acceder a la transición que va desde el estado A (id a) al estado B 
+ * Para acceder a la transicion que va desde el estado A (id a) al estado B 
  * (id b), hay que hacer get/set Input/Output (a,b (String a settear si 
- * corresponde)). Las dimensiones de la matriz están determinadas por size, que
+ * corresponde)). Las dimensiones de la matriz estan determinadas por size, que
  * es la cantidad de estados del diagrama a partir del cual se quiere generar
  * la matriz, luego la matriz es de tamaño nxnx2. 
  */

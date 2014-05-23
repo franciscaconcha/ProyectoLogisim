@@ -1,8 +1,8 @@
 package com.cburch.logisim.statediagram.model;
 
 /**
- * Clase Transición. Contiene setters y getters para los estados que relaciona la transición 
- * (origen y destino) y para los strings de la transición (input y output).
+ * Clase Transicion. Contiene setters y getters para los estados que relaciona la transicion 
+ * (origen y destino) y para los strings de la transicion (input y output).
  * @author Cate
  *
  */
@@ -31,7 +31,7 @@ public class Transition {
 		return s;
 	}
 	/**
-	 * Verifica que los strings de la transición sean válidos
+	 * Verifica que los strings de la transicion sean validos
 	 * @see checkTransitionMember
 	 * @param in
 	 * @param out
