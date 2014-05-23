@@ -138,8 +138,8 @@ public class Frame extends LFrame implements LocaleListener {
 	private AttrTable       attrTable;
 	private ZoomControl     zoom;
 	private JMenuBar		menuBarPrueba;
-	private JMenu			menuPadre;
-	private JMenuItem		opcionPruebaListener;
+	private JMenu			menuSugerencias;
+	//private JMenuItem		opcionPruebaListener;
 	
 	
 	// for the Layout view
@@ -194,22 +194,22 @@ public class Frame extends LFrame implements LocaleListener {
 		zoom = new ZoomControl(layoutZoomModel);
 		
 		menuBarPrueba = new JMenuBar();
-		menuPadre = new JMenu("Menu Padre");
-		opcionPruebaListener = new JMenuItem("Opcion de prueba");
-		menuPadre.add(opcionPruebaListener);
+		menuSugerencias = new JMenu("Menu Sugerencias");
+		//opcionPruebaListener = new JMenuItem("Opcion de prueba");
+		//menuPadre.add(opcionPruebaListener);
 
 		// aca agregamos un menu dentro del menu Padre, la idea es que esto quede en una sola
 		// clase con una lista de Menus como aparece en OpenRecent.java
 		
-		JMenu menuHijo = new JMenu("Menu Hijo");
+		//JMenu menuHijo = new JMenu("Menu Hijo");
 		// se agregan opciones al menu hijo
-		menuHijo.add(new JMenuItem("opcion 1"));
-		menuHijo.add(new JMenuItem("opcion 2"));
+		//menuHijo.add(new JMenuItem("opcion 1"));
+		//menuHijo.add(new JMenuItem("opcion 2"));
 		//finalmente se agrega el menu hijo al padre
-		menuPadre.add(menuHijo);
+		//menuPadre.add(menuHijo);
 		// fin parte Milenko
 		
-		menuBarPrueba.add(menuPadre);
+		menuBarPrueba.add(menuSugerencias);
 		//opcionPruebaListener.addActionListener(new ActionItemError(proj));
 
 		//zoom1 = new ZoomControl(layoutZoomModel);
@@ -297,6 +297,9 @@ public class Frame extends LFrame implements LocaleListener {
 		contents.validate();
 	}
 	
+	public JMenu getMenuSugerencias(){
+		return menuSugerencias;
+	}
 	public Project getProject() {
 		return proj;
 	}
