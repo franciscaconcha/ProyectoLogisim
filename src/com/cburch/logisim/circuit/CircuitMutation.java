@@ -18,7 +18,7 @@ import com.cburch.logisim.util.StringGetter;
 public final class CircuitMutation extends CircuitTransaction {
 	private Circuit primary;
 	private List<CircuitChange> changes;
-	
+	//Juanjo: clase para modificar circuitos
 	public CircuitMutation(Circuit circuit) {
 		this.primary = circuit;
 		this.changes = new ArrayList<CircuitChange>();

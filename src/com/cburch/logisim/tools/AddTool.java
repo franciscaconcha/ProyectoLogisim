@@ -349,6 +349,7 @@ public class AddTool extends Tool {
 			}
 
 			try {
+				// aquí se modifican los circuitos agregando componentes al circuito
 				CircuitMutation mutation = new CircuitMutation(circ);
 				mutation.add(c);
 				Action action = mutation.toAction(Strings.getter("addComponentAction", factory.getDisplayGetter()));
