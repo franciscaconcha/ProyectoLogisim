@@ -94,40 +94,40 @@ class InputPanel extends LogPanel {
 			return;
 		}
 		if(modified==0){
-		this.setLayout(new GridLayout(0,1));
-		JPanel titles = new JPanel();
-		titles.setLayout(new GridLayout(0, columns));		
-		
-		for (int i = 0; i < columns; i++) {
-			titles.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()), JLabel.CENTER);
-		}
-		this.add(titles, BorderLayout.NORTH);
-		final JPanel entriesPanel = new JPanel();
-		entriesPanel.setLayout(new GridLayout(0, columns));
-		for (int i = 0; i < columns; i++) {
-	        	entries.add(new JTextField());
-	            entriesPanel.add(entries.get(i));
-	    }
-		JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
-        this.add(scrollEntriesPanel,BorderLayout.CENTER);
-        
-        
-        JPanel buttons = new JPanel();
-        buttons.add(new JButton(new AbstractAction("Agregar Entrada") {
-        	@Override
-            public void actionPerformed(ActionEvent e) {
-            	
-                
-                for (int i = 0; i < selectedIndex.size(); i++) {
-                JTextField p=new JTextField();
-                entries.add(p);
-                entriesPanel.add(p);}
-                InputPanel.this.validate();
-            }
-        }));
-   
-        this.add(buttons, BorderLayout.SOUTH);
-		modified=1;
+			this.setLayout(new GridLayout(0,1));
+			JPanel titles = new JPanel();
+			titles.setLayout(new GridLayout(0, columns));		
+
+			for (int i = 0; i < columns; i++) {
+				titles.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()), JLabel.CENTER);
+			}
+			this.add(titles, BorderLayout.NORTH);
+			final JPanel entriesPanel = new JPanel();
+			entriesPanel.setLayout(new GridLayout(0, columns));
+			for (int i = 0; i < columns; i++) {
+				entries.add(new JTextField());
+				entriesPanel.add(entries.get(i));
+			}
+			JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
+			this.add(scrollEntriesPanel,BorderLayout.CENTER);
+
+
+			JPanel buttons = new JPanel();
+			buttons.add(new JButton(new AbstractAction("Agregar Entrada") {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+
+					for (int i = 0; i < selectedIndex.size(); i++) {
+						JTextField p=new JTextField();
+						entries.add(p);
+						entriesPanel.add(p);}
+					InputPanel.this.validate();
+				}
+			}));
+
+			this.add(buttons, BorderLayout.SOUTH);
+			modified=1;
 		}
 	}
 	
