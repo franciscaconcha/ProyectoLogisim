@@ -30,6 +30,7 @@ import com.cburch.logisim.util.GraphicsUtil;
 import java.util.ArrayList;
 
 class InputPanel extends LogPanel {
+	private int modified=0;
 
 	private static final Font BODY_FONT = new Font("Serif", Font.PLAIN, 14);
 	private  ArrayList<Integer> selectedIndex=new ArrayList<Integer>();
@@ -92,6 +93,7 @@ class InputPanel extends LogPanel {
 			GraphicsUtil.drawCenteredText(g, Strings.get("tableEmptyMessage"), sz.width / 2, sz.height / 2);
 			return;
 		}
+		if(modified==0){
 		this.setLayout(new GridLayout(0,1));
 		JPanel titles = new JPanel();
 		titles.setLayout(new GridLayout(0, columns));		
@@ -125,8 +127,8 @@ class InputPanel extends LogPanel {
         }));
    
         this.add(buttons, BorderLayout.SOUTH);
-		
-		
+		modified=1;
+		}
 	}
 	
 	private void computePreferredSize() {
