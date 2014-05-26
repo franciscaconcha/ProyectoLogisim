@@ -119,7 +119,8 @@ class InputPanel extends LogPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-
+					entries.clear();
+					
 					for (int i = 0; i < selectedIndex.size(); i++) {
 						JTextField p=new JTextField();
 						entries.add(p);
@@ -138,19 +139,20 @@ class InputPanel extends LogPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 						
-					int a=0;
+					boolean isValid=false;
 					
 					for (JTextField entrie : entries) {
 						if((!entrie.getText().equals("0")) && (!entrie.getText().equals("1"))){
 							entrie.setText("");
-							a=1;
+							isValid=true;
 						}
 					}
-					if(a==0){
+					if(!isValid){
 						submit.setEnabled(true);
 					}
 					else{
 						submit.setEnabled(false);
+						isValid=true;
 					}
 					InputPanel.this.validate();		
 				}
