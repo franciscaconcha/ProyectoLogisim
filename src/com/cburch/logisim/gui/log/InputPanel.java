@@ -94,6 +94,7 @@ class InputPanel extends LogPanel {
 			return;
 		}
 		if(modified==0){
+			this.removeAll();
 			this.setLayout(new GridLayout(0,1));
 			JPanel titles = new JPanel();
 			titles.setLayout(new GridLayout(0, columns));		
@@ -164,6 +165,7 @@ class InputPanel extends LogPanel {
 		tableWidth = (cellWidth + COLUMN_SEP) * columns - COLUMN_SEP;
 		tableHeight = cellHeight * + HEADER_SEP;
 		setPreferredSize(new Dimension(tableWidth, tableHeight));*/
+		modified=0;
 		revalidate();
 		repaint();
 	}
