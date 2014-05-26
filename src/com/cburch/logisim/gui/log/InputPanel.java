@@ -127,19 +127,39 @@ class InputPanel extends LogPanel {
 					InputPanel.this.validate();
 				}
 			}));
+			
+			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("apretado");						
+				}
+			});
 
 			buttons.add(new JButton(new AbstractAction(Strings.get("inputValidate")) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
+						
+					int a=0;
+					
 					for (JTextField entrie : entries) {
 						if((!entrie.getText().equals("0")) && (!entrie.getText().equals("1"))){
 							entrie.setText("");
+							a=1;
 						}
+					}
+					if(a==0){
+						submit.setEnabled(true);
+					}
+					else{
+						submit.setEnabled(false);
 					}
 					InputPanel.this.validate();		
 				}
 			}));
+			
+			
+			
+			submit.setEnabled(false);
+			buttons.add(submit);
 			
 
 			this.add(buttons, BorderLayout.SOUTH);
