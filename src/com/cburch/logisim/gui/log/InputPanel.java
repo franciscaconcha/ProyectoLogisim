@@ -138,7 +138,8 @@ class InputPanel extends LogPanel {
 		int columns = 0;
 		selectedIndex = new ArrayList<Integer>();
 		for(int j=0; j<sel.size();j++){			
-			if(sel.get(j).toString().startsWith("Input") || sel.get(j).toString().startsWith("Clock")){
+			if(sel.get(j).toString().startsWith("Input") || sel.get(j).toString().startsWith("Clock")
+					|| sel.get(j).toString().startsWith("Entrada") || sel.get(j).toString().startsWith("Reloj")){
 				columns++;
 				selectedIndex.add(j);
 			}
