@@ -84,7 +84,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 	private void initBar() {
 		ButtonGroup group = new ButtonGroup();
 		JToggleButton button = null;
-		Iterator it = tools.iterator();
+		Iterator<Tool> it = tools.iterator();
 		KeyStroke key;
 
 		while (it.hasNext()) {
@@ -105,6 +105,9 @@ public class ToolBar extends JToolBar implements ActionListener {
 			imap.put(key, o);
 			amap.put(o, new ButtonClicker(button));
 		}
+		
+		
+		
 	}
 
 	/**

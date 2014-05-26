@@ -62,18 +62,25 @@ public class StateDiagramChecker {
 		checkOuputLengths(sd);
 	}
 	public void checkInputsLengths(StateDiagram sd) throws InconsistentInputLengthException {
-		Transition[] t=(Transition [])sd.getTransitions().toArray();
-		Transition test=t[0];
-		for (int i=1; i<t.length; i++)
-			if (t[i].getInput().length()!=test.getInput().length())
+		ArrayList<Transition> trans=sd.getTransitions();
+		Transition test=trans.get(0);
+		
+		for (Transition transition : trans){
+			if(transition.getInput().length()!=test.getInput().length())
 				throw new InconsistentInputLengthException();
+				
+		}
+		
 	}
 	public void checkOuputLengths(StateDiagram sd) throws InconsistentOutputLengthException{
-		Transition[] t=(Transition [])sd.getTransitions().toArray();
-		Transition test=t[0];
-		for (int i=1; i<t.length; i++)
-			if (t[i].getOutput().length()!=test.getInput().length())
-				throw new InconsistentOutputLengthException();
+		ArrayList<Transition> t=sd.getTransitions();
+		Transition test=t.get(0);
+		
+		for (Transition transition : t){
+			if(transition.getOutput().length()!=test.getInput().length())
+				throw new InconsistentOutputLengthException(); 
+		}
+
 	}
 
 }

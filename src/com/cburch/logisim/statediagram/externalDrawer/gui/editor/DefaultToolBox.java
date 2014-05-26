@@ -42,9 +42,9 @@ public class DefaultToolBox implements ToolBox {
 	 *            the drawer that will draw the diagram in the view
 	 * @return a list of <CODE>Tool</CODE> objects.
 	 */
-	public List tools(DiagramPane view, DiagramDrawer drawer) {
+	public List<Tool> tools(DiagramPane view, DiagramDrawer drawer) {
 
-		List list = new java.util.ArrayList();
+		List<Tool> list = new java.util.ArrayList<Tool>();
 		list.add(new ArrowTool(view, drawer));
 		list.add(new StateTool(view, drawer));
 		list.add(new TransitionTool(view, drawer));

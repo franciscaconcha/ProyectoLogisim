@@ -55,12 +55,15 @@ public class EditorPane extends JComponent {
 	 *            if the diagram changes
 	 */
 	public EditorPane(DiagramDrawer drawer, ToolBox box, boolean fit, CircuitGenerator circuitGenerator) {
+		
 		pane = new EditCanvas(drawer, fit, circuitGenerator);
 		pane.setCreator(this);
 		this.drawer = drawer;
 		this.diagram = drawer.getDiagram();
 		this.setLayout(new BorderLayout());
-
+		
+		circuitGenerator.setDiagram(this.diagram);
+		
 		JPanel superpane = new JPanel();
 		superpane.setLayout(new BorderLayout());
 		superpane.add(new JScrollPane(pane,
