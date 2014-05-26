@@ -115,7 +115,7 @@ class InputPanel extends LogPanel {
 
 
 			JPanel buttons = new JPanel();
-			buttons.add(new JButton(new AbstractAction("Agregar Entrada") {
+			buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
@@ -127,6 +127,20 @@ class InputPanel extends LogPanel {
 					InputPanel.this.validate();
 				}
 			}));
+
+			buttons.add(new JButton(new AbstractAction(Strings.get("inputValidate")) {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					for (JTextField entrie : entries) {
+						if((!entrie.getText().equals("0")) && (!entrie.getText().equals("1"))){
+							entrie.setText("");
+						}
+					}
+					InputPanel.this.validate();		
+				}
+			}));
+			
 
 			this.add(buttons, BorderLayout.SOUTH);
 			modified=1;
