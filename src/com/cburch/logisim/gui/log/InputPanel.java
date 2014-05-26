@@ -27,6 +27,7 @@ import javax.swing.event.ChangeListener;
 import com.cburch.logisim.data.Value;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.util.GraphicsUtil;
+
 import java.util.ArrayList;
 
 class InputPanel extends LogPanel {
@@ -138,8 +139,7 @@ class InputPanel extends LogPanel {
 		int columns = 0;
 		selectedIndex = new ArrayList<Integer>();
 		for(int j=0; j<sel.size();j++){			
-			if(sel.get(j).toString().startsWith("Input") || sel.get(j).toString().startsWith("Clock")
-					|| sel.get(j).toString().startsWith("Entrada") || sel.get(j).toString().startsWith("Reloj")){
+			if(sel.get(j).toString().startsWith(Strings.get("input")) || sel.get(j).toString().startsWith(Strings.get("clock"))){
 				columns++;
 				selectedIndex.add(j);
 			}

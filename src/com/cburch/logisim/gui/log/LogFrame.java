@@ -77,11 +77,6 @@ public class LogFrame extends LFrame {
 						WindowEvent.WINDOW_CLOSING);
 				LogFrame.this.processWindowEvent(e);
 			}
-			if (src == addLogin) {
-				WindowEvent e = new WindowEvent(LogFrame.this,
-						WindowEvent.WINDOW_CLOSING);
-				LogFrame.this.processWindowEvent(e);
-			}
 		}
 		
 		public void projectChanged(ProjectEvent event) {
@@ -109,7 +104,6 @@ public class LogFrame extends LFrame {
 				panels[i].localeChanged();
 			}
 			close.setText(Strings.get("closeButton"));
-			addLogin.setText(Strings.get("addLogin"));
 			windowManager.localeChanged();
 		}
 
@@ -132,7 +126,6 @@ public class LogFrame extends LFrame {
 	private LogPanel[] panels;
 	private JTabbedPane tabbedPane;
 	private JButton close = new JButton();
-	private JButton addLogin = new JButton();
 
 	public LogFrame(Project project) {
 		this.project = project;
@@ -158,8 +151,6 @@ public class LogFrame extends LFrame {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(close);
 		close.addActionListener(myListener);
-		buttonPanel.add(addLogin);
-		addLogin.addActionListener(myListener);
 
 		Container contents = getContentPane();
 		tabbedPane.setPreferredSize(new Dimension(450, 300));
