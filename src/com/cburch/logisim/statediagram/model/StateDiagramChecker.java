@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 public class StateDiagramChecker {
 	public StateDiagramChecker(){}
+	
 	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, notStronglyConnectedDiagram{
 		this.checkTransitionsLength(sd);
-		this.checkStrongConnectivity(sd);
-		this.checkTransitionCompleteness(sd);
+		//this.checkStrongConnectivity(sd);
+		//this.checkTransitionCompleteness(sd);
 	}
 	public void checkStrongConnectivity(StateDiagram sd) throws notStronglyConnectedDiagram{
 		ArrayList<Transition> trans=sd.getTransitions();
