@@ -246,9 +246,9 @@ public abstract class TransitionObject{
          */
         protected void setOutput(String stringToPush) {
 
-            if ( stringToPush.length() > 1)
-                throw new IllegalArgumentException(
-                        "Push string must have no more than one character!");
+           // if ( stringToPush.length() > 1)
+                //throw new IllegalArgumentException(
+                //        "Push string must have no more than one character!");
             myOutput = stringToPush;
         }
 
