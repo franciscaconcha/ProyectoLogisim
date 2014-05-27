@@ -3,8 +3,12 @@ package com.cburch.logisim.statediagram.externalDrawer;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.cburch.logisim.analyze.gui.Analyzer;
+import com.cburch.logisim.analyze.gui.AnalyzerManager;
+import com.cburch.logisim.circuit.Analyze;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.model.AbsentStateException;
+import com.cburch.logisim.statediagram.model.DiagramTable;
 import com.cburch.logisim.statediagram.model.InconsistentInputLengthException;
 import com.cburch.logisim.statediagram.model.InconsistentOutputLengthException;
 import com.cburch.logisim.statediagram.model.InvalidTransitionException;
@@ -60,6 +64,9 @@ public class CircuitGenerator {
 			JOptionPane.showMessageDialog(new JFrame(), "There must be a path between every pair of states."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
 		}
+		DiagramTable table=new DiagramTable(finalModel.getRepresentationMatrix());
+		Analyzer a=AnalyzerManager.getAnalyzer();
+		Analyze.loadDiagramTable(a.getModel());
 		
 	}
 	

@@ -180,7 +180,7 @@ public class ProjectCircuitActions {
 		analyzer.getModel().setVariables(inputNames, outputNames);
 		
 		//Cami: Agregado, por default carga DiagramTable. Solo para demostracion.
-		Analyze.loadDiagramTable(analyzer.getModel()); //Actualiza el modelo
+		//Analyze.loadDiagramTable(analyzer.getModel()); //Actualiza el modelo
 		analyzer.setSelectedTab(Analyzer.TABLE_TAB); //Actualiza la ventana
 		//Fin Agregado
 		
