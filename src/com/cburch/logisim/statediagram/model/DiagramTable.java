@@ -24,8 +24,10 @@ public class DiagramTable {
 	/**
 	 * Constructor momentaneo, util para demostraciones.
 	 * Genera una tabla default.
+	 * @throws InvalidTransitionException 
+	 * @throws AbsentStateException 
 	 */
-	public DiagramTable(){
+	public DiagramTable() throws InvalidTransitionException, AbsentStateException{
 		inputNames = Arrays.asList("Q0", "X0");
 		outputNames = Arrays.asList("D0", "Z0");
 		outputValues = new Entry[2][1 << 2];
@@ -52,14 +54,101 @@ public class DiagramTable {
 		this.logicInputNumber = matrix.getInputLength();
 		this.logicOutputNumber = matrix.getOutputLength();
 		
-		this.inputNames= generateNameList("Q", this.memoryBitNumber);
-		this.inputNames.addAll( generateNameList("x", this.logicInputNumber) );
+		this.inputNames= generateNameList("Q", this.memoryBitNumber); //Columnas que identifican estado actual
+		this.inputNames.addAll( generateNameList("x", this.logicInputNumber) ); //Columnas que identifican entradas
 		
-		this.outputNames= generateNameList("D", this.memoryBitNumber);
-		this.outputNames.addAll( generateNameList("z", this.logicOutputNumber) );
-		//Falta outputValues!!
+		this.outputNames= generateNameList("D", this.memoryBitNumber); //Columnas que identifican estado siguiente
+		this.outputNames.addAll( generateNameList("z", this.logicOutputNumber) ); //Columnas que identifican salidas
+		
+		//TODO outputValues!!
+		this.outputValues = generateValues(matrix);
 	}
 	
+	/**
+	 * Genera los valores de las salidas
+	 * POR AHORA NO SOPORTA ENTRADAS/SALIDAS con (*) !!!!!!
+	 * TODO generalizar para strings de largo > 1
+	 * @param matrix
+	 * @return
+	 */
+	private Entry[][] generateValues(RepresentationMatrix matrix) {
+		int size = matrix.getSize(); // Numero de estados
+		String input, output;
+		int row;
+		
+		Entry[][] outputValues = new Entry[this.outputNames.size()][1 << this.inputNames.size()]; //[Columna][Fila]
+		
+		for (int i=0; i<size; i++ ){ //Numero decimal del estado actual || Fila de RepresentationMatrix
+			for (int j=0; j<size; j++){ //Numero decimal del estado siguiente || Columna de RepresentationMatrix
+				
+				System.out.print("i=" + i + " ");
+				System.out.print("j=" + j + " ");
+				
+				input= matrix.getInput(i, j); //string, se asume numero
+				output= matrix.getOutput(i, j); //string
+				
+				System.out.print("input=" + input + " ");
+				System.out.print("output=" + output + " ");
+				
+				//Si la casilla indica que no hay transicion
+				if (input.length() == 0)
+					continue;
+				
+				//Si hay transicion
+				if (i==0){
+					row = Integer.parseInt(input, 2);
+				}
+				else
+					row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
+				
+				System.out.print("row=" + input + " ");
+				
+				fillMemoryValues(outputValues, row, Integer.toBinaryString(j)); //general
+				fillLogicValues(outputValues, row, output); //general
+			}
+		}
+		return outputValues;
+	}
+	
+	/**
+	 * Llena los valores de los output
+	 * @param entry 
+	 * @param row
+	 * @param output
+	 */
+	private void fillLogicValues(Entry[][] entry, int row, String output) {
+		for (int i = 0; i< this.logicOutputNumber; i++){
+			if (output.charAt(i) == '0')
+				entry[i+this.memoryBitNumber][row] = Entry.ZERO;
+			else // si es 1
+				entry[i+this.memoryBitNumber][row] = Entry.ONE;
+			//TODO si es X
+		}
+		
+	}
+
+	/**
+	 * Llena los valores de bit de memoria de fila row segun binaryString
+	 * @param entry 
+	 * @param row
+	 * @param binaryString
+	 */
+	private void fillMemoryValues(Entry[][] entry, int row, String binaryString) {
+		
+		if (binaryString.length() < this.memoryBitNumber){ //Agrega 0s faltantes
+			int dif = this.memoryBitNumber - binaryString.length();
+			for (int k=0; k< dif; k++)
+				binaryString = "0" + binaryString;
+		}
+		System.out.println("binaryS=" + binaryString + " ");
+		for (int i = 0; i< this.memoryBitNumber; i++){ //Por cada numero en el string, coincide con columna
+			if (binaryString.charAt(i) == '0')
+				entry[i][row] = Entry.ZERO;
+			else // si es 1
+				entry[i][row] = Entry.ONE;
+		}
+	}
+
 	/**
 	 * Retorna el numero de bits necesarios para codificar el parametro de entrada en base 2.
 	 * @param stateNumber	Numero a codificar
@@ -71,15 +160,15 @@ public class DiagramTable {
 	
 	/**
 	 * Genera una lista de strings que corresponden a los nombres de las columnas en la tabla
-	 * Revisar!
 	 * @param name
 	 * @param length
 	 * @return
 	 */
 	private List<String> generateNameList(String name, int length){
 		List<String> list = new ArrayList();
-		for (int i=0; i<length; i++)
+		for (int i=length-1; i>=0; i--)
 			list.add(name + i);
+		//System.out.println(list.toString());
 		return list;
 	}
 	
@@ -92,4 +181,8 @@ public class DiagramTable {
 		for (int i = 0; i < this.outputValues.length; i++) // i es el numero de columna
 			model.getTruthTable().setOutputColumn(i, this.outputValues[i]);
 	}
+	/*
+	public static void main(String[] arg){
+		System.out.println( Integer.toBinaryString(2) );
+	}*/
 }
