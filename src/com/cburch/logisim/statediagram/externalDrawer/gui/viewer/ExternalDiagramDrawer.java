@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public class ExternalDiagramDrawer {
 	
-	static CircuitGenerator circuitGenerator;
+	CircuitGenerator circuitGenerator;
 	
 	public ExternalDiagramDrawer(CircuitGenerator circuitGenerator){
 		
@@ -23,7 +23,7 @@ public class ExternalDiagramDrawer {
 		
 	}
 	
-    public static void show(){
+    public void show(){
 
         Diagram aut = new Diagram();
         Environment env = new DiagramEnvironment(aut);

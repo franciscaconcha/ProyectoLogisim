@@ -63,7 +63,8 @@ public class SplitterFactory extends AbstractComponentFactory {
 			return super.getDefaultAttributeValue(attr, ver);
 		}
 	}
-
+	
+	// Juanjo: factory de splitters, se utiliza para crearlos
 	@Override
 	public Component createComponent(Location loc, AttributeSet attrs) {
 		return new Splitter(loc, attrs);

@@ -35,6 +35,8 @@ public class Splitter extends ManagedComponent
 	// derived data
 	CircuitWires.SplitterData wire_data;
 
+	// Juanjo: clase que crea los splitters. Location se crea utilizando el método create, y AttributeSet es una interfaz.
+	// El objeto es SplitterAttributes y no recibe parámetros cuando se crea.
 	public Splitter(Location loc, AttributeSet attrs) {
 		super(loc, attrs, 3);
 		configureComponent();

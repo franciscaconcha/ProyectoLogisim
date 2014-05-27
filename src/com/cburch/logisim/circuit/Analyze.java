@@ -4,10 +4,12 @@
 package com.cburch.logisim.circuit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -26,6 +28,13 @@ import com.cburch.logisim.instance.Instance;
 import com.cburch.logisim.instance.InstanceState;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Project;
+import com.cburch.logisim.statediagram.model.AbsentStateException;
+import com.cburch.logisim.statediagram.model.DiagramTable;
+import com.cburch.logisim.statediagram.model.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.RepresentationMatrix;
+import com.cburch.logisim.statediagram.model.State;
+import com.cburch.logisim.statediagram.model.StateDiagram;
+import com.cburch.logisim.statediagram.model.Transition;
 import com.cburch.logisim.std.wiring.Pin;
 
 public class Analyze {
@@ -204,6 +213,7 @@ public class Analyze {
 			model.getOutputExpressions().setExpression(outputNames.get(i),
 					expressionMap.get(pin.getLocation()));
 		}
+		
 	}
 
 	private static class ExpressionMap extends HashMap<Location,Expression> {
@@ -361,5 +371,49 @@ public class Analyze {
 		for (int i = 0; i < columns.length; i++) {
 			model.getTruthTable().setOutputColumn(i, columns[i]);
 		}
+	}
+	
+	//Cami: Modificacion: metodo agregado. A mi criterio deberia ir aqui. Por revisar ubicacion!
+	//Carga DiagramTable. De momento solo carga tabla a partir de matriz de representacion.
+	public static void loadDiagramTable(AnalyzerModel model){
+		try{
+			StateDiagram sd;
+			State s1,s2,s3,s4;
+			Transition t1,t2,t3,t4;
+			s1=new State(0, "s1");
+			s2=new State(1, "s2");
+			sd=new StateDiagram();
+			sd.addState(s1.getName(), s1.getId());
+			sd.addState(s2.getName(), s2.getId());
+			t1=new Transition(s1, s2, "1", "0");
+			t2=new Transition(s2, s1, "0", "1");
+			t3=new Transition(s1, s1, "0", "0");
+			t4=new Transition(s2,s2,"1","1");
+			String[][][] mat=new String[2][2][2];
+			mat[0][1][0]=t1.getInput();
+			mat[0][1][1]=t1.getOutput();
+			mat[1][0][0]=t2.getInput();
+			mat[1][0][1]=t2.getOutput();
+			mat[0][0][0]=t3.getInput();
+			mat[0][0][1]=t3.getOutput();
+			mat[1][1][0]=t4.getInput();
+			mat[1][1][1]=t4.getOutput();
+
+			sd.addTransition(t1.getOrigin(), t1.getDestiny(), t1.getInput(), t1.getOutput());
+			sd.addTransition(t2.getOrigin(), t2.getDestiny(), t2.getInput(), t2.getOutput());
+			sd.addTransition(t3.getOrigin(), t3.getDestiny(), t3.getInput(), t3.getOutput());
+			sd.addTransition(t4.getOrigin(), t4.getDestiny(), t4.getInput(), t4.getInput());
+			RepresentationMatrix repMat=sd.getRepresentationMatrix();
+			
+			DiagramTable diagramTable = new DiagramTable(repMat); //Crea default
+			diagramTable.loadIntoModel(model); //Carga
+		}
+		catch (InvalidTransitionException e){
+			System.out.println("Error1");
+		}
+		catch (AbsentStateException e){
+			System.out.println("Error2");
+		}
+		
 	}
 }
