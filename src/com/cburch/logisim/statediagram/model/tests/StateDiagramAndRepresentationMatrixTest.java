@@ -74,7 +74,7 @@ public void representationMatrixTest() throws InvalidTransitionException, Absent
 	RepresentationMatrix repMat=sd.getRepresentationMatrix();
 	assertEquals(2, repMat.getSize());
 	assertEquals(1, repMat.getInputLength());
-	assertEquals(1, repMat.getInputLength());
+	assertEquals(1, repMat.getOutputLength());
 	assertEquals(mat[0][1][0], repMat.getInput(0, 1));
 	assertEquals(mat[0][1][1], repMat.getOutput(0, 1));
 	assertEquals(mat[1][0][0], repMat.getInput(1, 0));

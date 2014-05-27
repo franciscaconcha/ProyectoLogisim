@@ -22,6 +22,11 @@ public class RepresentationMatrix {
 	public RepresentationMatrix(int n){
 		size=n;
 		this.matrix= new String [n][n][2];
+		for(int i=0;i<size;i++)
+			for(int j=0;j<n;j++){
+				this.setInput(i, j, "");
+				this.setOutput(i, j, "");
+			}
 		
 	}
 	
