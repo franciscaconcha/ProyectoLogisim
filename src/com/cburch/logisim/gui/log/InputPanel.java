@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Value;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.util.GraphicsUtil;
@@ -101,7 +102,14 @@ class InputPanel extends LogPanel {
 			titles.setLayout(new GridLayout(0, columns));		
 
 			for (int i = 0; i < columns; i++) {
-				titles.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()), JLabel.CENTER);
+				if(sel.get(i).toString().startsWith("Input")){
+					BitWidth w = sel.get(i).getComponent().getEnd(0).getWidth();
+					int width = w.getWidth();
+					titles.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()+" ("+Integer.toString(width)+" bits)"), JLabel.CENTER);
+				}
+				else{
+					titles.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()), JLabel.CENTER);
+				}
 			}
 			this.add(titles, BorderLayout.NORTH);
 			final JPanel entriesPanel = new JPanel();
