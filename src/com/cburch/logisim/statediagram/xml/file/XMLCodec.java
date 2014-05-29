@@ -110,10 +110,10 @@ public class XMLCodec extends Codec {
             Document dom;
             /*if(structure instanceof gui.pumping.PumpingLemmaChooser)
                 dom = transducer.toDOM(((gui.pumping.PumpingLemmaChooser)structure).getCurrent());
-            else*/
-                dom = transducer.toDOM(structure);
+            else
+                dom = transducer.toDOM(structure);*/
             
-//			Document dom = transducer.toDOM(structure);    // original line
+			dom = transducer.toDOM(structure);    // original line
             
 			DOMPrettier.makePretty(dom);
 			Source s = new DOMSource(dom);
