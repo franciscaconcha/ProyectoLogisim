@@ -32,7 +32,7 @@ import com.cburch.logisim.util.GraphicsUtil;
 import java.util.ArrayList;
 
 class InputPanel extends LogPanel {
-	private int modified=0;
+	private boolean notModified=true;
 
 	private static final Font BODY_FONT = new Font("Serif", Font.PLAIN, 14);
 	private  ArrayList<Integer> selectedIndex=new ArrayList<Integer>();
@@ -95,7 +95,7 @@ class InputPanel extends LogPanel {
 			GraphicsUtil.drawCenteredText(g, Strings.get("tableEmptyMessage"), sz.width / 2, sz.height / 2);
 			return;
 		}
-		if(modified==0){
+		if(notModified){
 			this.removeAll();
 			this.setLayout(new GridLayout(0,1));
 			JPanel titles = new JPanel();
@@ -173,44 +173,20 @@ class InputPanel extends LogPanel {
 			
 
 			this.add(buttons, BorderLayout.SOUTH);
-			modified=1;
+			notModified=false;
 		}
 	}
 	
 	private void computePreferredSize() {
 		Model model = getModel();
 		Selection sel = model.getSelection();
-		int columns = 0;
 		selectedIndex = new ArrayList<Integer>();
 		for(int j=0; j<sel.size();j++){			
-			if(sel.get(j).toString().startsWith(Strings.get("input")) || sel.get(j).toString().startsWith(Strings.get("clock"))){
-				columns++;
+			if(sel.startsWith(j,"input") || sel.startsWith(j,"clock")){
 				selectedIndex.add(j);
 			}
 		}
-		/*if (columns == 0) {
-			setPreferredSize(new Dimension(0, 0));
-			return;
-		}
-		
-		Graphics g = getGraphics();
-		if (g == null) {
-			cellHeight = 16;
-			cellWidth = 24;
-		} else {
-			FontMetrics fm = g.getFontMetrics(HEAD_FONT);
-			cellHeight = fm.getHeight();
-			cellWidth = 24;
-			for (int i = 0; i < columns; i++) {
-				String header = sel.get(selectedIndex.get(i)).toShortString();
-				cellWidth = Math.max(cellWidth, fm.stringWidth(header));
-			}
-		}
-		
-		tableWidth = (cellWidth + COLUMN_SEP) * columns - COLUMN_SEP;
-		tableHeight = cellHeight * + HEADER_SEP;
-		setPreferredSize(new Dimension(tableWidth, tableHeight));*/
-		modified=0;
+		notModified=true;
 		revalidate();
 		repaint();
 	}
