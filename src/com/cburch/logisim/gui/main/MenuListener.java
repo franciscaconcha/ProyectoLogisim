@@ -204,8 +204,8 @@ class MenuListener {
 			} else if (src == LogisimMenuBar.CIRCUIT_STATS) {
 				StatisticsDialog.show(frame, proj.getLogisimFile(), cur);
 			} else if (src == LogisimMenuBar.DRAW_STATE_DIAGRAM){
-				ExternalDiagramDrawer externalDiagramDrawer = new ExternalDiagramDrawer(new CircuitGenerator());
-				externalDiagramDrawer.show();
+				CircuitGenerator generatorFromStateDiagram=new CircuitGenerator(frame.getProject());
+				generatorFromStateDiagram.showExternalDrawer();
 			}
 		}
 		

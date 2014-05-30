@@ -63,7 +63,6 @@ public class GenerateCircuitTool extends Tool {
 	public void select(EditCanvas view){
 		//TODO 
 		CircuitGenerator circuitGenerator = view.getCircuitGenerator();
-		circuitGenerator.setFrame(view.getFrame());
 		circuitGenerator.generate();
 	}
 

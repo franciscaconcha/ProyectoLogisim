@@ -14,37 +14,80 @@ import java.awt.*;
  * Created by romina on 4/15/14.
  */
 public class ExternalDiagramDrawer {
-	
-	CircuitGenerator circuitGenerator;
+
+	private CircuitGenerator circuitGenerator;
+	private Diagram diagram;
+	private EnvironmentFrame frame;
 	
 	public ExternalDiagramDrawer(CircuitGenerator circuitGenerator){
 		
 		this.circuitGenerator = circuitGenerator;
+		diagram = new Diagram();
+        Environment env = new DiagramEnvironment(diagram);
+        EditorPane editor = new EditorPane(new SelectionDrawer(diagram), new DefaultToolBox(),false,circuitGenerator);
+        
+        env.add(editor, "State Diagram Drawer");
+
+        frame = new EnvironmentFrame(env);
+        editor.setFrame(frame);
+
+        diagram.setEnvironmentFrame(frame);
+
+        frame.pack();
 		
 	}
 	
     public void show(){
-
-        Diagram aut = new Diagram();
-        Environment env = new DiagramEnvironment(aut);
-        EditorPane editor = new EditorPane(new SelectionDrawer(aut), new DefaultToolBox(),false,circuitGenerator);
-        
-        env.add(editor, "State Diagram Drawer");
-
-        EnvironmentFrame frame = new EnvironmentFrame(env);
-        editor.setFrame(frame);
-
-        aut.setEnvironmentFrame(frame);
-
-        frame.pack();
-        int width = 600, height = 400;
-        
+    	
+		int width = 600, height = 400;
+		        
         width = Math.max(width, frame.getSize().width);
         height = Math.max(height, frame.getSize().height);
         frame.setSize(new Dimension(width, height));
-        frame.setVisible(true);
+        frame.setVisible(true);      
+        
     }
- //   public static class EditorPTag implements EditorTag, PermanentTag {
-  //  };
+
+	/**
+	 * @return the circuitGenerator
+	 */
+	public CircuitGenerator getCircuitGenerator() {
+		return circuitGenerator;
+	}
+
+	/**
+	 * @param circuitGenerator the circuitGenerator to set
+	 */
+	public void setCircuitGenerator(CircuitGenerator circuitGenerator) {
+		this.circuitGenerator = circuitGenerator;
+	}
+
+	/**
+	 * @return the diagram
+	 */
+	public Diagram getDiagram() {
+		return diagram;
+	}
+
+	/**
+	 * @param diagram the diagram to set
+	 */
+	public void setDiagram(Diagram diagram) {
+		this.diagram = diagram;
+	}
+
+	/**
+	 * @return the frame
+	 */
+	public EnvironmentFrame getFrame() {
+		return frame;
+	}
+
+	/**
+	 * @param frame the frame to set
+	 */
+	public void setFrame(EnvironmentFrame frame) {
+		this.frame = frame;
+	}
 
 }

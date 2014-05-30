@@ -62,8 +62,6 @@ public class EditorPane extends JComponent {
 		this.diagram = drawer.getDiagram();
 		this.setLayout(new BorderLayout());
 		
-		circuitGenerator.setDiagram(this.diagram);
-		
 		JPanel superpane = new JPanel();
 		superpane.setLayout(new BorderLayout());
 		superpane.add(new JScrollPane(pane,

@@ -5,8 +5,12 @@ import javax.swing.JOptionPane;
 
 import com.cburch.logisim.analyze.gui.Analyzer;
 import com.cburch.logisim.analyze.gui.AnalyzerManager;
+import com.cburch.logisim.analyze.model.AnalyzerModel;
 import com.cburch.logisim.circuit.Analyze;
+import com.cburch.logisim.circuit.CircuitMutation;
+import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
+import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
 import com.cburch.logisim.statediagram.model.AbsentStateException;
 import com.cburch.logisim.statediagram.model.DiagramTable;
 import com.cburch.logisim.statediagram.model.InconsistentInputLengthException;
@@ -14,13 +18,26 @@ import com.cburch.logisim.statediagram.model.InconsistentOutputLengthException;
 import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 import com.cburch.logisim.statediagram.model.StateDiagram;
 import com.cburch.logisim.statediagram.model.notStronglyConnectedDiagram;
+import com.cburch.logisim.std.gates.CircuitBuilder;
+import com.cburch.logisim.analyze.gui.Strings;
 
 public class CircuitGenerator {
 	
-	private Diagram diagram;
-	private JFrame frame;
+	private ExternalDiagramDrawer stateDiagramDrawer;
+	private Project logisimProject;
 	
-	public CircuitGenerator(){}
+	public CircuitGenerator(Project logisimProject){
+		
+		this.logisimProject=logisimProject;		
+		stateDiagramDrawer=new ExternalDiagramDrawer(this);
+		
+	}
+	
+	public void showExternalDrawer(){
+		
+		stateDiagramDrawer.show();
+		
+	}
 	
 	public void generate(){
 		
@@ -28,7 +45,7 @@ public class CircuitGenerator {
 		
 		try {
 			
-			finalModel = diagram.getAlternativeModel();
+			finalModel = stateDiagramDrawer.getDiagram().getAlternativeModel();
 			
 		} catch (InvalidTransitionException e) {
 			
@@ -47,7 +64,7 @@ public class CircuitGenerator {
 			finalModel.isCorrect();
 			
 			System.out.println("Circuit :D :D :D");
-			frame.dispose();
+			stateDiagramDrawer.getFrame().dispose();
 			
 		} catch (InconsistentInputLengthException e){
 		
@@ -65,17 +82,16 @@ public class CircuitGenerator {
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
 		}
 		DiagramTable table=new DiagramTable(finalModel.getRepresentationMatrix());
-		Analyzer a=AnalyzerManager.getAnalyzer();
-		Analyze.loadDiagramTable(a.getModel());
 		
-	}
-	
-	public void setDiagram(Diagram diagram){
-		this.diagram=diagram;
-	}
-	
-	public void setFrame(JFrame frame){
-		this.frame=frame;
+		AnalyzerModel analyzerModel=new AnalyzerModel();
+		
+		Analyze.loadDiagramTable(analyzerModel);
+		
+		CircuitMutation xn = CircuitBuilder.build(logisimProject.getCurrentCircuit(), analyzerModel, false,
+				true);
+		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
+
+		stateDiagramDrawer.getFrame().dispose();
 	}
 
 }
