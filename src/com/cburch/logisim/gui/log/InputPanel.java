@@ -23,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Value;
@@ -32,7 +34,7 @@ import com.cburch.logisim.util.GraphicsUtil;
 import java.util.ArrayList;
 
 class InputPanel extends LogPanel {
-	private boolean notModified=true;
+	private int modified=0;
 
 	private static final Font BODY_FONT = new Font("Serif", Font.PLAIN, 14);
 	private  ArrayList<Integer> selectedIndex=new ArrayList<Integer>();
@@ -95,7 +97,7 @@ class InputPanel extends LogPanel {
 			GraphicsUtil.drawCenteredText(g, Strings.get("tableEmptyMessage"), sz.width / 2, sz.height / 2);
 			return;
 		}
-		if(notModified){
+		if(modified==0){
 			this.removeAll();
 			this.setLayout(new GridLayout(0,1));
 			JPanel titles = new JPanel();
@@ -121,27 +123,63 @@ class InputPanel extends LogPanel {
 			JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
 			this.add(scrollEntriesPanel,BorderLayout.CENTER);
 
-
-			JPanel buttons = new JPanel();
-			buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					entries.clear();
-					
-					for (int i = 0; i < selectedIndex.size(); i++) {
-						JTextField p=new JTextField();
-						entries.add(p);
-						entriesPanel.add(p);}
-					InputPanel.this.validate();
-				}
-			}));
 			
 			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("apretado");						
 				}
 			});
+
+			JPanel buttons = new JPanel();
+			buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					//entries.clear();
+					
+					for (int i = 0; i < selectedIndex.size(); i++) {
+						JTextField p=new JTextField();
+						p.getDocument().addDocumentListener(new DocumentListener() {
+							  public void changedUpdate(DocumentEvent e) {
+							    
+							  }
+							  public void removeUpdate(DocumentEvent e) {
+							    update();
+							  }
+							  public void insertUpdate(DocumentEvent e) {
+								 update();
+							  }
+							  
+							  public void update(){
+								  boolean isValid=false;
+									
+									for (JTextField entrie : entries) {
+										if((!entrie.getText().equals("0")) && (!entrie.getText().equals("1"))){
+											//entrie.setText("");
+											entrie.setForeground(Color.red);
+											isValid=true;
+										}
+										else{
+											entrie.setForeground(Color.black);
+										}
+									}
+									if(!isValid){
+										submit.setEnabled(true);
+									}
+									else{
+										submit.setEnabled(false);
+										isValid=true;
+									}
+									InputPanel.this.validate();	
+							  }
+							});
+						entries.add(p);
+						entriesPanel.add(p);}
+					InputPanel.this.validate();
+				}
+			}));
+			
+			
 
 			buttons.add(new JButton(new AbstractAction(Strings.get("inputValidate")) {
 				@Override
@@ -173,20 +211,44 @@ class InputPanel extends LogPanel {
 			
 
 			this.add(buttons, BorderLayout.SOUTH);
-			notModified=false;
+			modified=1;
 		}
 	}
 	
 	private void computePreferredSize() {
 		Model model = getModel();
 		Selection sel = model.getSelection();
+		int columns = 0;
 		selectedIndex = new ArrayList<Integer>();
 		for(int j=0; j<sel.size();j++){			
-			if(sel.startsWith(j,"input") || sel.startsWith(j,"clock")){
+			if(sel.get(j).toString().startsWith(Strings.get("input")) || sel.get(j).toString().startsWith(Strings.get("clock"))){
+				columns++;
 				selectedIndex.add(j);
 			}
 		}
-		notModified=true;
+		/*if (columns == 0) {
+			setPreferredSize(new Dimension(0, 0));
+			return;
+		}
+		
+		Graphics g = getGraphics();
+		if (g == null) {
+			cellHeight = 16;
+			cellWidth = 24;
+		} else {
+			FontMetrics fm = g.getFontMetrics(HEAD_FONT);
+			cellHeight = fm.getHeight();
+			cellWidth = 24;
+			for (int i = 0; i < columns; i++) {
+				String header = sel.get(selectedIndex.get(i)).toShortString();
+				cellWidth = Math.max(cellWidth, fm.stringWidth(header));
+			}
+		}
+		
+		tableWidth = (cellWidth + COLUMN_SEP) * columns - COLUMN_SEP;
+		tableHeight = cellHeight * + HEADER_SEP;
+		setPreferredSize(new Dimension(tableWidth, tableHeight));*/
+		modified=0;
 		revalidate();
 		repaint();
 	}
