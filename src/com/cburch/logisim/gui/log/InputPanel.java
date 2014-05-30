@@ -134,28 +134,25 @@ class InputPanel extends LogPanel {
 			buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
-					//entries.clear();
 					
 					for (int i = 0; i < selectedIndex.size(); i++) {
-						JTextField p=new JTextField();
-						p.getDocument().addDocumentListener(new DocumentListener() {
+						JTextField newTextField=new JTextField();
+						newTextField.getDocument().addDocumentListener(new DocumentListener() {
 							  public void changedUpdate(DocumentEvent e) {
 							    
 							  }
 							  public void removeUpdate(DocumentEvent e) {
-							    update();
+							    validateTable();
 							  }
 							  public void insertUpdate(DocumentEvent e) {
-								 update();
+								 validateTable();
 							  }
 							  
-							  public void update(){
+							  public void validateTable(){
 								  boolean isValid=false;
 									
 									for (JTextField entrie : entries) {
 										if((!entrie.getText().equals("0")) && (!entrie.getText().equals("1"))){
-											//entrie.setText("");
 											entrie.setForeground(Color.red);
 											isValid=true;
 										}
@@ -173,34 +170,9 @@ class InputPanel extends LogPanel {
 									InputPanel.this.validate();	
 							  }
 							});
-						entries.add(p);
-						entriesPanel.add(p);}
+						entries.add(newTextField);
+						entriesPanel.add(newTextField);}
 					InputPanel.this.validate();
-				}
-			}));
-			
-			
-
-			buttons.add(new JButton(new AbstractAction(Strings.get("inputValidate")) {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-						
-					boolean isValid=false;
-					
-					for (JTextField entrie : entries) {
-						if((!entrie.getText().equals("0")) && (!entrie.getText().equals("1"))){
-							entrie.setText("");
-							isValid=true;
-						}
-					}
-					if(!isValid){
-						submit.setEnabled(true);
-					}
-					else{
-						submit.setEnabled(false);
-						isValid=true;
-					}
-					InputPanel.this.validate();		
 				}
 			}));
 			
