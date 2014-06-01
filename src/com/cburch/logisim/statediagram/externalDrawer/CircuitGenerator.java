@@ -81,11 +81,11 @@ public class CircuitGenerator {
 			JOptionPane.showMessageDialog(new JFrame(), "There must be a path between every pair of states."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
 		}
-		DiagramTable table=new DiagramTable(finalModel.getRepresentationMatrix());
 		
-		AnalyzerModel analyzerModel=new AnalyzerModel();
 		
-		Analyze.loadDiagramTable(analyzerModel);
+		DiagramTable table=new DiagramTable(finalModel.getRepresentationMatrix()); //Segun RepMatrix
+		AnalyzerModel analyzerModel = AnalyzerManager.getAnalyzer().getModel(); //Obtiene modelo actual
+		table.loadIntoModel(analyzerModel); //Actualiza el modelo
 		
 		CircuitMutation xn = CircuitBuilder.build(logisimProject.getCurrentCircuit(), analyzerModel, false,
 				true);
