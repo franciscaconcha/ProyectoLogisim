@@ -18,6 +18,7 @@ import com.cburch.logisim.statediagram.model.InconsistentOutputLengthException;
 import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 import com.cburch.logisim.statediagram.model.StateDiagram;
 import com.cburch.logisim.statediagram.model.notStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.view.SequentialCircuit;
 import com.cburch.logisim.std.gates.CircuitBuilder;
 import com.cburch.logisim.analyze.gui.Strings;
 
@@ -89,6 +90,8 @@ public class CircuitGenerator {
 		
 		CircuitMutation xn = CircuitBuilder.build(logisimProject.getCurrentCircuit(), analyzerModel, false,
 				true);
+		//Juanjo: aquí se debe tomar el circuito y modificarlo
+		SequentialCircuit sq = new SequentialCircuit(logisimProject, 1);
 		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
 
 		stateDiagramDrawer.getFrame().dispose();

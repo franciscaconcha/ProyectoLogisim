@@ -37,6 +37,7 @@ import com.cburch.logisim.util.StringUtil;
 public class ProjectCircuitActions {
 	private ProjectCircuitActions() { }
 	
+	// Juanjo: método estático, se utiliza para agregar circuitos a un proyecto
 	public static void doAddCircuit(Project proj) {
 		String name = promptForCircuitName(proj.getFrame(), proj.getLogisimFile(), "");
 		if (name != null) {
