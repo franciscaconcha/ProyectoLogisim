@@ -13,15 +13,50 @@ public class StateDiagramChecker {
 		//this.checkStrongConnectivity(sd);
 		//this.checkTransitionCompleteness(sd);
 	}
-	public void checkTransitionCompleteness(StateDiagram sd){
+	public void checkTransitionCompleteness(StateDiagram sd) throws MissingTransitionException{
 		ArrayList<State> states=sd.getStates();
 		for (State s: states){
-			this.checkOutTransitionsFromState(s);
+			this.checkOutTransitionsFromState(s,sd);
 		}
 	}
-	public void checkOutTransitionsFromState(State s){
+	public void checkOutTransitionsFromState(State s, StateDiagram sd) throws MissingTransitionException{
+		int l=sd.getRepresentationMatrix().getInputLength();
+		int possibleTransitions=(int)Math.pow(2, l);
+		int[] checkList=new int[possibleTransitions];
+		ArrayList<Transition> trans=sd.getTransitions();
+		String in;
+		int n;
+		for(Transition t: trans){
+			if(t.getOrigin().equals(s)){
+				in=t.getInput();
+				if(in.contains("*")){
+					n=this.getNumberFromTransitionWithWildcard(t);
+					checkList[n]=1;
+				}
+				else{
+					n=this.getNumberFromTransition(t);
+					checkList[n]=1;
+				}
+			}
+		}
+		int sum=0;
+		for(int i=0;i<possibleTransitions;i++)
+			sum+=checkList[i];
+		if(sum<possibleTransitions)
+			throw new MissingTransitionException();
+	}
+	private int getNumberFromTransitionWithWildcard(Transition t) {
+		return 0;
+		// TODO Auto-generated method stub
 		
 	}
+
+	private int getNumberFromTransition(Transition t) {
+		return 0;
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void checkTransitionsLength(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException{
 		checkInputsLengths(sd);
 		checkOuputLengths(sd);
