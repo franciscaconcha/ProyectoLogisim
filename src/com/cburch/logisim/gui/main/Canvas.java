@@ -743,7 +743,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 		Set<WidthIncompatibilityData> exceptions = proj.getCurrentCircuit().getWidthIncompatibilityData();
 		if( exceptions == null || exceptions.size() == 0 ) {
 			proj.getFrame().getMenuSugerencias().removeAll();
-			proj.getFrame().getMenuSugerencias().setBackground( Color.GRAY );
+			proj.getFrame().getMenuSugerencias().setBackground( new Color( 240, 240, 240 ) );
 			viewport.setWidthMessage( null );
 			return;
 		}

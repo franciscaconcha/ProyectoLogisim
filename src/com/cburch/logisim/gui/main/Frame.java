@@ -25,6 +25,7 @@ import com.cburch.logisim.util.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -197,6 +198,8 @@ public class Frame extends LFrame implements LocaleListener {
 
 		menuBarPrueba = new JMenuBar();
 		menuSugerencias = new JMenu( "Menu Sugerencias" );
+		menuSugerencias.setOpaque(true);
+		
 		// opcionPruebaListener = new JMenuItem("Opcion de prueba");
 		// menuPadre.add(opcionPruebaListener);
 
