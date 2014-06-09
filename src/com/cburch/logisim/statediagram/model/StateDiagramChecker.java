@@ -13,6 +13,40 @@ public class StateDiagramChecker {
 		//this.checkStrongConnectivity(sd);
 		//this.checkTransitionCompleteness(sd);
 	}
+	public void checkTransitionCompleteness(StateDiagram sd){
+		ArrayList<State> states=sd.getStates();
+		for (State s: states){
+			this.checkOutTransitionsFromState(s);
+		}
+	}
+	public void checkOutTransitionsFromState(State s){
+		
+	}
+	public void checkTransitionsLength(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException{
+		checkInputsLengths(sd);
+		checkOuputLengths(sd);
+	}
+	public void checkInputsLengths(StateDiagram sd) throws InconsistentInputLengthException {
+		ArrayList<Transition> trans=sd.getTransitions();
+		Transition test=trans.get(0);
+		
+		for (Transition transition : trans){
+			if(transition.getInput().length()!=test.getInput().length())
+				throw new InconsistentInputLengthException();
+				
+		}
+		
+	}
+	public void checkOuputLengths(StateDiagram sd) throws InconsistentOutputLengthException{
+		ArrayList<Transition> t=sd.getTransitions();
+		Transition test=t.get(0);
+		
+		for (Transition transition : t){
+			if(transition.getOutput().length()!=test.getInput().length())
+				throw new InconsistentOutputLengthException(); 
+		}
+
+	}
 	public void checkStrongConnectivity(StateDiagram sd) throws notStronglyConnectedDiagram{
 		ArrayList<Transition> trans=sd.getTransitions();
 		ArrayList<State> states1=(ArrayList<State>) sd.getStates().clone();
@@ -53,34 +87,6 @@ public class StateDiagramChecker {
 		}
 		return;
 		
-	}
-	public void checkTransitionCompleteness(StateDiagram sd){
-		//TO-DO
-	}
-	public void checkTransitionsLength(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException{
-		checkInputsLengths(sd);
-		checkOuputLengths(sd);
-	}
-	public void checkInputsLengths(StateDiagram sd) throws InconsistentInputLengthException {
-		ArrayList<Transition> trans=sd.getTransitions();
-		Transition test=trans.get(0);
-		
-		for (Transition transition : trans){
-			if(transition.getInput().length()!=test.getInput().length())
-				throw new InconsistentInputLengthException();
-				
-		}
-		
-	}
-	public void checkOuputLengths(StateDiagram sd) throws InconsistentOutputLengthException{
-		ArrayList<Transition> t=sd.getTransitions();
-		Transition test=t.get(0);
-		
-		for (Transition transition : t){
-			if(transition.getOutput().length()!=test.getInput().length())
-				throw new InconsistentOutputLengthException(); 
-		}
-
 	}
 
 }
