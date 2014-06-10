@@ -90,10 +90,11 @@ public class CircuitGenerator {
 		
 		CircuitMutation xn = CircuitBuilder.build(logisimProject.getCurrentCircuit(), analyzerModel, false,
 				true);
-		//Juanjo: aquí se debe tomar el circuito y modificarlo
-		SequentialCircuit sq = new SequentialCircuit(logisimProject, 1);
-		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
 
+		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
+		// TODO Juanjo: aquí se debe tomar el circuito y modificarlo, ya que recién después de llamar a 
+		// doAction el proyecto cambia.
+		SequentialCircuit sq = new SequentialCircuit(logisimProject, 1);
 		stateDiagramDrawer.getFrame().dispose();
 	}
 

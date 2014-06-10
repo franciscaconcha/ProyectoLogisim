@@ -76,6 +76,10 @@ public class CircuitBuilder {
 		return result;
 	}
 
+	public static CircuitMutation buildWithRegister(){
+		//TODO Juanjo: IMPORTANTE
+		return null;
+	}
 	//
 	// layoutGates
 	//

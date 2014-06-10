@@ -11,7 +11,7 @@ import com.cburch.logisim.data.Attribute;
 import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.instance.StdAttr;
 
-class PinAttributes extends ProbeAttributes {
+public class PinAttributes extends ProbeAttributes {
 	public static PinAttributes instance = new PinAttributes();
 
 	private static final List<Attribute<?>> ATTRIBUTES
