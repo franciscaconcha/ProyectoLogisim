@@ -7,7 +7,9 @@ import com.cburch.logisim.analyze.gui.Analyzer;
 import com.cburch.logisim.analyze.gui.AnalyzerManager;
 import com.cburch.logisim.analyze.model.AnalyzerModel;
 import com.cburch.logisim.circuit.Analyze;
+import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitMutation;
+import com.cburch.logisim.file.LogisimFileActions;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
@@ -88,13 +90,17 @@ public class CircuitGenerator {
 		AnalyzerModel analyzerModel = AnalyzerManager.getAnalyzer().getModel(); //Obtiene modelo actual
 		table.loadIntoModel(analyzerModel); //Actualiza el modelo
 		
-		CircuitMutation xn = CircuitBuilder.build(logisimProject.getCurrentCircuit(), analyzerModel, false,
+		Circuit combinatorial = new Circuit("Combinatorial");
+		logisimProject.doAction(LogisimFileActions.addCircuit(combinatorial));
+		
+		
+		CircuitMutation xn = CircuitBuilder.build(combinatorial, analyzerModel, false,
 				true);
 
 		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
 		// TODO Juanjo: aquí se debe tomar el circuito y modificarlo, ya que recién después de llamar a 
 		// doAction el proyecto cambia.
-		SequentialCircuit sq = new SequentialCircuit(logisimProject, 1);
+		SequentialCircuit sq = new SequentialCircuit(logisimProject, combinatorial);
 		stateDiagramDrawer.getFrame().dispose();
 	}
 
