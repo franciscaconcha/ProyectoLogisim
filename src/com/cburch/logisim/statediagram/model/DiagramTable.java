@@ -19,7 +19,6 @@ public class DiagramTable {
 	
 	//TODO Marcar entradas/salidas al registro
 	//TODO Documentar correctamente
-	//TODO Constructor que reciba objeto RepresentationMatrix
 	
 	/**
 	 * Constructor momentaneo, util para demostraciones.
@@ -181,8 +180,12 @@ public class DiagramTable {
 		for (int i = 0; i < this.outputValues.length; i++) // i es el numero de columna
 			model.getTruthTable().setOutputColumn(i, this.outputValues[i]);
 	}
-	/*
-	public static void main(String[] arg){
-		System.out.println( Integer.toBinaryString(2) );
-	}*/
+	
+	/**
+	 * Retorna el numero de bits de memoria utilizados para codificar estados
+	 * @return
+	 */
+	public int getMemoryBitNumber(){
+		return this.memoryBitNumber;
+	}
 }
