@@ -102,6 +102,7 @@ class InputPanel extends LogPanel {
 		}
 		if(modified==0){
 			this.removeAll();
+			bitWidth.clear();
 			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("apretado");						
@@ -113,17 +114,23 @@ class InputPanel extends LogPanel {
 			ArrayList<JLabel> componentes = new ArrayList<JLabel>();
 
 			for (int i = 0; i < columns; i++) {
-				System.out.println(columns + "columns");
 				if(sel.get(i).toString().startsWith(Strings.get("input"))){
 					BitWidth w = sel.get(i).getComponent().getEnd(0).getWidth();
 					int width = w.getWidth();
 					bitWidth.add(width);
 					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()+" ("+Integer.toString(width)+" bits)"));
 				}
+				else if(sel.get(i).toString().startsWith(Strings.get("clock"))){
+					bitWidth.add(0);
+					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
+					
+				}
 				else{
 					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
 				}
 			}
+			System.out.println(columns);
+			System.out.println(bitWidth.size());
 			for(int k=0 ; k<componentes.size() ; k++){
 				titles.add(componentes.get(k));
 			}
@@ -150,6 +157,9 @@ class InputPanel extends LogPanel {
 							if(i==columns){ i=0;}
 							int width = bitWidth.get(i);
 							Pattern pattern = Pattern.compile("(1|0){"+width+"}");
+							if(width == 0){
+								pattern = Pattern.compile("[1-9]+");
+							}
 							Matcher mat = pattern.matcher(entrie.getText());
 							if(!mat.matches()){
 								entrie.setForeground(Color.red);
