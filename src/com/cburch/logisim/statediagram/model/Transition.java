@@ -1,5 +1,7 @@
 package com.cburch.logisim.statediagram.model;
 
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
+
 /**
  * Clase Transicion. Contiene setters y getters para los estados que relaciona la transicion 
  * (origen y destino) y para los strings de la transicion (input y output).

@@ -13,15 +13,17 @@ import com.cburch.logisim.file.LogisimFileActions;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
-import com.cburch.logisim.statediagram.model.AbsentStateException;
 import com.cburch.logisim.statediagram.model.DiagramTable;
-import com.cburch.logisim.statediagram.model.InconsistentInputLengthException;
-import com.cburch.logisim.statediagram.model.InconsistentOutputLengthException;
-import com.cburch.logisim.statediagram.model.InvalidTransitionException;
-import com.cburch.logisim.statediagram.model.MissingTransitionException;
-import com.cburch.logisim.statediagram.model.NotStronglyConnectedDiagram;
-import com.cburch.logisim.statediagram.model.RepeatedTransitionException;
 import com.cburch.logisim.statediagram.model.StateDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentOutputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
+import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
+import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
 import com.cburch.logisim.statediagram.view.SequentialCircuit;
 import com.cburch.logisim.std.gates.CircuitBuilder;
 import com.cburch.logisim.analyze.gui.Strings;
@@ -75,10 +77,21 @@ public class CircuitGenerator {
 		try {
 			finalModel.isCorrect();
 			
-		//	System.out.println("Circuit :D :D :D");
-		//	stateDiagramDrawer.getFrame().dispose();
+		} catch(NoStatesException e){
 			
-		} catch (InconsistentInputLengthException e){
+			JOptionPane.showMessageDialog(new JFrame(), "You didn't draw any states..."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+			
+		} catch(NoTransitionsException e){
+			
+			JOptionPane.showMessageDialog(new JFrame(), "You didn't draw any transitions..."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+			
+		}catch (InconsistentInputLengthException e){
 		
 			JOptionPane.showMessageDialog(new JFrame(), "Input transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);

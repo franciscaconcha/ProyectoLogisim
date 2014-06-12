@@ -3,6 +3,16 @@ package com.cburch.logisim.statediagram.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentOutputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
+import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
+import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
 /**
  * Clase de Diagrama de Estados, maneja sus estados y transiciones.
  * Tambien tiene un objeto que puede checkear la correctitud y validez
@@ -30,8 +40,10 @@ public class StateDiagram {
 	 * @throws InconsistentInputLengthException 
 	 * @throws MissingTransitionException 
 	 * @throws RepeatedTransitionException 
+	 * @throws NoTransitionsException 
+	 * @throws NoStatesException 
 	 */
-	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException{
+	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException{
 		checker.checkAll(this);
 	}
 	public void addState(String name, int id){

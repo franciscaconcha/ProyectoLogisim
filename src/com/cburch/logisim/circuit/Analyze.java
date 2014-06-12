@@ -28,13 +28,13 @@ import com.cburch.logisim.instance.Instance;
 import com.cburch.logisim.instance.InstanceState;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Project;
-import com.cburch.logisim.statediagram.model.AbsentStateException;
 import com.cburch.logisim.statediagram.model.DiagramTable;
-import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 import com.cburch.logisim.statediagram.model.RepresentationMatrix;
 import com.cburch.logisim.statediagram.model.State;
 import com.cburch.logisim.statediagram.model.StateDiagram;
 import com.cburch.logisim.statediagram.model.Transition;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 import com.cburch.logisim.std.wiring.Pin;
 
 public class Analyze {

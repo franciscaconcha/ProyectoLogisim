@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 import com.cburch.logisim.statediagram.model.State;
 import com.cburch.logisim.statediagram.model.Transition;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 
 public class StateAndTransitionTest {
 	State s1;

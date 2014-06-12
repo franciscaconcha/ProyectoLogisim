@@ -2,6 +2,14 @@ package com.cburch.logisim.statediagram.model;
 
 import java.util.ArrayList;
 
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentOutputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
+import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
+import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
+
 
 
 
