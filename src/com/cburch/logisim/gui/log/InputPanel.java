@@ -88,12 +88,9 @@ class InputPanel extends LogPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		Dimension sz = getSize();
-
 		Model model = getModel();
 		Selection sel = model.getSelection();
-		//if (model == null) return;
 		final int columns = selectedIndex.size();
 		if (columns == 0) {
 			g.setFont(BODY_FONT);
@@ -129,8 +126,6 @@ class InputPanel extends LogPanel {
 					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
 				}
 			}
-			System.out.println(columns);
-			System.out.println(bitWidth.size());
 			for(int k=0 ; k<componentes.size() ; k++){
 				titles.add(componentes.get(k));
 			}
@@ -158,7 +153,7 @@ class InputPanel extends LogPanel {
 							int width = bitWidth.get(i);
 							Pattern pattern = Pattern.compile("(1|0){"+width+"}");
 							if(width == 0){
-								pattern = Pattern.compile("[1-9]+");
+								pattern = Pattern.compile("[0-9]+");
 							}
 							Matcher mat = pattern.matcher(entrie.getText());
 							if(!mat.matches()){
@@ -177,7 +172,6 @@ class InputPanel extends LogPanel {
 							submit.setEnabled(false);
 							isInvalid=true;
 						}
-						InputPanel.this.validate();	
 					}
 				});
 				entries.add(newTextField);
@@ -212,6 +206,9 @@ class InputPanel extends LogPanel {
 									if(i==columns){ i=0;}
 									int width = bitWidth.get(i);
 									Pattern pattern = Pattern.compile("(1|0){"+width+"}");
+									if(width == 0){
+										pattern = Pattern.compile("[0-9]+");
+									}
 									Matcher mat = pattern.matcher(entrie.getText());
 									if(!mat.matches()){
 										entrie.setForeground(Color.red);
@@ -229,12 +226,10 @@ class InputPanel extends LogPanel {
 									submit.setEnabled(false);
 									isInvalid=true;
 								}
-								InputPanel.this.validate();	
 							}
 						});
 						entries.add(newTextField);
 						entriesPanel.add(newTextField);}
-					InputPanel.this.validate();
 				}
 			}));
 
@@ -252,36 +247,12 @@ class InputPanel extends LogPanel {
 	private void computePreferredSize() {
 		Model model = getModel();
 		Selection sel = model.getSelection();
-		int columns = 0;
 		selectedIndex = new ArrayList<Integer>();
 		for(int j=0; j<sel.size();j++){			
 			if(sel.get(j).toString().startsWith(Strings.get("input")) || sel.get(j).toString().startsWith(Strings.get("clock"))){
-				columns++;
 				selectedIndex.add(j);
 			}
 		}
-		/*if (columns == 0) {
-			setPreferredSize(new Dimension(0, 0));
-			return;
-		}
-
-		Graphics g = getGraphics();
-		if (g == null) {
-			cellHeight = 16;
-			cellWidth = 24;
-		} else {
-			FontMetrics fm = g.getFontMetrics(HEAD_FONT);
-			cellHeight = fm.getHeight();
-			cellWidth = 24;
-			for (int i = 0; i < columns; i++) {
-				String header = sel.get(selectedIndex.get(i)).toShortString();
-				cellWidth = Math.max(cellWidth, fm.stringWidth(header));
-			}
-		}
-
-		tableWidth = (cellWidth + COLUMN_SEP) * columns - COLUMN_SEP;
-		tableHeight = cellHeight * + HEADER_SEP;
-		setPreferredSize(new Dimension(tableWidth, tableHeight));*/
 		modified=0;
 		revalidate();
 		repaint();
