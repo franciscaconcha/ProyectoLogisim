@@ -44,7 +44,7 @@ public class Clock extends InstanceFactory {
 	private static final Icon toolIcon = Icons.getIcon("clock.gif");
 	
 	private static class ClockState implements InstanceData, Cloneable {
-		Value sending = Value.TRUE;
+		Value sending = Value.FALSE;
 		int clicks = 0;
 		
 		@Override
