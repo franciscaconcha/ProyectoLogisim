@@ -6,23 +6,34 @@ import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitMutation;
 import com.cburch.logisim.circuit.SubcircuitFactory;
 import com.cburch.logisim.comp.Component;
+import com.cburch.logisim.comp.ComponentFactory;
 import com.cburch.logisim.data.AttributeSet;
 import com.cburch.logisim.data.Location;
 import com.cburch.logisim.file.LogisimFileActions;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
+import com.cburch.logisim.std.memory.Register;
 import com.cburch.logisim.std.wiring.PinAttributes;
 import com.cburch.logisim.tools.Strings;
 
 public class SequentialCircuit {
 	// n es el número de entradas que tendrá el circuito
-	public SequentialCircuit(Project proj, Circuit combinatorial){
-		Circuit main = proj.getCurrentCircuit();	
-		
-		Circuit register = new Circuit("Register");
-		proj.doAction(LogisimFileActions.addCircuit(register));
-		
+	private Project proj;
+	private Circuit combinatorial;
+	private int bitNumber;
+	private Circuit register;
+	public SequentialCircuit(Project proj, Circuit combinatorial, int bitNumber){
+		this.proj = proj;
+		this.combinatorial = combinatorial;
+		this.bitNumber = bitNumber;
+		this.register = createRegister();
+		Circuit main = proj.getCurrentCircuit();
+		createSubcircuits(main);
+	}
+	
+	private void createSubcircuits(Circuit main){
+
 		SubcircuitFactory factoryComb = new SubcircuitFactory(combinatorial);
 		Component cc = factoryComb.createComponent(Location.create(200, 200), factoryComb.createAttributeSet());
 		
@@ -34,11 +45,23 @@ public class SequentialCircuit {
 		mutation.add(cc);
 		Action action = mutation.toAction(Strings.getter("addComponentAction", factoryRegister.getDisplayGetter()));
 		proj.doAction(action);
-		
+	}
+	
+	private Circuit createRegister(){
+		Circuit register = new Circuit("Register");
+		proj.doAction(LogisimFileActions.addCircuit(register));
+		ComponentFactory source = new Register();
+		Component c = source.createComponent(Location.create(300, 300), source.createAttributeSet());
+		CircuitMutation mutation = new CircuitMutation(register);
+		mutation.add(c);
+		Action action = mutation.toAction(Strings.getter("addComponentAction", source.getDisplayGetter()));
+		proj.doAction(action);
+		return register;
+	}
+	
+	private void getStateInputs(){
 		// obtenemos los componentes del circuito (en específico, buscamos los inputs y outputs)
 		Set<Component> comps = combinatorial.getNonWires();
-		
-		
 		for (Component c : comps){
 			// obtenemos el conjunto de atributos y vemos si es que son atributos de un Pin
 			AttributeSet attrs = c.getAttributeSet();

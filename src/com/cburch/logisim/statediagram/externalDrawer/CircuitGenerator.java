@@ -100,7 +100,7 @@ public class CircuitGenerator {
 		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
 		// TODO Juanjo: aquí se debe tomar el circuito y modificarlo, ya que recién después de llamar a 
 		// doAction el proyecto cambia.
-		SequentialCircuit sq = new SequentialCircuit(logisimProject, combinatorial);
+		SequentialCircuit sq = new SequentialCircuit(logisimProject, combinatorial, table.getMemoryBitNumber());
 		stateDiagramDrawer.getFrame().dispose();
 	}
 
