@@ -63,34 +63,55 @@ public class CircuitGenerator {
 			
 			e.printStackTrace();
 			return;
+			
+		}catch (Exception e){
+			
+			JOptionPane.showMessageDialog(new JFrame(), "Unknown error: The circuit can't be generated."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
 		}
 		
 		try {
 			finalModel.isCorrect();
 			
-			System.out.println("Circuit :D :D :D");
-			stateDiagramDrawer.getFrame().dispose();
+		//	System.out.println("Circuit :D :D :D");
+		//	stateDiagramDrawer.getFrame().dispose();
 			
 		} catch (InconsistentInputLengthException e){
 		
 			JOptionPane.showMessageDialog(new JFrame(), "Input transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
 			
 		} catch (InconsistentOutputLengthException e){
 			
 			JOptionPane.showMessageDialog(new JFrame(), "Output transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
 			
 		} catch (RepeatedTransitionException e) {
 			JOptionPane.showMessageDialog(new JFrame(), "Two transitions with the same origin state cannot have the same input."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
 		} catch (MissingTransitionException e) {
 			JOptionPane.showMessageDialog(new JFrame(), "Transitions coming from the same state must cover all the possible inputs."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
 		} catch (NotStronglyConnectedDiagram e) {
 			
 			JOptionPane.showMessageDialog(new JFrame(), "There must be a path between every pair of states."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+		} catch (Exception e){
+			
+			JOptionPane.showMessageDialog(new JFrame(), "Unknown error: The circuit can't be generated."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
 		}
 		
 		
