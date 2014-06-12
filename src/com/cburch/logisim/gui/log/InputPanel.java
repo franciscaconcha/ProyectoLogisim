@@ -225,6 +225,7 @@ class InputPanel extends LogPanel {
 								else{
 									submit.setEnabled(false);
 									isInvalid=true;
+									
 								}
 							}
 						});
