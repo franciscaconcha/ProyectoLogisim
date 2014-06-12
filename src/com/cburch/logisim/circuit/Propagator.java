@@ -344,7 +344,7 @@ public class Propagator {
 	}
 
 	public boolean tick() {
-		System.out.println("tick de Propagator");
+		System.out.println("hola soy tick de Propagator");
 		ticks++;
 		return root.tick(ticks);
 	}

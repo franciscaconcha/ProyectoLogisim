@@ -403,7 +403,7 @@ public class CircuitState implements InstanceData {
 	}
 
 	boolean tick(int ticks) {
-		System.out.println("tick de CircuitState");
+		System.out.println("hola soy tick de CircuitState");
 		boolean ret = false;
 		for (Component clock : circuit.getClocks()) {
 			ret |= Clock.tick(this, ticks, clock);

@@ -25,7 +25,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Value;
 import com.cburch.logisim.std.wiring.Pin;
