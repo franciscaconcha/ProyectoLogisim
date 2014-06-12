@@ -44,7 +44,7 @@ public class Clock extends InstanceFactory {
 	private static final Icon toolIcon = Icons.getIcon("clock.gif");
 	
 	private static class ClockState implements InstanceData, Cloneable {
-		Value sending = Value.TRUE;
+		Value sending = Value.FALSE;
 		int clicks = 0;
 		
 		@Override
@@ -205,8 +205,8 @@ public class Clock extends InstanceFactory {
 
 	//
 	// package methods
-		public static boolean tick(CircuitState circState, int ticks, Component comp) {
-			System.out.println("hola soy tick de clock, el primero de los primeros.");
+	//
+	public static boolean tick(CircuitState circState, int ticks, Component comp) {
 		AttributeSet attrs = comp.getAttributeSet();
 		int durationHigh = attrs.getValue(ATTR_HIGH).intValue();
 		int durationLow = attrs.getValue(ATTR_LOW).intValue();
