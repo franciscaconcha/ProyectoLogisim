@@ -101,7 +101,13 @@ class InputPanel extends LogPanel {
 			bitWidth.clear();
 			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("apretado");						
+					metodoDummyQueReemplazaAlMetodoQueTenemosQueHacerParaSimularTodaLaCustion();						
+				}
+
+				/*debiese recibir la tabla? */
+				private void metodoDummyQueReemplazaAlMetodoQueTenemosQueHacerParaSimularTodaLaCustion() {
+					System.out.println("apretado");
+					
 				}
 			});
 			this.setLayout(new GridLayout(0,1));
