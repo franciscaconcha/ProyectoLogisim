@@ -18,7 +18,7 @@
 
 
 
-package file.xml;
+package com.cburch.logisim.statediagram.xml.xml;
 
 import java.util.Map;
 

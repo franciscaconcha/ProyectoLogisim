@@ -86,6 +86,7 @@ public class ArrowTool extends Tool {
 		if (event.getClickCount() == 1){
             TransitionObject trans = getDrawer().transitionAtPoint(event.getPoint());
             if (trans != null){
+            	
                 if (trans.isSelected){
                     trans.isSelected = false;
                     selectedTransition = null;
@@ -97,6 +98,10 @@ public class ArrowTool extends Tool {
                      
                 }
                 return;
+            }else{
+            	if (selectedTransition!= null)
+            		selectedTransition.isSelected = false;
+            	selectedTransition = null;
             }
         }
 		TransitionObject trans = getDrawer().transitionAtPoint(event.getPoint());
@@ -137,9 +142,10 @@ public class ArrowTool extends Tool {
 	 */
 	public void mousePressed(MouseEvent event) {
 		
-        if (getDrawer().getDiagram().getEnvironmentFrame() ==null)
-        	initialPointClick.setLocation(event.getPoint());
-		lastClickedState = getDrawer().stateAtPoint(event.getPoint());
+       // if (getDrawer().getDiagram().getEnvironmentFrame() ==null)
+        initialPointClick.setLocation(event.getPoint());
+		
+        lastClickedState = getDrawer().stateAtPoint(event.getPoint());
 		if (lastClickedState == null)
 			lastClickedTransition = getDrawer().transitionAtPoint(
 					event.getPoint());
@@ -208,15 +214,24 @@ public class ArrowTool extends Tool {
 			if (event.isPopupTrigger())
 				return;
 			Point p = event.getPoint();
+						
+			//last clicked position
+			int selectedX = (int)lastClickedState.getPoint().getX();
+			int selectedY = (int)lastClickedState.getPoint().getY();
 			
 			StateObject[] states = getView().getDrawer().getDiagram().getStates();
 			for(int k = 0; k < states.length; k++){
+				System.out.println("state " +states[k].getName()+" "+states[k].isSelected());
 				StateObject curState = states[k];
+		
 				if(curState.isSelected()){
-					int x = p.x;
-					int y = p.y;
+					//diference between locations of last clicked state and current states
+					int dx = (int)(selectedX-curState.getPoint().getX());
+					int dy = (int)(selectedY-curState.getPoint().getY());
+					//final location
+					int x = p.x-dx;
+					int y = p.y-dy;
 					curState.getPoint().setLocation(x, y);
-					curState.setPoint(curState.getPoint());									
 				}
 			}
 			initialPointClick = p;
@@ -244,7 +259,6 @@ public class ArrowTool extends Tool {
 			}
 			initialPointClick.setLocation(p);
 			getView().repaint();
-			//EDebug.print(getView().getDrawer().selfTransitionMap);
 		}
 		else{
 			Rectangle bounds;

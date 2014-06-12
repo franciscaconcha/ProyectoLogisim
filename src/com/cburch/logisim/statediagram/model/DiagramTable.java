@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.cburch.logisim.analyze.model.AnalyzerModel;
 import com.cburch.logisim.analyze.model.Entry;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 
 public class DiagramTable {
 	
@@ -73,40 +75,51 @@ public class DiagramTable {
 	private Entry[][] generateValues(RepresentationMatrix matrix) {
 		int size = matrix.getSize(); // Numero de estados
 		String input, output;
-		int row;
 		
 		Entry[][] outputValues = new Entry[this.outputNames.size()][1 << this.inputNames.size()]; //[Columna][Fila]
 		
 		for (int i=0; i<size; i++ ){ //Numero decimal del estado actual || Fila de RepresentationMatrix
 			for (int j=0; j<size; j++){ //Numero decimal del estado siguiente || Columna de RepresentationMatrix
 				
-				System.out.print("i=" + i + " ");
-				System.out.print("j=" + j + " ");
-				
-				input= matrix.getInput(i, j); //string, se asume numero
+				input= matrix.getInput(i, j); //string
 				output= matrix.getOutput(i, j); //string
 				
-				System.out.print("input=" + input + " ");
-				System.out.print("output=" + output + " ");
-				
-				//Si la casilla indica que no hay transicion
-				if (input.length() == 0)
+				if (input.length() == 0) //Si la casilla indica que no hay transicion
 					continue;
-				
-				//Si hay transicion
-				if (i==0){
-					row = Integer.parseInt(input, 2);
-				}
 				else
-					row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
-				
-				System.out.print("row=" + input + " ");
-				
-				fillMemoryValues(outputValues, row, Integer.toBinaryString(j)); //general
-				fillLogicValues(outputValues, row, output); //general
+					process(i, j, input, output, outputValues);
 			}
 		}
 		return outputValues;
+	}
+	
+	private void process(int i, int j, String input, String output, Entry[][] outputValues){
+		if (input.length() == 0) //Si no hay transicion, no hace nada
+			return;
+		
+		int index = input.indexOf("*");
+		
+		if (index != -1){ //Si hay *
+			int length = input.length();
+			String input0 = input.substring(0, index) + "0" + input.substring(index+1, length);
+			String input1 = input.substring(0, index) + "1" + input.substring(index+1, length);
+			
+			System.out.println(i + " " + j + " " + input0 + " " + input1);
+			
+			process(i, j, input0, output, outputValues);
+			process(i, j, input1, output, outputValues);
+			return;
+		}
+		else{ //Si input es numerico
+			int row;
+			if (i==0)
+				row = Integer.parseInt(input, 2);
+			else
+				row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
+			
+			fillMemoryValues(outputValues, row, Integer.toBinaryString(j)); //general
+			fillLogicValues(outputValues, row, output); //general
+		}
 	}
 	
 	/**
@@ -119,11 +132,12 @@ public class DiagramTable {
 		for (int i = 0; i< this.logicOutputNumber; i++){
 			if (output.charAt(i) == '0')
 				entry[i+this.memoryBitNumber][row] = Entry.ZERO;
-			else // si es 1
+			else if (output.charAt(i) == '1')
 				entry[i+this.memoryBitNumber][row] = Entry.ONE;
-			//TODO si es X
+			else
+				entry[i+this.memoryBitNumber][row] = Entry.DONT_CARE;
+			System.out.println(output.charAt(i));
 		}
-		
 	}
 
 	/**

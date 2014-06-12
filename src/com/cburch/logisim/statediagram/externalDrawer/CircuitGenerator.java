@@ -1,3 +1,4 @@
+
 package com.cburch.logisim.statediagram.externalDrawer;
 
 import javax.swing.JFrame;
@@ -13,13 +14,17 @@ import com.cburch.logisim.file.LogisimFileActions;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
-import com.cburch.logisim.statediagram.model.AbsentStateException;
 import com.cburch.logisim.statediagram.model.DiagramTable;
-import com.cburch.logisim.statediagram.model.InconsistentInputLengthException;
-import com.cburch.logisim.statediagram.model.InconsistentOutputLengthException;
-import com.cburch.logisim.statediagram.model.InvalidTransitionException;
 import com.cburch.logisim.statediagram.model.StateDiagram;
-import com.cburch.logisim.statediagram.model.notStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentOutputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
+import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
+import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
 import com.cburch.logisim.statediagram.view.SequentialCircuit;
 import com.cburch.logisim.std.gates.CircuitBuilder;
 import com.cburch.logisim.analyze.gui.Strings;
@@ -61,28 +66,66 @@ public class CircuitGenerator {
 			
 			e.printStackTrace();
 			return;
+			
+		}catch (Exception e){
+			
+			JOptionPane.showMessageDialog(new JFrame(), "Unknown error: The circuit can't be generated."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
 		}
 		
 		try {
 			finalModel.isCorrect();
 			
-			System.out.println("Circuit :D :D :D");
-			stateDiagramDrawer.getFrame().dispose();
+		} catch(NoStatesException e){
 			
-		} catch (InconsistentInputLengthException e){
+			JOptionPane.showMessageDialog(new JFrame(), "You didn't draw any states..."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+			
+		} catch(NoTransitionsException e){
+			
+			JOptionPane.showMessageDialog(new JFrame(), "You didn't draw any transitions..."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+			
+		}catch (InconsistentInputLengthException e){
 		
 			JOptionPane.showMessageDialog(new JFrame(), "Input transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
 			
-		}catch (InconsistentOutputLengthException e){
+		} catch (InconsistentOutputLengthException e){
 			
 			JOptionPane.showMessageDialog(new JFrame(), "Output transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
 			
-		}catch (notStronglyConnectedDiagram e) {
+		} catch (RepeatedTransitionException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Two transitions with the same origin state cannot have the same input."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+		} catch (MissingTransitionException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Transitions coming from the same state must cover all the possible inputs."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+		} catch (NotStronglyConnectedDiagram e) {
 			
 			JOptionPane.showMessageDialog(new JFrame(), "There must be a path between every pair of states."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
+		} catch (Exception e){
+			
+			JOptionPane.showMessageDialog(new JFrame(), "Unknown error: The circuit can't be generated."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+			
 		}
 		
 		
@@ -98,7 +141,7 @@ public class CircuitGenerator {
 				true);
 
 		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
-		// TODO Juanjo: aquí se debe tomar el circuito y modificarlo, ya que recién después de llamar a 
+		// Juanjo: aquí se debe tomar el circuito y modificarlo, ya que recién después de llamar a 
 		// doAction el proyecto cambia.
 		SequentialCircuit sq = new SequentialCircuit(logisimProject, combinatorial, table.getMemoryBitNumber());
 		stateDiagramDrawer.getFrame().dispose();

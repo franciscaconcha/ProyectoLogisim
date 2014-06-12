@@ -27,6 +27,9 @@ import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionEv
 import com.cburch.logisim.statediagram.externalDrawer.diagram.event.TransitionListener;
 import com.cburch.logisim.statediagram.externalDrawer.gui.environment.EnvironmentFrame;
 import com.cburch.logisim.statediagram.model.*;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
+
 import java.io.Serializable;
 import java.awt.*;
 import java.util.*;

@@ -1,7 +1,7 @@
 package com.cburch.logisim.statediagram.model;
 
-import com.cburch.logisim.statediagram.model.AbsentStateException;
-import com.cburch.logisim.statediagram.model.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 /**
  * 
  * @author Cate
@@ -12,7 +12,7 @@ import com.cburch.logisim.statediagram.model.InvalidTransitionException;
  * (id b), hay que hacer get/set Input/Output (a,b (String a settear si 
  * corresponde)). Las dimensiones de la matriz estan determinadas por size, que
  * es la cantidad de estados del diagrama a partir del cual se quiere generar
- * la matriz, luego la matriz es de tamaño nxnx2. 
+ * la matriz, luego la matriz es de tamaï¿½o nxnx2. 
  */
 public class RepresentationMatrix {
 	private String[][][] matrix;

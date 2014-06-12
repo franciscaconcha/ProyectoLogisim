@@ -5,9 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.cburch.logisim.statediagram.model.*;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 
 import java.util.ArrayList;
-// Falta el test más importante: isCorrect()
+// Falta el test mï¿½s importante: isCorrect()
 public class StateDiagramAndRepresentationMatrixTest {
 StateDiagram sd;
 State s1,s2,s3,s4;

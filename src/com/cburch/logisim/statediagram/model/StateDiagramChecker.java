@@ -2,17 +2,52 @@ package com.cburch.logisim.statediagram.model;
 
 import java.util.ArrayList;
 
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InconsistentOutputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
+import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
+import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
+import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
+
 
 
 
 public class StateDiagramChecker {
 	public StateDiagramChecker(){}
 	
-	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, notStronglyConnectedDiagram{
+	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException{
+		this.checkComponentEmpyness(sd);
 		this.checkTransitionsLength(sd);
+		this.checkNoRepeatedTransitions(sd);
+		this.checkTransitionCompleteness(sd);
 		//this.checkStrongConnectivity(sd);
-		//this.checkTransitionCompleteness(sd);
+
 	}
+	private void checkComponentEmpyness(StateDiagram sd) throws NoStatesException, NoTransitionsException {
+		if(sd.getStates().isEmpty())
+			throw new NoStatesException();
+		if(sd.getTransitions().isEmpty())
+			throw new NoTransitionsException();
+		
+	}
+
+	public void checkNoRepeatedTransitions(StateDiagram sd) throws RepeatedTransitionException{
+		for(State s: sd.getStates())
+			this.checkNoRepeatedTransitionsFromState(s,sd);
+		
+	}
+	private void checkNoRepeatedTransitionsFromState(State s, StateDiagram sd) throws RepeatedTransitionException {
+		ArrayList<String> thisStateOutTransitionInputs=new ArrayList<String>();
+		for(Transition t: sd.getTransitions()){
+			if(t.getOrigin().equals(s))
+				if(thisStateOutTransitionInputs.contains(t.getOrigin()))
+					throw new RepeatedTransitionException();
+				thisStateOutTransitionInputs.add(t.getInput());
+		}
+		//TODO checkear si hay redundancia considerando asteriscos
+	}
+
 	public void checkTransitionCompleteness(StateDiagram sd) throws MissingTransitionException{
 		ArrayList<State> states=sd.getStates();
 		for (State s: states){
@@ -30,12 +65,10 @@ public class StateDiagramChecker {
 			if(t.getOrigin().equals(s)){
 				in=t.getInput();
 				if(in.contains("*")){
-					n=this.getNumberFromTransitionWithWildcard(t);
-					checkList[n]=1;
+					this.getNumberFromTransitionWithWildcard(t,checkList);
 				}
 				else{
-					n=this.getNumberFromTransition(t);
-					checkList[n]=1;
+					this.getNumberFromTransition(t.getInput(),checkList);
 				}
 			}
 		}
@@ -45,15 +78,43 @@ public class StateDiagramChecker {
 		if(sum<possibleTransitions)
 			throw new MissingTransitionException();
 	}
-	private int getNumberFromTransitionWithWildcard(Transition t) {
-		return 0;
-		// TODO Auto-generated method stub
+	public void getNumberFromTransitionWithWildcard(Transition t, int[] checkList) {
+		ArrayList<String> equivalentTrans=new ArrayList<String>();
+		String originalInput=t.getInput();
+		equivalentTrans.add(originalInput);
+		this.equivalentTransitionsGetter(equivalentTrans);
+		for(String s: equivalentTrans)
+			this.getNumberFromTransition(s, checkList);
 		
 	}
 
-	private int getNumberFromTransition(Transition t) {
-		return 0;
-		// TODO Auto-generated method stub
+	private void equivalentTransitionsGetter(ArrayList<String> equivalentTrans) {
+		for(String s: equivalentTrans){
+			if(s.contains("*")){
+				int index=s.indexOf("*");
+				String remove=equivalentTrans.get(index);
+				equivalentTrans.remove(index);
+				String add1=remove.replaceFirst("*", "0");
+				String add2=remove.replaceFirst("*", "0");
+				ArrayList<String> aux=new ArrayList<String>();
+				aux.add(add1);
+				aux.add(add2);
+				this.equivalentTransitionsGetter(aux);
+				equivalentTrans.addAll(aux);
+			}
+		}
+		
+	}
+
+	public void getNumberFromTransition(String s, int[] checkList) {
+		int l=s.length();
+		int number=0;
+		int i; char c;
+		for(i=0;i<l;i++){
+			c=s.charAt(i);
+			number=2*number+Character.getNumericValue(c);
+		}
+		checkList[number]=1;
 		
 	}
 
@@ -82,7 +143,7 @@ public class StateDiagramChecker {
 		}
 
 	}
-	public void checkStrongConnectivity(StateDiagram sd) throws notStronglyConnectedDiagram{
+	public void checkStrongConnectivity(StateDiagram sd) throws NotStronglyConnectedDiagram{
 		ArrayList<Transition> trans=sd.getTransitions();
 		ArrayList<State> states1=(ArrayList<State>) sd.getStates().clone();
 		ArrayList<State> states2=(ArrayList<State>)sd.getStates().clone();
@@ -93,7 +154,7 @@ public class StateDiagramChecker {
 		markStatesThatReach(q0,states2,sd);
 		boolean isStronglyConnected=states1.isEmpty() && states2.isEmpty();
 		if(!isStronglyConnected)
-			throw new notStronglyConnectedDiagram();
+			throw new NotStronglyConnectedDiagram();
 		return;
 	}	
 	private void markStatesThatReach(State q, ArrayList<State> states2,
