@@ -151,6 +151,7 @@ public class Simulator {
 		}
 		
 		private void doTick() {
+			System.out.println("hola soy dotick de PropagatorManager hijo de Simulator");
 			synchronized(this) {
 				ticksRequested--;
 			}
@@ -203,6 +204,7 @@ public class Simulator {
 	}
 	
 	public void tick() {
+		System.out.println("hola soy tick de Simulator");
 		ticker.tickOnce();
 	}
 	
