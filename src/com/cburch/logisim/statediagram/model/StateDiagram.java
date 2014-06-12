@@ -28,8 +28,10 @@ public class StateDiagram {
 	 * @throws notStronglyConnectedDiagram 
 	 * @throws InconsistentOutputLengthException 
 	 * @throws InconsistentInputLengthException 
+	 * @throws MissingTransitionException 
+	 * @throws RepeatedTransitionException 
 	 */
-	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, notStronglyConnectedDiagram{
+	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException{
 		checker.checkAll(this);
 	}
 	public void addState(String name, int id){

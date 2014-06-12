@@ -18,8 +18,10 @@ import com.cburch.logisim.statediagram.model.DiagramTable;
 import com.cburch.logisim.statediagram.model.InconsistentInputLengthException;
 import com.cburch.logisim.statediagram.model.InconsistentOutputLengthException;
 import com.cburch.logisim.statediagram.model.InvalidTransitionException;
+import com.cburch.logisim.statediagram.model.MissingTransitionException;
+import com.cburch.logisim.statediagram.model.NotStronglyConnectedDiagram;
+import com.cburch.logisim.statediagram.model.RepeatedTransitionException;
 import com.cburch.logisim.statediagram.model.StateDiagram;
-import com.cburch.logisim.statediagram.model.notStronglyConnectedDiagram;
 import com.cburch.logisim.statediagram.view.SequentialCircuit;
 import com.cburch.logisim.std.gates.CircuitBuilder;
 import com.cburch.logisim.analyze.gui.Strings;
@@ -74,12 +76,18 @@ public class CircuitGenerator {
 			JOptionPane.showMessageDialog(new JFrame(), "Input transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
 			
-		}catch (InconsistentOutputLengthException e){
+		} catch (InconsistentOutputLengthException e){
 			
 			JOptionPane.showMessageDialog(new JFrame(), "Output transitions must have the same length."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
 			
-		}catch (notStronglyConnectedDiagram e) {
+		} catch (RepeatedTransitionException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Two transitions with the same origin state cannot have the same input."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+		} catch (MissingTransitionException e) {
+			JOptionPane.showMessageDialog(new JFrame(), "Transitions coming from the same state must cover all the possible inputs."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+		} catch (NotStronglyConnectedDiagram e) {
 			
 			JOptionPane.showMessageDialog(new JFrame(), "There must be a path between every pair of states."
 	                ,"Error", JOptionPane.PLAIN_MESSAGE);
