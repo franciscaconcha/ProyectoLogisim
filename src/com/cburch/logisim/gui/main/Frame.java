@@ -197,7 +197,9 @@ public class Frame extends LFrame implements LocaleListener {
 		zoom = new ZoomControl( layoutZoomModel );
 
 		testButton = new JButton("boton de prueba");
-		testButton.addActionListener(new ActionItemError2() );
+		testButton.addActionListener( new ActionItemError2());
+		menuBarPrueba = new JMenuBar();
+		menuSugerencias = new JMenu( "Menu Sugerencias" );
 		menuSugerencias.setOpaque(true);
 		
 
