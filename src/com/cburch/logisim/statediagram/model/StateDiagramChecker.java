@@ -8,13 +8,22 @@ import java.util.ArrayList;
 public class StateDiagramChecker {
 	public StateDiagramChecker(){}
 	
-	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException{
+	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException{
+		this.checkComponentEmpyness(sd);
 		this.checkTransitionsLength(sd);
 		this.checkNoRepeatedTransitions(sd);
 		this.checkTransitionCompleteness(sd);
 		//this.checkStrongConnectivity(sd);
 
 	}
+	private void checkComponentEmpyness(StateDiagram sd) throws NoStatesException, NoTransitionsException {
+		if(sd.getStates().isEmpty())
+			throw new NoStatesException();
+		if(sd.getTransitions().isEmpty())
+			throw new NoTransitionsException();
+		
+	}
+
 	public void checkNoRepeatedTransitions(StateDiagram sd) throws RepeatedTransitionException{
 		for(State s: sd.getStates())
 			this.checkNoRepeatedTransitionsFromState(s,sd);
