@@ -16,6 +16,7 @@ import com.cburch.logisim.data.Direction;
 import com.cburch.logisim.data.Location;
 import com.cburch.logisim.data.Value;
 import com.cburch.logisim.file.LogisimFileActions;
+import com.cburch.logisim.instance.InstanceFactory;
 import com.cburch.logisim.instance.InstanceState;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
@@ -38,10 +39,51 @@ public class SequentialCircuit {
 		this.bitNumber = bitNumber;
 		this.register = createRegister();
 		Circuit main = proj.getCurrentCircuit();
-		createSubcircuits(main);
+		addSubcircuitsToMain(main);
 	}
 
-	private void createSubcircuits(Circuit main) {
+	private Circuit createRegister() {
+		Circuit registerCircuit = new Circuit("Register");
+		proj.doAction(LogisimFileActions.addCircuit(registerCircuit));
+		Register source = new Register();
+		setAttributes(source);
+		Component c = source.createComponent(Location.create(300, 300),
+				source.createAttributeSet());
+		CircuitMutation mutation = new CircuitMutation(registerCircuit);
+		mutation.add(c);
+		addComponent(mutation, source);
+		createPins(registerCircuit);
+		return registerCircuit;
+	}
+	
+	
+	private void createPins(Circuit register){
+		Pin pinFactory = Pin.FACTORY;
+		PinAttributes attrsInput = (PinAttributes) pinFactory.createAttributeSet();
+		int y_inicial = 100;
+		CircuitMutation mutation = new CircuitMutation(register);
+		createPins(pinFactory, 100, y_inicial, attrsInput, mutation); //creamos los inputs
+		addComponent(mutation, pinFactory);
+		
+		
+		mutation = new CircuitMutation(register);
+		PinAttributes attrsOutput = (PinAttributes) pinFactory.createAttributeSet();
+		attrsOutput.setValue(Pin.ATTR_TYPE, true); // provoca que sean outputs en vez de inputs
+		attrsOutput.setValue(StdAttr.FACING, Direction.WEST);
+		createPins(pinFactory, 500, y_inicial, attrsOutput, mutation); //creamos los outputs
+		addComponent(mutation, pinFactory);
+	}
+	
+	
+	private void createPins(InstanceFactory factory, int x, int y, AttributeSet attrs, CircuitMutation mutation) {
+		for (int i = 0; i < this.bitNumber; i++) {
+			Component pin = factory.createComponent(Location.create(x, y + i*40), attrs);
+			mutation.add(pin);
+		}
+	}
+	
+
+	private void addSubcircuitsToMain(Circuit main) {
 
 		SubcircuitFactory factoryComb = new SubcircuitFactory(combinatorial);
 		Component cc = factoryComb.createComponent(Location.create(200, 200),
@@ -55,61 +97,22 @@ public class SequentialCircuit {
 		CircuitMutation mutation = new CircuitMutation(main);
 		mutation.add(rc);
 		mutation.add(cc);
-		Action action = mutation.toAction(Strings.getter("addComponentAction",
-				factoryRegister.getDisplayGetter()));
-		proj.doAction(action);
+		addComponent(mutation, factoryRegister);
 	}
 
-	private Circuit createRegister() {
-		Circuit registerCircuit = new Circuit("Register");
-		proj.doAction(LogisimFileActions.addCircuit(registerCircuit));
-		Register source = new Register();
+
+	private void setAttributes(Register source) {
 		source.setAttributes(new Attribute[] { StdAttr.WIDTH, StdAttr.TRIGGER,
 				StdAttr.LABEL, StdAttr.LABEL_FONT },
 				new Object[] { BitWidth.create(this.bitNumber),
 						StdAttr.TRIG_RISING, "", StdAttr.DEFAULT_LABEL_FONT });
-		Component c = source.createComponent(Location.create(300, 300),
-				source.createAttributeSet());
-		CircuitMutation mutation = new CircuitMutation(registerCircuit);
-		mutation.add(c);
+	}
+
+	private void addComponent(CircuitMutation mutation, InstanceFactory factory){
 		Action action = mutation.toAction(Strings.getter("addComponentAction",
-				source.getDisplayGetter()));
+				factory.getDisplayGetter()));
 		proj.doAction(action);
-		createRegisterInputs(registerCircuit);
-		createRegisterOutputs(registerCircuit);
-		return registerCircuit;
 	}
-
-	private void createRegisterInputs(Circuit register) {
-		Pin source = Pin.FACTORY;
-		int y_inicial = 100;
-		for (int i = 0; i < this.bitNumber; i++) {
-			Component input = source.createComponent(Location.create(100, y_inicial + i*40), source.createAttributeSet());
-			CircuitMutation mutation = new CircuitMutation(register);
-			mutation.add(input);
-			Action action = mutation.toAction(Strings.getter("addComponentAction", source.getDisplayGetter()));
-			proj.doAction(action);
-		}
-	}
-	
-	
-	private void createRegisterOutputs(Circuit register) {
-		Pin source = Pin.FACTORY;
-		PinAttributes attrs = (PinAttributes) source.createAttributeSet();
-		attrs.setValue(Pin.ATTR_TYPE, true); // provoca que sean outputs en vez de inputs
-		attrs.setValue(StdAttr.FACING, Direction.WEST);
-		int y_inicial = 100;
-		for (int i = 0; i < this.bitNumber; i++) {
-
-			Component input = source.createComponent(Location.create(500, y_inicial + i*40), attrs);
-			
-			CircuitMutation mutation = new CircuitMutation(register);
-			mutation.add(input);
-			Action action = mutation.toAction(Strings.getter("addComponentAction", source.getDisplayGetter()));
-			proj.doAction(action);
-		}
-	}
-
 
 	private void getStateInputs() {
 		// obtenemos los componentes del circuito (en específico, buscamos los
