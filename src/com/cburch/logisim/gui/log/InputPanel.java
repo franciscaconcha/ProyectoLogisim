@@ -111,6 +111,7 @@ class InputPanel extends LogPanel {
 		}
 		if(modified==0){
 			this.removeAll();
+			entries.clear();
 			bitWidth.clear();
 			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
 				public void actionPerformed(ActionEvent e) {
@@ -187,10 +188,12 @@ class InputPanel extends LogPanel {
 							submit.setEnabled(false);
 							isInvalid=true;
 						}
+						InputPanel.this.validate();
 					}
 				});
 				entries.add(newTextField);
 				entriesPanel.add(entries.get(i));
+				InputPanel.this.validate();
 			}
 			JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
 			this.add(scrollEntriesPanel,BorderLayout.CENTER);
@@ -200,7 +203,7 @@ class InputPanel extends LogPanel {
 			buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
+					submit.setEnabled(false);
 					for (int i = 0; i < selectedIndex.size(); i++) {
 						JTextField newTextField=new JTextField();
 						newTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -242,6 +245,7 @@ class InputPanel extends LogPanel {
 									isInvalid=true;
 									
 								}
+								InputPanel.this.validate();
 							}
 						});
 						entries.add(newTextField);
@@ -265,7 +269,7 @@ class InputPanel extends LogPanel {
 		Model model = getModel();
 		Selection sel = model.getSelection();
 		selectedIndex = new ArrayList<Integer>();
-		for(int j=0; j<sel.size();j++){			
+		for(int j=0; j<sel.size();j++){
 			if(sel.get(j).toString().startsWith(Strings.get("input")) || sel.get(j).toString().startsWith(Strings.get("clock"))){
 				selectedIndex.add(j);
 			}
