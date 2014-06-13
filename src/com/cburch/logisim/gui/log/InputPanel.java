@@ -25,8 +25,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import com.cburch.logisim.circuit.Simulator;
 import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Value;
+import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.util.GraphicsUtil;
 
@@ -55,10 +58,15 @@ class InputPanel extends LogPanel {
 
 		public void filePropertyChanged(ModelEvent event) { }
 	}
-
+	
+	Project project;
+	Simulator simulator;
+	
 	public InputPanel(LogFrame frame) {
 		super(frame);
 		modelChanged(null, getModel());
+		project = getProject();
+		simulator = project.getSimulator();
 	}
 
 	@Override
@@ -82,8 +90,13 @@ class InputPanel extends LogPanel {
 		if (oldModel != null) oldModel.removeModelListener(myListener);
 		if (newModel != null) newModel.addModelListener(myListener);
 	}	
-
-
+	
+	private void simularTicks() {
+		for (int i=0;i<4;i++){
+			simulator.tick();
+		}		
+		
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -101,14 +114,11 @@ class InputPanel extends LogPanel {
 			bitWidth.clear();
 			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
 				public void actionPerformed(ActionEvent e) {
-					metodoDummyQueReemplazaAlMetodoQueTenemosQueHacerParaSimularTodaLaCustion();						
+					simularTicks();						
 				}
 
 				/*debiese recibir la tabla? */
-				private void metodoDummyQueReemplazaAlMetodoQueTenemosQueHacerParaSimularTodaLaCustion() {
-					System.out.println("apretado");
-					
-				}
+				
 			});
 			this.setLayout(new GridLayout(0,1));
 			JPanel titles = new JPanel();
