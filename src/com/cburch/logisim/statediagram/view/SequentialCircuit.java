@@ -4,12 +4,17 @@ import java.util.Set;
 
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitMutation;
+import com.cburch.logisim.circuit.CircuitState;
 import com.cburch.logisim.circuit.SubcircuitFactory;
 import com.cburch.logisim.comp.Component;
 import com.cburch.logisim.comp.ComponentFactory;
+import com.cburch.logisim.data.Attribute;
 import com.cburch.logisim.data.AttributeSet;
+import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Location;
+import com.cburch.logisim.data.Value;
 import com.cburch.logisim.file.LogisimFileActions;
+import com.cburch.logisim.instance.InstanceState;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
@@ -48,15 +53,19 @@ public class SequentialCircuit {
 	}
 	
 	private Circuit createRegister(){
-		Circuit register = new Circuit("Register");
-		proj.doAction(LogisimFileActions.addCircuit(register));
-		ComponentFactory source = new Register();
+		Circuit registerCircuit = new Circuit("Register");
+		proj.doAction(LogisimFileActions.addCircuit(registerCircuit));
+		Register source = new Register();
+		source.setAttributes(new Attribute[] {StdAttr.WIDTH, StdAttr.TRIGGER,
+											StdAttr.LABEL, StdAttr.LABEL_FONT},
+							new Object[] {BitWidth.create(this.bitNumber), StdAttr.TRIG_RISING, "",
+										StdAttr.DEFAULT_LABEL_FONT});		
 		Component c = source.createComponent(Location.create(300, 300), source.createAttributeSet());
-		CircuitMutation mutation = new CircuitMutation(register);
+		CircuitMutation mutation = new CircuitMutation(registerCircuit);
 		mutation.add(c);
 		Action action = mutation.toAction(Strings.getter("addComponentAction", source.getDisplayGetter()));
 		proj.doAction(action);
-		return register;
+		return registerCircuit;
 	}
 	
 	private void getStateInputs(){
