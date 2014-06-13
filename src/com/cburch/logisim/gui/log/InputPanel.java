@@ -247,6 +247,7 @@ class InputPanel extends LogPanel {
 								}
 								InputPanel.this.validate();
 							}
+							
 						});
 						entries.add(newTextField);
 						entriesPanel.add(newTextField);}
