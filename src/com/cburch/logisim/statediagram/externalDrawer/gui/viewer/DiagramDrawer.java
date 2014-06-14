@@ -182,8 +182,8 @@ public class DiagramDrawer {
 	 */
 	protected void drawTransitions(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		Set arrows = arrowToTransitionMap.keySet();
-		Iterator it = arrows.iterator();
+		Set<CurvedArrow> arrows = arrowToTransitionMap.keySet();
+		Iterator<CurvedArrow> it = arrows.iterator();
 		while (it.hasNext()) {
 			CurvedArrow arrow = (CurvedArrow) it.next();
             if (arrow.myTransition.isSelected){
@@ -204,7 +204,7 @@ public class DiagramDrawer {
 	/**
 	 * Refreshes the <CODE>arrowToTransitionMap</CODE> structure.
 	 */
-	private void refreshArrowMap() {
+	public void refreshArrowMap() {
 		if (diagram == null) {
 			//System.out.println("Diagram is null, how?");
 			return;
@@ -526,21 +526,21 @@ public class DiagramDrawer {
 	/**
 	 * A map of self transitions mapped to their angle of appearance.
 	 */
-	public HashMap<TransitionObject, Double> selfTransitionMap = new HashMap();
+	public HashMap<TransitionObject, Double> selfTransitionMap = new HashMap<TransitionObject, Double>();
 	
 	/**
 	 * Map of curvatures for transitions
 	 */
-	public HashMap<TransitionObject, Float> curveTransitionMap = new HashMap();
+	public HashMap<TransitionObject, Float> curveTransitionMap = new HashMap<TransitionObject, Float>();
 
 	/**
 	 * A map of curved arrows to transitions. This object is also used for
 	 * iteration over all arrows when drawing must be done
 	 */
-	public HashMap arrowToTransitionMap = new HashMap();
+	public HashMap<CurvedArrow, TransitionObject> arrowToTransitionMap = new HashMap<CurvedArrow, TransitionObject>();
 
 	/** The map from transitions to their respective arrows. */
-	public HashMap transitionToArrowMap = new HashMap();
+	public HashMap<TransitionObject, CurvedArrow> transitionToArrowMap = new HashMap<TransitionObject, CurvedArrow>();
 
 	/** The state drawer. */
 	public StateDrawer statedrawer = new StateDrawer();

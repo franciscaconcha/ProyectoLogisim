@@ -99,6 +99,7 @@ public class ArrowTool extends Tool {
                 }
                 return;
             }else{
+            	
             	if (selectedTransition!= null)
             		selectedTransition.isSelected = false;
             	selectedTransition = null;
@@ -221,7 +222,7 @@ public class ArrowTool extends Tool {
 			
 			StateObject[] states = getView().getDrawer().getDiagram().getStates();
 			for(int k = 0; k < states.length; k++){
-				System.out.println("state " +states[k].getName()+" "+states[k].isSelected());
+
 				StateObject curState = states[k];
 		
 				if(curState.isSelected()){
@@ -232,6 +233,9 @@ public class ArrowTool extends Tool {
 					int x = p.x-dx;
 					int y = p.y-dy;
 					curState.getPoint().setLocation(x, y);
+					//update transition locations
+					getView().getDrawer().refreshArrowMap();
+					
 				}
 			}
 			initialPointClick = p;
@@ -249,9 +253,6 @@ public class ArrowTool extends Tool {
 				TransitionObject[] trans = getDiagram().getTransitionsFromStateToState(f, t);
 				for (int n = 0; n < trans.length; n++) {
 					CurvedArrow arrow = (CurvedArrow) getView().getDrawer().transitionToArrowMap.get(trans[n]);
-
-                    
-
 					
 					getView().getDrawer().arrowToTransitionMap.put(arrow, trans[n]);
 					getView().getDrawer().transitionToArrowMap.put(trans[n], arrow);
