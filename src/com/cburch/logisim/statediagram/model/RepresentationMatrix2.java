@@ -30,8 +30,21 @@ public class RepresentationMatrix2 {
 			matrix.get(o).get(d).remove(0);
 		}
 		matrix.get(o).get(d).add(t);
+		
 	}
 	public ArrayList<Transition> getTransitions(int o, int d){
 		return matrix.get(o).get(d);
+	}
+	public void setInputLength(int l){
+		this.inputLength=l;
+	}
+	public int getInputLength(int l){
+		return this.inputLength;
+	}
+	public void setOutputLength(int l){
+		this.outputLength=l;
+	}
+	public int getOutputLength(int l){
+		return this.outputLength;
 	}
 }

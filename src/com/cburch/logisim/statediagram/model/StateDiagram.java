@@ -114,6 +114,8 @@ public class StateDiagram {
 		for(Transition t: transitions){
 			m.addTransition(t);
 		}
+		m.setInputLength(transitions.get(0).getInput().length());
+		m.setOutputLength(transitions.get(0).getOutput().length());
 		return m;
 	}
 	public ArrayList<State> getStates() {
