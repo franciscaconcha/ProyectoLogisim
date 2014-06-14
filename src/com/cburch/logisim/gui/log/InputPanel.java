@@ -98,20 +98,32 @@ class InputPanel extends LogPanel {
 	}	
 	
 	private void simularTicks() {
-		/*for (int i=0;i<4;i++){
-			simulator.tick();
-		}*/
 		Model model = getModel();
 		CircuitState statecirc = model.getCircuitState();
 		Selection sel = model.getSelection();
-		com.cburch.logisim.comp.Component comp = sel.get(1).getComponent();
-		InstanceState inState = statecirc.getInstanceState(comp);
-		Instance instance = com.cburch.logisim.instance.Instance.getInstanceFor(comp);
-		ComponentFactory factory=comp.getFactory();
+		int rows =entries.size()/selectedIndex.size();
+		for (int j=0;j<rows;j++){
+			for(int i=1;i<selectedIndex.size();i++){
+				com.cburch.logisim.comp.Component comp = sel.get(i).getComponent();
+				InstanceState inState = statecirc.getInstanceState(comp);
+				ComponentFactory factory=comp.getFactory();
+				Pin pin1 = (Pin) factory;
+				JTextField val=entries.get(i+j*selectedIndex.size());
+				String txt = val.getText();
+				int value=Integer.parseInt(txt);
+				pin1.changeValue(inState, value, 0);
+				System.out.print("entrada:"+i+" value :"+value);
+			}
+			JTextField f1 = entries.get(j*selectedIndex.size());
+			String text = f1.getText();
+			int ticks = Integer.parseInt(text);
+			System.out.print("tick*"+ticks);
+			for(int k=ticks*2;k>0;k--){
+				simulator.tick();
+			}
+		}		
+		//Instance instance = com.cburch.logisim.instance.Instance.getInstanceFor(comp);
 		//InstanceFactory in1 = (InstanceFactory) factory;
-		Pin pin1 = (Pin) factory;
-		pin1.changeBit(inState, 0);
-		simulator.tick();
 		
 	}
 	@Override
