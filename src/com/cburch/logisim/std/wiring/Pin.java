@@ -103,6 +103,22 @@ public class Pin extends InstanceFactory {
 			g.setColor(Color.BLACK);
 		}
 	}
+	
+	public void changeBit(InstanceState state, int bit){
+		PinAttributes att = (PinAttributes) state.getAttributeSet();
+		if (!att.isInput()) return;
+		PinState pinState = getState(state);
+		Value val = pinState.sending.get(bit);
+		if (val == Value.FALSE) {
+			val = Value.TRUE;
+		} else if (val == Value.TRUE) {
+			val = att.threeState ? Value.UNKNOWN : Value.FALSE;
+		} else {
+			val = Value.FALSE;
+		}
+		pinState.sending = pinState.sending.set(bit, val);
+		state.fireInvalidated();
+	}
 
 	private void paintIconBase(InstancePainter painter) {
 		PinAttributes attrs = (PinAttributes) painter.getAttributeSet();
@@ -309,6 +325,7 @@ public class Pin extends InstanceFactory {
 	public Value getValue(InstanceState state) {
 		return getState(state).sending;
 	}
+
 	
 	public void setValue(InstanceState state, Value value) {
 		PinAttributes attrs = (PinAttributes) state.getAttributeSet();
@@ -333,6 +350,7 @@ public class Pin extends InstanceFactory {
 		} else {
 			myState.sending = value;
 		}
+		
 	}
 	
 	private static PinState getState(InstanceState state) {

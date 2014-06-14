@@ -2,9 +2,9 @@
  * com.cburch.logisim.Main source code and at www.cburch.com/logisim/. */
 
 package com.cburch.logisim.gui.log;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -26,16 +26,22 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.cburch.logisim.circuit.CircuitState;
 import com.cburch.logisim.circuit.Simulator;
 import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Value;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.wiring.Pin;
+import com.cburch.logisim.instance.Instance;
+import com.cburch.logisim.instance.InstanceFactory;
+import com.cburch.logisim.instance.InstanceState;
 import com.cburch.logisim.util.GraphicsUtil;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.cburch.logisim.comp.ComponentFactory;
 
 class InputPanel extends LogPanel {
 	private int modified=0;
@@ -92,9 +98,20 @@ class InputPanel extends LogPanel {
 	}	
 	
 	private void simularTicks() {
-		for (int i=0;i<4;i++){
+		/*for (int i=0;i<4;i++){
 			simulator.tick();
-		}		
+		}*/
+		Model model = getModel();
+		CircuitState statecirc = model.getCircuitState();
+		Selection sel = model.getSelection();
+		com.cburch.logisim.comp.Component comp = sel.get(1).getComponent();
+		InstanceState inState = statecirc.getInstanceState(comp);
+		Instance instance = com.cburch.logisim.instance.Instance.getInstanceFor(comp);
+		ComponentFactory factory=comp.getFactory();
+		//InstanceFactory in1 = (InstanceFactory) factory;
+		Pin pin1 = (Pin) factory;
+		pin1.changeBit(inState, 0);
+		simulator.tick();
 		
 	}
 	@Override

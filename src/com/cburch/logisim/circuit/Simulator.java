@@ -65,6 +65,7 @@ public class Simulator {
 		}
 		
 		public synchronized void requestTick()  {
+			System.out.println("request tick de Simulator");
 			if (ticksRequested < 16) {
 				ticksRequested++;
 			}
