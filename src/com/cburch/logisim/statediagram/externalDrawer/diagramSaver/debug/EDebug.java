@@ -17,7 +17,7 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.debug;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.debug;
 
 public class EDebug {
 	

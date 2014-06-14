@@ -1,4 +1,4 @@
-package com.cburch.logisim.statediagram.diagramSaver;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver;
 
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 /**

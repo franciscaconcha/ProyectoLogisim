@@ -18,7 +18,7 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.file;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.file;
 
 /**
  * This error indicates that a structure could not be properly encoded with the

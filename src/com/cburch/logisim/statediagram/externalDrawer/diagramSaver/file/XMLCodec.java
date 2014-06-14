@@ -18,9 +18,9 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.file;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.file;
 
-import com.cburch.logisim.statediagram.diagramSaver.xml.*;
+import com.cburch.logisim.statediagram.externalDrawer.diagramSaver.xml.*;
 
 import java.io.*;
 import java.util.Map;

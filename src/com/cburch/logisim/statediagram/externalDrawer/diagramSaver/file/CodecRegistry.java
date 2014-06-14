@@ -18,7 +18,7 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.file;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.file;
 
 import java.io.Serializable;
 import java.util.*;

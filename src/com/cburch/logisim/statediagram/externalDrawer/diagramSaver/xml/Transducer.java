@@ -18,9 +18,9 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.xml;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.xml;
 
-import com.cburch.logisim.statediagram.diagramSaver.file.ParseException;
+import com.cburch.logisim.statediagram.externalDrawer.diagramSaver.file.ParseException;
 
 import java.io.Serializable;
 

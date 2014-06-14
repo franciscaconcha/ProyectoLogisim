@@ -18,32 +18,34 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.file;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.file;
 
 /**
  * This error indicates elements in a file are arranged in such a fashion as to
- * prevent the interpreter from working correctly. This should be thrown by
+ * prevent the correct initialization of a structure. This should be thrown by
  * {@link file.Decoder} implementing objects to indicate a problem processing
- * the file that could indicate that it is not the target type of file at all.
+ * the data in the file that indicates that the data is formatted correctly, but
+ * that trying to make a JFLAP structure out of it is impossible. For example,
+ * the data could be formatted correctly, but be inconsistent.
  * 
  * @author Thomas Finley
  */
 
-public class ParseException extends RuntimeException {
+public class DataException extends RuntimeException {
 	/**
-	 * Creates a generic parse exception.
+	 * Creates a generic data exception.
 	 */
-	public ParseException() {
+	public DataException() {
 		super();
 	}
 
 	/**
-	 * Creates a parse exception with the given message.
+	 * Creates a data exception with the given message.
 	 * 
 	 * @param message
 	 *            the exception message
 	 */
-	public ParseException(String message) {
+	public DataException(String message) {
 		super(message);
 	}
 }

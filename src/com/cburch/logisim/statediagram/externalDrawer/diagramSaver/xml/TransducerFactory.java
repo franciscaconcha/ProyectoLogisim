@@ -18,7 +18,7 @@
 
 
 
-package com.cburch.logisim.statediagram.diagramSaver.xml;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.xml;
 
 import org.w3c.dom.*;
 import java.io.Serializable;
