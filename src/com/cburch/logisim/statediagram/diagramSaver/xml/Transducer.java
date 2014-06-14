@@ -18,10 +18,12 @@
 
 
 
-package com.cburch.logisim.statediagram.xml.xml;
+package com.cburch.logisim.statediagram.diagramSaver.xml;
 
-import com.cburch.logisim.statediagram.xml.file.ParseException;
+import com.cburch.logisim.statediagram.diagramSaver.file.ParseException;
+
 import java.io.Serializable;
+
 import org.w3c.dom.Document;
 
 /**

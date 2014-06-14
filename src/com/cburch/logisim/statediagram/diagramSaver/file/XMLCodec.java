@@ -1,16 +1,46 @@
-package com.cburch.logisim.statediagram.xml;
+/*
+ *  JFLAP - Formal Languages and Automata Package
+ * 
+ * 
+ *  Susan H. Rodger
+ *  Computer Science Department
+ *  Duke University
+ *  August 27, 2009
 
-import com.cburch.logisim.statediagram.xml.xml.*;
-import com.cburch.logisim.statediagram.xml.file.*;
+ *  Copyright (c) 2002-2009
+ *  All rights reserved.
+
+ *  JFLAP is open source software. Please see the LICENSE for terms.
+ *
+ */
+
+
+
+
+
+package com.cburch.logisim.statediagram.diagramSaver.file;
+
+import com.cburch.logisim.statediagram.diagramSaver.xml.*;
+
 import java.io.*;
 import java.util.Map;
+
 import javax.xml.parsers.*;
+
 import org.w3c.dom.*;
+
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-public class XMLwriter extends Codec{
+/**
+ * This is the codec for reading and writing JFLAP structures as XML documents.
+ * 
+ * @author Thomas Finley, Henry Qin
+ */
+
+public class XMLCodec extends Codec {
+
 
     /**
       * Determines which files this FileFilter will allow. We are only allowing files with extension XML and jff.
@@ -82,7 +112,7 @@ public class XMLwriter extends Codec{
              * lemma from the chooser.
              */
             Document dom;
-           /* if(structure instanceof gui.pumping.PumpingLemmaChooser)
+            /*if(structure instanceof gui.pumping.PumpingLemmaChooser)
                 dom = transducer.toDOM(((gui.pumping.PumpingLemmaChooser)structure).getCurrent());
             else
                 dom = transducer.toDOM(structure);*/

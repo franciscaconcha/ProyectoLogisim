@@ -17,7 +17,7 @@
 
 
 
-package com.cburch.logisim.statediagram.xml.debug;
+package com.cburch.logisim.statediagram.diagramSaver.debug;
 
 public class EDebug {
 	

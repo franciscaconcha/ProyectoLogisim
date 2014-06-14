@@ -18,7 +18,7 @@
 
 
 
-package com.cburch.logisim.statediagram.xml.file;
+package com.cburch.logisim.statediagram.diagramSaver.file;
 
 import java.io.File;
 import java.io.Serializable;
