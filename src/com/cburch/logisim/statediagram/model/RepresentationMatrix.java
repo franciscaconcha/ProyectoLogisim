@@ -1,4 +1,7 @@
 package com.cburch.logisim.statediagram.model;
+
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 /**
  * 
  * @author Cate
