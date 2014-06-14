@@ -2,6 +2,7 @@ package com.cburch.logisim.statediagram.diagramSaver;
 
 import com.cburch.logisim.statediagram.diagramSaver.file.*;
 import com.cburch.logisim.statediagram.diagramSaver.xml.*;
+import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 
 import java.io.*;
 import java.util.Map;
@@ -14,7 +15,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-public class XMLwriter extends Codec{
+public class XMLwriter extends Codec implements diagramSaver{
 
     /**
       * Determines which files this FileFilter will allow. We are only allowing files with extension XML and jff.
@@ -151,4 +152,16 @@ public class XMLwriter extends Codec{
 
 	/** The filename suffix. */
 	public static final String SUFFIX = ".jff";
+
+	@Override
+	public void saveDiagram(Diagram diagram, String filename) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Diagram getSavedDiagram(String filename) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
