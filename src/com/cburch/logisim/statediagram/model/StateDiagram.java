@@ -109,6 +109,13 @@ public class StateDiagram {
 		m.setOutputLength(m.getOutput(0, 0).length());
 		return m;							
 	}
+	public RepresentationMatrix2 getRepresentationMatrix2() throws InvalidTransitionException{
+		RepresentationMatrix2 m= new RepresentationMatrix2(states.size());
+		for(Transition t: transitions){
+			m.addTransition(t);
+		}
+		return m;
+	}
 	public ArrayList<State> getStates() {
 		return this.states;
 	}
