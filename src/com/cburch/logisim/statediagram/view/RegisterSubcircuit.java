@@ -125,21 +125,7 @@ public class RegisterSubcircuit {
 		clockPort = clock.getEnd(0).getLocation();
 	}
 
-//	private void addSplitters(){
-//		SplitterFactory factory = SplitterFactory.instance;
-//		AttributeSet leftAttrs = factory.createAttributeSet();
-//		leftAttrs.setValue(SplitterAttributes.ATTR_FANOUT, this.bitWidth);
-//		leftAttrs.setValue(SplitterAttributes.ATTR_WIDTH, BitWidth.create(this.bitWidth));
-//		
-//		AttributeSet rightAttrs = (AttributeSet) leftAttrs.clone();
-//		leftAttrs.setValue(StdAttr.FACING, Direction.WEST);
-//		
-//		Component leftSplitter = factory.createComponent(Location.create(left + 100, (bottom + top)/2), leftAttrs);
-//		Component rightSplitter = factory.createComponent(Location.create(right - 100, (bottom + top)/2), rightAttrs);
-//		
-//		mutation.add(leftSplitter);
-//		mutation.add(rightSplitter);
-//	}
+
 	
 	private void configureAttributes(Register source) {
 		source.setAttributes(new Attribute[] { StdAttr.WIDTH, StdAttr.TRIGGER,
@@ -155,13 +141,4 @@ public class RegisterSubcircuit {
 		Action action = this.mutation.toAction(Strings.getter("addComponentAction",getter));
 		this.proj.doAction(action);
 	}
-	
-	
-//	private void createPins(ArrayList<Location> locations, AttributeSet attrs) {
-//		Pin factory = Pin.FACTORY;
-//		for (Location loc : locations){
-//			Component pin = factory.createComponent(loc, attrs);
-//			this.mutation.add(pin);	
-//		}
-//	}
 }
