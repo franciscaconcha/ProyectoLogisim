@@ -30,8 +30,10 @@ public class MainSubcircuit {
 	private Circuit combinatorial, register, main;
 	private int bitWidth;
 	private CircuitMutation mutation;
-	private ArrayList<Location> inputPorts;
-	private ArrayList<Location> outputPorts;
+	private ArrayList<Location> inputCombinatorialPorts;
+	private ArrayList<Location> outputCombinatorialPorts;
+	private Location inputRegister;
+	private Location outputRegister;
 	private Component combinatorialSubcircuit, registerSubcircuit;
 	private int left, right, top, bottom;
 	private Splitter leftSplitter, rightSplitter;
@@ -76,8 +78,8 @@ public class MainSubcircuit {
 	}
 
 	private void computeLocations() {
-		inputPorts = new ArrayList<Location>();
-		outputPorts = new ArrayList<Location>();
+		inputCombinatorialPorts = new ArrayList<Location>();
+		outputCombinatorialPorts = new ArrayList<Location>();
 		List<EndData> ends = combinatorialSubcircuit.getEnds();
 		ToolTipMaker tooltip = (ToolTipMaker) combinatorialSubcircuit;
 		for (EndData end : ends) {
@@ -86,9 +88,9 @@ public class MainSubcircuit {
 					loc.getY());
 			String label = tooltip.getToolTip(cue);
 			if (label.matches("^Q\\d{1,3}"))
-				inputPorts.add(loc);
+				inputCombinatorialPorts.add(loc);
 			else if (label.matches("^D\\d{1,3}"))
-				outputPorts.add(loc);
+				outputCombinatorialPorts.add(loc);
 		}
 	}
 
@@ -115,7 +117,11 @@ public class MainSubcircuit {
 		
 	}
 	
-
+//
+//	private void addWires(){
+//		
+//	}
+	
 	private void buildComponents() {
 		StringGetter getter = new StringGetter() {
 			public String get() {

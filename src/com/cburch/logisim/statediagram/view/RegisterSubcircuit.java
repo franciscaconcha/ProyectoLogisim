@@ -68,6 +68,7 @@ public class RegisterSubcircuit {
 	private void addInputs() {
 		AttributeSet attrsInput = Pin.FACTORY.createAttributeSet();
 		attrsInput.setValue(StdAttr.WIDTH, BitWidth.create(this.bitWidth));
+		attrsInput.setValue(StdAttr.LABEL, "Input");
 		Location loc = Location.create(left, yCoord);
 		Component pin = createPin(attrsInput, loc);
 		
@@ -79,6 +80,7 @@ public class RegisterSubcircuit {
 		attrsOutput.setValue(Pin.ATTR_TYPE, true); // provoca que sean outputs en vez de inputs
 		attrsOutput.setValue(StdAttr.FACING, Direction.WEST);
 		attrsOutput.setValue(StdAttr.WIDTH, BitWidth.create(this.bitWidth));
+		attrsOutput.setValue(StdAttr.LABEL, "Output");
 		Location loc = Location.create(right, yCoord);
 		Component pin = createPin(attrsOutput, loc);
 		
@@ -115,14 +117,15 @@ public class RegisterSubcircuit {
 		
 	}
 	
-	private void addClock(){
-		Clock factory = Clock.FACTORY;
+	private void addClock(){ // en verdad se agrega un pin que representa un reloj
+		Pin factory = Pin.FACTORY;
 		AttributeSet attrs = factory.createAttributeSet();
 		attrs.setValue(StdAttr.FACING, Direction.NORTH);
-		Component clock = factory.createComponent(Location.create(registerClockPort.getX(), yClock), attrs);
-		this.mutation.add(clock);
+		attrs.setValue(StdAttr.LABEL, "Clock");
+		Component clockPin = factory.createComponent(Location.create(registerClockPort.getX(), yClock), attrs);
+		this.mutation.add(clockPin);
 		
-		clockPort = clock.getEnd(0).getLocation();
+		clockPort = clockPin.getEnd(0).getLocation();
 	}
 
 
