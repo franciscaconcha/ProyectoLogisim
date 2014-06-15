@@ -6,7 +6,7 @@ import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
  * @author Romina
  *
  */
-public interface diagramSaver {
+public interface DiagramSaver {
 	
 	/**
 	 * Save diagram into filename

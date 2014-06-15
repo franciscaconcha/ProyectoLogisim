@@ -20,6 +20,7 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.gui.editor;
 
+import com.cburch.logisim.statediagram.externalDrawer.diagramSaver.XMLwriter;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramDrawer;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.DiagramPane;
 
@@ -49,6 +50,8 @@ public class DefaultToolBox implements ToolBox {
 		list.add(new StateTool(view, drawer));
 		list.add(new TransitionTool(view, drawer));
 		list.add(new DeleteTool(view, drawer));
+		list.add(new OpenTool(view,drawer,new XMLwriter()));
+		list.add(new SaveTool(view,drawer,new XMLwriter()));
 		list.add(new GenerateCircuitTool(view,drawer));
 
 		return list;

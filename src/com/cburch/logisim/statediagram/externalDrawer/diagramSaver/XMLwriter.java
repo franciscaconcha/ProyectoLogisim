@@ -15,7 +15,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-public class XMLwriter extends Codec implements diagramSaver{
+public class XMLwriter extends Codec implements DiagramSaver{
 
     /**
       * Determines which files this FileFilter will allow. We are only allowing files with extension XML and jff.
