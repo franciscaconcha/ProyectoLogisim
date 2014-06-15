@@ -13,6 +13,7 @@ import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -820,7 +821,6 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 
 			// crear submenu
 			JMenu jmenuNuevo = new JMenu( "Circuito " + count );
-
 			// crear arraylist de entradas
 			ArrayList<Location> locations = new ArrayList<Location>();
 			for( int i = 0; i < w.size(); i++ ) {
@@ -832,10 +832,12 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 				if( !repetidos.contains( width ) ) {
 					JMenuItem jmenuItemNuevo = new JMenuItem( "Establecer Bits de Datos " + width );
 					jmenuItemNuevo.addActionListener( new ActionItemError( locations, width, proj ) );
+					jmenuItemNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit() ) );
 					jmenuNuevo.add( jmenuItemNuevo );
 					repetidos.add( width );
 				}
 			}
+			jmenuNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit() ) );
 			menuSugerencias.add( jmenuNuevo );
 			count++;
 		}
