@@ -20,6 +20,8 @@ import com.cburch.logisim.data.Location;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
+import com.cburch.logisim.std.wiring.Clock;
+import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.std.wiring.PinAttributes;
 import com.cburch.logisim.tools.Strings;
 import com.cburch.logisim.tools.ToolTipMaker;
@@ -34,6 +36,8 @@ public class MainSubcircuit {
 	private ArrayList<Location> outputCombinatorialPorts;
 	private Location inputRegister;
 	private Location outputRegister;
+	private Location clockRegister;
+	private Location clockPort;
 	private Component combinatorialSubcircuit, registerSubcircuit;
 	private int left, right, top, bottom;
 	private Splitter leftSplitter, rightSplitter;
@@ -54,8 +58,10 @@ public class MainSubcircuit {
 
 	public void create() {
 		addSubcircuits();
-		computeLocations();
+		computeCombinatorialLocations();
+		computeRegisterLocations();
 		addSplitters();
+		addClock();
 //		addWires();
 		buildComponents();
 	}
@@ -77,7 +83,7 @@ public class MainSubcircuit {
 		mutation.add(cc);
 	}
 
-	private void computeLocations() {
+	private void computeCombinatorialLocations() {
 		inputCombinatorialPorts = new ArrayList<Location>();
 		outputCombinatorialPorts = new ArrayList<Location>();
 		List<EndData> ends = combinatorialSubcircuit.getEnds();
@@ -91,6 +97,23 @@ public class MainSubcircuit {
 				inputCombinatorialPorts.add(loc);
 			else if (label.matches("^D\\d{1,3}"))
 				outputCombinatorialPorts.add(loc);
+		}
+	}
+	
+	private void computeRegisterLocations(){
+		List<EndData> ends = registerSubcircuit.getEnds();
+		ToolTipMaker tooltip = (ToolTipMaker) registerSubcircuit;
+		for (EndData end : ends) {
+			Location loc = end.getLocation();
+			ComponentUserEvent cue = new ComponentUserEvent(null, loc.getX(),
+					loc.getY());
+			String label = tooltip.getToolTip(cue);
+			if (label.equals("Input"))
+				inputRegister = loc;
+			else if (label.equals("Output"))
+				outputRegister = loc;
+			else if (label.equals("Clock"))
+				clockRegister = loc;
 		}
 	}
 
@@ -121,6 +144,18 @@ public class MainSubcircuit {
 //	private void addWires(){
 //		
 //	}
+	private void addClock() {
+		Clock factory = Clock.FACTORY;
+		AttributeSet attrs = factory.createAttributeSet();
+		attrs.setValue(StdAttr.FACING, Direction.NORTH);
+		attrs.setValue(StdAttr.LABEL, "Clock");
+		Component clockPin = factory.createComponent(Location.create(clockRegister.getX(), clockRegister.getY() + 50), attrs);
+		this.mutation.add(clockPin);
+		
+		clockPort = clockPin.getEnd(0).getLocation();
+		
+	}
+	
 	
 	private void buildComponents() {
 		StringGetter getter = new StringGetter() {
