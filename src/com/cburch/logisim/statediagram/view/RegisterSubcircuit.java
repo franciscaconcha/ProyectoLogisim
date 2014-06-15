@@ -17,6 +17,7 @@ import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.memory.Register;
+import com.cburch.logisim.std.wiring.Clock;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.tools.Strings;
 import com.cburch.logisim.util.StringGetter;
@@ -27,8 +28,8 @@ public class RegisterSubcircuit {
 	private int bitWidth;
 	private Circuit registerCircuit;
 	private CircuitMutation mutation;
-	private int left, right, yCoord;
-	private Location pinInputPort, registerInputPort, registerOutputPort, registerClockPort, pinOutputPort;
+	private int left, right, yCoord, yClock;
+	private Location pinInputPort, registerInputPort, registerOutputPort, registerClockPort, pinOutputPort, clockPort;
 	
 	
 	public RegisterSubcircuit(Project aProject, int bitWidth){
@@ -44,6 +45,7 @@ public class RegisterSubcircuit {
 		addInputs();
 		addOutputs();
 		addRegister();
+		addClock();
 		addWires();
 		buildComponents();
 		return registerCircuit;
@@ -53,6 +55,7 @@ public class RegisterSubcircuit {
 		this.left = 100;
 		this.right = 600;
 		this.yCoord = 100;
+		this.yClock = 300;
 //		int currentY = top - 40;
 //		for (int i = 0; i < this.bitWidth; i++){
 //			currentY += 40;
@@ -67,8 +70,8 @@ public class RegisterSubcircuit {
 		attrsInput.setValue(StdAttr.WIDTH, BitWidth.create(this.bitWidth));
 		Location loc = Location.create(left, yCoord);
 		Component pin = createPin(attrsInput, loc);
+		
 		pinInputPort = pin.getEnd(0).getLocation();
-		//createPins(this.inputsLocation, attrsInput); // creamos los inputs
 	}
 
 	private void addOutputs() {
@@ -78,6 +81,7 @@ public class RegisterSubcircuit {
 		attrsOutput.setValue(StdAttr.WIDTH, BitWidth.create(this.bitWidth));
 		Location loc = Location.create(right, yCoord);
 		Component pin = createPin(attrsOutput, loc);
+		
 		pinOutputPort = pin.getEnd(0).getLocation();
 	}
 
@@ -91,15 +95,17 @@ public class RegisterSubcircuit {
 	private void addWires(){
 		Component inputToRegister = Wire.create(pinInputPort, registerInputPort);
 		Component registerToOutput = Wire.create(registerOutputPort, pinOutputPort);
+		Component clockToRegister = Wire.create(clockPort, registerClockPort);
 		this.mutation.add(inputToRegister);
 		this.mutation.add(registerToOutput);
+		this.mutation.add(clockToRegister);
 	}
 
 	private void addRegister() {
-		Register source = new Register();
-		configureAttributes(source);
-		Component c = source.createComponent(Location.create((right + left)/2, yCoord),
-				source.createAttributeSet());
+		Register factory = new Register();
+		configureAttributes(factory);
+		Component c = factory.createComponent(Location.create((right + left)/2, yCoord),
+				factory.createAttributeSet());
 		this.mutation.add(c);
 		
 		List<EndData> endData = c.getEnds();
@@ -107,6 +113,16 @@ public class RegisterSubcircuit {
 		registerInputPort = endData.get(1).getLocation();
 		registerClockPort = endData.get(2).getLocation();
 		
+	}
+	
+	private void addClock(){
+		Clock factory = Clock.FACTORY;
+		AttributeSet attrs = factory.createAttributeSet();
+		attrs.setValue(StdAttr.FACING, Direction.NORTH);
+		Component clock = factory.createComponent(Location.create(registerClockPort.getX(), yClock), attrs);
+		this.mutation.add(clock);
+		
+		clockPort = clock.getEnd(0).getLocation();
 	}
 
 //	private void addSplitters(){
