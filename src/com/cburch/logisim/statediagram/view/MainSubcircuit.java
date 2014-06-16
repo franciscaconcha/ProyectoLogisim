@@ -63,7 +63,7 @@ public class MainSubcircuit {
 		computeRegisterLocations();
 		addSplitters();
 		addClock();
-		//addWires();
+		addWires();
 		buildComponents();
 	}
 
@@ -94,10 +94,14 @@ public class MainSubcircuit {
 			ComponentUserEvent cue = new ComponentUserEvent(null, loc.getX(),
 					loc.getY());
 			String label = tooltip.getToolTip(cue);
-			if (label.matches("^Q\\d{1,3}"))
-				inputCombinatorialPorts.add(loc);
-			else if (label.matches("^D\\d{1,3}"))
-				outputCombinatorialPorts.add(loc);
+			if (label.matches("^Q\\d{1,3}")){
+				int labelDigit = Integer.parseInt(label.substring(1));
+				inputCombinatorialPorts.add(labelDigit, loc);;
+			}
+			else if (label.matches("^D\\d{1,3}")){
+				int labelDigit = Integer.parseInt(label.substring(1));
+				outputCombinatorialPorts.add(labelDigit, loc);
+			}
 		}
 	}
 	
@@ -143,10 +147,17 @@ public class MainSubcircuit {
 	
 
 	private void addWires(){
-		Location rightSplitterOutput = rightSplitter.getEndLocation(0);
-		Component c = Wire.create(rightSplitterOutput, inputRegister);
-		mutation.add(c);
-		int x = 0;
+		wireFromSplitterToRegister(leftSplitter, outputRegister);
+		wireFromSplitterToRegister(rightSplitter, inputRegister);		
+	}
+	
+	private void wireFromSplitterToRegister(Splitter splitter, Location registerLoc){
+		Location splitterLoc = splitter.getEndLocation(0); // la posición 0 siempre corresponde al puerto de salida que agrupa en el splitter
+		Location aux = Location.create(splitterLoc.getX(), registerLoc.getY());
+		Wire vertical =  Wire.create(splitterLoc, aux);
+		Wire horizontal = Wire.create(aux, registerLoc);
+		mutation.add(vertical);
+		mutation.add(horizontal);
 	}
 	
 	
@@ -173,5 +184,6 @@ public class MainSubcircuit {
 				"addComponentAction", getter));
 		this.proj.doAction(action);
 	}
+	
 
 }
