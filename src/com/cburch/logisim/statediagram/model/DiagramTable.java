@@ -202,4 +202,20 @@ public class DiagramTable {
 	public int getMemoryBitNumber(){
 		return this.memoryBitNumber;
 	}
+	
+	/**
+	 * Retorna el numero de inputs del diagrama.
+	 * @return
+	 */
+	public int getInputNumber(){
+		return this.logicInputNumber;
+	}
+	
+	/**
+	 * Retorna el numero de outputs del diagrama.
+	 * @return
+	 */
+	public int getOutputNumber(){
+		return this.logicOutputNumber;
+	}
 }
