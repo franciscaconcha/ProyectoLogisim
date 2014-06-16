@@ -1,10 +1,15 @@
 package com.cburch.logisim.statediagram.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.cburch.draw.model.CanvasObject;
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitMutation;
 import com.cburch.logisim.circuit.Wire;
+import com.cburch.logisim.circuit.appear.AppearanceAnchor;
+import com.cburch.logisim.circuit.appear.AppearancePort;
+import com.cburch.logisim.circuit.appear.CircuitAppearance;
 import com.cburch.logisim.comp.Component;
 import com.cburch.logisim.comp.EndData;
 import com.cburch.logisim.data.Attribute;
@@ -17,7 +22,6 @@ import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.memory.Register;
-import com.cburch.logisim.std.wiring.Clock;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.tools.Strings;
 import com.cburch.logisim.util.StringGetter;
@@ -35,7 +39,7 @@ public class RegisterSubcircuit {
 	public RegisterSubcircuit(Project aProject, int bitWidth){
 		this.proj = aProject;
 		this.bitWidth = bitWidth;
-		this. registerCircuit = new Circuit("Register");
+		this.registerCircuit = new Circuit("Register");
 		proj.doAction(LogisimFileActions.addCircuit(registerCircuit));
 		this.mutation = new CircuitMutation(registerCircuit);
 	}
@@ -48,9 +52,11 @@ public class RegisterSubcircuit {
 		addClock();
 		addWires();
 		buildComponents();
+		modifyAppearance();
 		return registerCircuit;
 	}
 	
+
 	private void setCoords(){
 		this.left = 100;
 		this.right = 600;
@@ -143,5 +149,32 @@ public class RegisterSubcircuit {
 									};
 		Action action = this.mutation.toAction(Strings.getter("addComponentAction",getter));
 		this.proj.doAction(action);
+	}
+	
+	private void modifyAppearance() {
+		CircuitAppearance app = registerCircuit.getAppearance();
+		List<CanvasObject> appObjects = app.getObjectsFromTop();
+		CanvasObject inputPort = null;
+		CanvasObject outputPort = null;
+		for (CanvasObject o : appObjects){
+			if (o instanceof AppearancePort){
+				AppearancePort appPort = (AppearancePort) o;
+				String label = appPort.getPin().getAttributeValue(StdAttr.LABEL);
+				if ("Input".equals(label))
+					inputPort = o;
+				else if ("Output".equals(label))
+					outputPort = o;
+			}
+		} 
+		if (inputPort != null){
+			ArrayList<CanvasObject> list = new ArrayList<CanvasObject>(1);
+			list.add(inputPort);
+			app.translateObjects(list, 30, 0);
+		}
+		if (outputPort != null){
+			ArrayList<CanvasObject> list = new ArrayList<CanvasObject>(1);
+			list.add(outputPort);
+			app.translateObjects(list, -30, 0);
+		}		
 	}
 }

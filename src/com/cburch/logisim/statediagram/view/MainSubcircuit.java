@@ -10,6 +10,7 @@ import com.cburch.logisim.circuit.Splitter;
 import com.cburch.logisim.circuit.SplitterAttributes;
 import com.cburch.logisim.circuit.SplitterFactory;
 import com.cburch.logisim.circuit.SubcircuitFactory;
+import com.cburch.logisim.circuit.Wire;
 import com.cburch.logisim.comp.Component;
 import com.cburch.logisim.comp.ComponentUserEvent;
 import com.cburch.logisim.comp.EndData;
@@ -62,7 +63,7 @@ public class MainSubcircuit {
 		computeRegisterLocations();
 		addSplitters();
 		addClock();
-//		addWires();
+		//addWires();
 		buildComponents();
 	}
 
@@ -140,10 +141,15 @@ public class MainSubcircuit {
 		
 	}
 	
-//
-//	private void addWires(){
-//		
-//	}
+
+	private void addWires(){
+		Location rightSplitterOutput = rightSplitter.getEndLocation(0);
+		Component c = Wire.create(rightSplitterOutput, inputRegister);
+		mutation.add(c);
+		int x = 0;
+	}
+	
+	
 	private void addClock() {
 		Clock factory = Clock.FACTORY;
 		AttributeSet attrs = factory.createAttributeSet();
