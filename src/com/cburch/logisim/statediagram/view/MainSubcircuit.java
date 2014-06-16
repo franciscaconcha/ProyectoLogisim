@@ -147,6 +147,8 @@ public class MainSubcircuit {
 		wireFromSplitterToRegister(leftSplitter, outputRegister);
 		wireFromSplitterToRegister(rightSplitter, inputRegister);
 		wireFromClockToRegister();
+		wireFromSplitterToCombinatorial(leftSplitter, inputCombinatorialPorts);
+		wireFromSplitterToCombinatorial(rightSplitter, outputCombinatorialPorts);
 	}
 
 	private void wireFromSplitterToRegister(Splitter splitter,
@@ -167,6 +169,25 @@ public class MainSubcircuit {
 			mutation.add(wire);
 		}
 	}
+	
+	private void wireFromSplitterToCombinatorial(Splitter splitter, Location[] locations){
+		for (int i = 0; i < locations.length; i++){
+			if (locations[i] == null)
+				break;
+			Location combPort = locations[i];
+			Location splitterPort = splitter.getEndLocation(i + 1); // posición 0 corresponde al otro extremo del splitter
+			int mid = Math.max(combPort.getX(), splitterPort.getX()) - 10*(i+1);
+			Location aux1 = Location.create(mid, splitterPort.getY());
+			Location aux2 = Location.create(mid, combPort.getY());
+			Wire hor1 = Wire.create(splitterPort, aux1);
+			Wire vert = Wire.create(aux1, aux2);
+			Wire hor2 = Wire.create(aux2, combPort);
+			mutation.add(hor1);
+			mutation.add(vert);
+			mutation.add(hor2);
+		}
+	}
+	
 
 	private void addClock() {
 		Clock factory = Clock.FACTORY;
