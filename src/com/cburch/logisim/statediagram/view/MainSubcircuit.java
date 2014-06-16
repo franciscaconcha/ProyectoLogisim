@@ -1,6 +1,7 @@
 package com.cburch.logisim.statediagram.view;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.cburch.logisim.circuit.Circuit;
@@ -30,8 +31,8 @@ public class MainSubcircuit {
 	private Circuit combinatorial, register, main;
 	private int bitWidth;
 	private CircuitMutation mutation;
-	private ArrayList<Location> inputCombinatorialPorts;
-	private ArrayList<Location> outputCombinatorialPorts;
+	private Location[] inputCombinatorialPorts;
+	private Location[] outputCombinatorialPorts;
 	private Location inputRegister;
 	private Location outputRegister;
 	private Location clockRegister;
@@ -83,8 +84,8 @@ public class MainSubcircuit {
 	}
 
 	private void computeCombinatorialLocations() {
-		inputCombinatorialPorts = new ArrayList<Location>();
-		outputCombinatorialPorts = new ArrayList<Location>();
+		inputCombinatorialPorts = new Location[16]; // es raro que tengamos más de 2^16 estados.
+		outputCombinatorialPorts = new Location[16];
 		List<EndData> ends = combinatorialSubcircuit.getEnds();
 		ToolTipMaker tooltip = (ToolTipMaker) combinatorialSubcircuit;
 		for (EndData end : ends) {
@@ -94,11 +95,10 @@ public class MainSubcircuit {
 			String label = tooltip.getToolTip(cue);
 			if (label.matches("^Q\\d{1,3}")) {
 				int labelDigit = Integer.parseInt(label.substring(1));
-				inputCombinatorialPorts.add(labelDigit, loc);
-				;
+				inputCombinatorialPorts[labelDigit] = loc;
 			} else if (label.matches("^D\\d{1,3}")) {
 				int labelDigit = Integer.parseInt(label.substring(1));
-				outputCombinatorialPorts.add(labelDigit, loc);
+				outputCombinatorialPorts[labelDigit] = loc;
 			}
 		}
 	}

@@ -14,7 +14,7 @@ public class RepresentationMatrix2 {
 		matrix=new ArrayList<ArrayList<ArrayList<Transition>>>();
 		Transition blank=new Transition(null, null, "", "");
 		ArrayList<Transition> al1=new ArrayList<Transition>();
-		al1.add(blank);
+		al1.add(blank); // TODO corregir copia, Lady Catherine
 		ArrayList<ArrayList<Transition>> al2=new ArrayList<ArrayList<Transition>>();
 		for(int i=0;i<size;i++)
 			al2.add(al1);
