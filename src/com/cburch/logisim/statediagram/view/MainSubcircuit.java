@@ -2,7 +2,6 @@ package com.cburch.logisim.statediagram.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitMutation;
@@ -22,8 +21,6 @@ import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.wiring.Clock;
-import com.cburch.logisim.std.wiring.Pin;
-import com.cburch.logisim.std.wiring.PinAttributes;
 import com.cburch.logisim.tools.Strings;
 import com.cburch.logisim.tools.ToolTipMaker;
 import com.cburch.logisim.util.StringGetter;
@@ -70,13 +67,14 @@ public class MainSubcircuit {
 	private void addSubcircuits() {
 
 		SubcircuitFactory factoryComb = new SubcircuitFactory(combinatorial);
-		Component cc = factoryComb.createComponent(Location.create((left + right)/2, top),
+		Component cc = factoryComb.createComponent(
+				Location.create((left + right) / 2, top),
 				factoryComb.createAttributeSet());
 
 		SubcircuitFactory factoryRegister = new SubcircuitFactory(register);
-		Component rc = factoryRegister
-				.createComponent(Location.create((left + right)/2, bottom),
-						factoryRegister.createAttributeSet());
+		Component rc = factoryRegister.createComponent(
+				Location.create((left + right) / 2, bottom),
+				factoryRegister.createAttributeSet());
 
 		registerSubcircuit = rc;
 		combinatorialSubcircuit = cc;
@@ -94,18 +92,18 @@ public class MainSubcircuit {
 			ComponentUserEvent cue = new ComponentUserEvent(null, loc.getX(),
 					loc.getY());
 			String label = tooltip.getToolTip(cue);
-			if (label.matches("^Q\\d{1,3}")){
+			if (label.matches("^Q\\d{1,3}")) {
 				int labelDigit = Integer.parseInt(label.substring(1));
-				inputCombinatorialPorts.add(labelDigit, loc);;
-			}
-			else if (label.matches("^D\\d{1,3}")){
+				inputCombinatorialPorts.add(labelDigit, loc);
+				;
+			} else if (label.matches("^D\\d{1,3}")) {
 				int labelDigit = Integer.parseInt(label.substring(1));
 				outputCombinatorialPorts.add(labelDigit, loc);
 			}
 		}
 	}
-	
-	private void computeRegisterLocations(){
+
+	private void computeRegisterLocations() {
 		List<EndData> ends = registerSubcircuit.getEnds();
 		ToolTipMaker tooltip = (ToolTipMaker) registerSubcircuit;
 		for (EndData end : ends) {
@@ -139,41 +137,50 @@ public class MainSubcircuit {
 
 		mutation.add(leftSplitter);
 		mutation.add(rightSplitter);
-		
+
 		this.leftSplitter = (Splitter) leftSplitter;
 		this.rightSplitter = (Splitter) rightSplitter;
-		
-	}
-	
 
-	private void addWires(){
-		wireFromSplitterToRegister(leftSplitter, outputRegister);
-		wireFromSplitterToRegister(rightSplitter, inputRegister);		
 	}
-	
-	private void wireFromSplitterToRegister(Splitter splitter, Location registerLoc){
+
+	private void addWires() {
+		wireFromSplitterToRegister(leftSplitter, outputRegister);
+		wireFromSplitterToRegister(rightSplitter, inputRegister);
+		wireFromClockToRegister();
+	}
+
+	private void wireFromSplitterToRegister(Splitter splitter,
+			Location registerLoc) {
 		Location splitterLoc = splitter.getEndLocation(0); // la posición 0 siempre corresponde al puerto de salida que agrupa en el splitter
 		Location aux = Location.create(splitterLoc.getX(), registerLoc.getY());
-		Wire vertical =  Wire.create(splitterLoc, aux);
+		Wire vertical = Wire.create(splitterLoc, aux);
 		Wire horizontal = Wire.create(aux, registerLoc);
 		mutation.add(vertical);
 		mutation.add(horizontal);
 	}
-	
-	
+
+	private void wireFromClockToRegister() {
+		if (clockPort.getX() == clockRegister.getX()
+				|| clockPort.getY() == clockRegister.getY()) { // verificamos que estén en una misma recta; de todas formas, por construcción debiese
+																// estar correcto
+			Wire wire = Wire.create(clockPort, clockRegister);
+			mutation.add(wire);
+		}
+	}
+
 	private void addClock() {
 		Clock factory = Clock.FACTORY;
 		AttributeSet attrs = factory.createAttributeSet();
 		attrs.setValue(StdAttr.FACING, Direction.NORTH);
 		attrs.setValue(StdAttr.LABEL, "Clock");
-		Component clockPin = factory.createComponent(Location.create(clockRegister.getX(), clockRegister.getY() + 50), attrs);
+		Component clockPin = factory.createComponent(Location.create(
+				clockRegister.getX(), clockRegister.getY() + 50), attrs);
 		this.mutation.add(clockPin);
-		
+
 		clockPort = clockPin.getEnd(0).getLocation();
-		
+
 	}
-	
-	
+
 	private void buildComponents() {
 		StringGetter getter = new StringGetter() {
 			public String get() {
@@ -184,6 +191,5 @@ public class MainSubcircuit {
 				"addComponentAction", getter));
 		this.proj.doAction(action);
 	}
-	
 
 }

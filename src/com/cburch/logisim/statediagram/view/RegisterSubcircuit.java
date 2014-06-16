@@ -7,7 +7,6 @@ import com.cburch.draw.model.CanvasObject;
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitMutation;
 import com.cburch.logisim.circuit.Wire;
-import com.cburch.logisim.circuit.appear.AppearanceAnchor;
 import com.cburch.logisim.circuit.appear.AppearancePort;
 import com.cburch.logisim.circuit.appear.CircuitAppearance;
 import com.cburch.logisim.comp.Component;
