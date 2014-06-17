@@ -177,47 +177,7 @@ class InputPanel extends LogPanel {
 			entriesPanel.setLayout(new GridLayout(0, columns));
 			for (int i = 0; i < columns; i++) {
 				JTextField newTextField=new JTextField();
-				newTextField.getDocument().addDocumentListener(new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						validateTable();								    
-					}
-					public void removeUpdate(DocumentEvent e) {
-						validateTable();
-					}
-					public void insertUpdate(DocumentEvent e) {
-						validateTable();
-					}
-							
-					public void validateTable(){
-						boolean isInvalid=false;
-						int i=0;
-						for (JTextField entrie : entries) {
-							if(i==columns){ i=0;}
-							int width = bitWidth.get(i);
-							Pattern pattern = Pattern.compile("(1|0){"+width+"}");
-							if(width == 0){
-								pattern = Pattern.compile("[0-9]+");
-							}
-							Matcher mat = pattern.matcher(entrie.getText());
-							if(!mat.matches()){
-								entrie.setForeground(Color.red);
-								isInvalid=true;
-							}
-							else{
-								entrie.setForeground(Color.black);
-							}
-							i++;
-						}
-						if(!isInvalid){
-							submit.setEnabled(true);
-						}
-						else{
-							submit.setEnabled(false);
-							isInvalid=true;
-						}
-						InputPanel.this.validate();
-					}
-				});
+				newTextField.getDocument().addDocumentListener(new MyDocumentListener(this, columns, submit));
 				entries.add(newTextField);
 				entriesPanel.add(entries.get(i));
 				InputPanel.this.validate();
@@ -235,44 +195,13 @@ class InputPanel extends LogPanel {
 						JTextField newTextField=new JTextField();
 						newTextField.getDocument().addDocumentListener(new DocumentListener() {
 							public void changedUpdate(DocumentEvent e) {
-								validateTable();								    
+								validateTable(columns, submit);								    
 							}
 							public void removeUpdate(DocumentEvent e) {
-								validateTable();
+								validateTable(columns, submit);
 							}
 							public void insertUpdate(DocumentEvent e) {
-								validateTable();
-							}
-
-							public void validateTable(){
-								boolean isInvalid=false;
-								int i=0;
-								for (JTextField entrie : entries) {
-									if(i==columns){ i=0;}
-									int width = bitWidth.get(i);
-									Pattern pattern = Pattern.compile("(1|0){"+width+"}");
-									if(width == 0){
-										pattern = Pattern.compile("[0-9]+");
-									}
-									Matcher mat = pattern.matcher(entrie.getText());
-									if(!mat.matches()){
-										entrie.setForeground(Color.red);
-										isInvalid=true;
-									}
-									else{
-										entrie.setForeground(Color.black);
-									}
-									i++;
-								}
-								if(!isInvalid){
-									submit.setEnabled(true);
-								}
-								else{
-									submit.setEnabled(false);
-									isInvalid=true;
-									
-								}
-								InputPanel.this.validate();
+								validateTable(columns, submit);
 							}
 							
 						});
@@ -305,5 +234,36 @@ class InputPanel extends LogPanel {
 		notModified=true;
 		revalidate();
 		repaint();
+	}
+
+	public void validateTable(int columns ,JButton submit){
+		boolean isInvalid=false;
+		int i=0;
+		for (JTextField entrie : entries) {
+			if(i==columns){ i=0;}
+			int width = bitWidth.get(i);
+			Pattern pattern = Pattern.compile("(1|0){"+width+"}");
+			if(width == 0){
+				pattern = Pattern.compile("[0-9]+");
+			}
+			Matcher mat = pattern.matcher(entrie.getText());
+			if(!mat.matches()){
+				entrie.setForeground(Color.red);
+				isInvalid=true;
+			}
+			else{
+				entrie.setForeground(Color.black);
+			}
+			i++;
+		}
+		if(!isInvalid){
+			submit.setEnabled(true);
+		}
+		else{
+			submit.setEnabled(false);
+			isInvalid=true;
+			
+		}
+		InputPanel.this.validate();
 	}
 }
