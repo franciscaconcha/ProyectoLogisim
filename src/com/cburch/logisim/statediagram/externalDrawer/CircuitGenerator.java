@@ -15,6 +15,7 @@ import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
 import com.cburch.logisim.statediagram.model.DiagramTable;
+import com.cburch.logisim.statediagram.model.DiagramTable2;
 import com.cburch.logisim.statediagram.model.StateDiagram;
 import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
 import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
@@ -129,22 +130,28 @@ public class CircuitGenerator {
 		}
 		
 		
-		DiagramTable table=new DiagramTable(finalModel.getRepresentationMatrix()); //Segun RepMatrix
-		AnalyzerModel analyzerModel = AnalyzerManager.getAnalyzer().getModel(); //Obtiene modelo actual
-		table.loadIntoModel(analyzerModel); //Actualiza el modelo
-		
-		Circuit combinatorial = new Circuit("Combinatorial");
-		logisimProject.doAction(LogisimFileActions.addCircuit(combinatorial));
-		
-		
-		CircuitMutation xn = CircuitBuilder.build(combinatorial, analyzerModel, false,
-				true);
+		try{ // TODO Cambiar mensaje de error
+			DiagramTable2 table=new DiagramTable2(finalModel.getRepresentationMatrix2()); //Segun RepMatrix
+			AnalyzerModel analyzerModel = AnalyzerManager.getAnalyzer().getModel(); //Obtiene modelo actual
+			table.loadIntoModel(analyzerModel); //Actualiza el modelo
+			
+			Circuit combinatorial = new Circuit("Combinatorial");
+			logisimProject.doAction(LogisimFileActions.addCircuit(combinatorial));
+			
+			
+			CircuitMutation xn = CircuitBuilder.build(combinatorial, analyzerModel, false,
+					true);
 
-		logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
-		// Juanjo: aquÃ­ se debe tomar el circuito y modificarlo, ya que reciÃ©n despuÃ©s de llamar a 
-		// doAction el proyecto cambia.
-		SequentialCircuit sq = new SequentialCircuit(logisimProject, combinatorial, table.getMemoryBitNumber());
-		stateDiagramDrawer.getFrame().dispose();
+			logisimProject.doAction(xn.toAction(Strings.getter("replaceCircuitAction")));
+			// Juanjo: aquí se debe tomar el circuito y modificarlo, ya que recién después de llamar a 
+			// doAction el proyecto cambia.
+			SequentialCircuit sq = new SequentialCircuit(logisimProject, combinatorial, table.getMemoryBitNumber());
+			stateDiagramDrawer.getFrame().dispose();
+		} catch (Exception e){
+			JOptionPane.showMessageDialog(new JFrame(), "Error Cami xd."
+	                ,"Error", JOptionPane.PLAIN_MESSAGE);
+			return;
+		}
 	}
 
 }
