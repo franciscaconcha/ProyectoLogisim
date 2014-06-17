@@ -13,14 +13,17 @@ public class RepresentationMatrix2 {
 		size=n;
 		matrix=new ArrayList<ArrayList<ArrayList<Transition>>>();
 		Transition blank=new Transition(null, null, "", "");
-		ArrayList<Transition> al1=new ArrayList<Transition>();
-		al1.add(blank); // TODO corregir copia, Lady Catherine
-		ArrayList<ArrayList<Transition>> al2=new ArrayList<ArrayList<Transition>>();
-		for(int i=0;i<size;i++)
-			al2.add(al1);
-		ArrayList<ArrayList<ArrayList<Transition>>> al3=new ArrayList<ArrayList<ArrayList<Transition>>>();
-		for(int i=0;i<size;i++)
-			matrix.add(al2);
+		ArrayList<Transition> cell;
+		ArrayList<ArrayList<Transition>> row;
+		for(int i=0;i<size;i++){
+			 row=new ArrayList<ArrayList<Transition>>();
+			for(int j=0;j<size;j++){
+				cell=new ArrayList<Transition>();
+				cell.add(blank);
+				row.add(cell);
+			}
+			matrix.add(row);
+		}
 		
 	}
 	public void addTransition(Transition t) throws InvalidTransitionException{
@@ -39,13 +42,13 @@ public class RepresentationMatrix2 {
 	public void setInputLength(int l){
 		this.inputLength=l;
 	}
-	public int getInputLength(int l){
+	public int getInputLength(){
 		return this.inputLength;
 	}
 	public void setOutputLength(int l){
 		this.outputLength=l;
 	}
-	public int getOutputLength(int l){
+	public int getOutputLength(){
 		return this.outputLength;
 	}
 	public int getSize(){
