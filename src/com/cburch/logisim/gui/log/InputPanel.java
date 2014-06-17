@@ -111,7 +111,7 @@ class InputPanel extends LogPanel {
 				JTextField val=entries.get(i+j*selectedIndex.size());
 				int value = Integer.parseInt(val.getText());
 				pin1.changeValue(inState, value, 0);
-				System.out.print("entrada:"+i+" value :"+value);
+				System.out.println("entrada:"+i+" , "+j+" , "+selectedIndex.size()+" value :"+value+"\n");
 			}
 			JTextField f1 = entries.get(j*selectedIndex.size());
 			int ticks = Integer.parseInt(f1.getText());

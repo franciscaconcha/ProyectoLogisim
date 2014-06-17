@@ -412,6 +412,7 @@ public class CircuitState implements InstanceData {
 		for (CircuitState substate : substates.toArray(subs)) {
 			ret |= substate.tick(ticks);
 		}
+		System.out.println("tick de la clase CircuitState");
 		return ret;
 	}
 
