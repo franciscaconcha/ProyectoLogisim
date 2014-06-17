@@ -179,7 +179,7 @@ public class DiagramTable {
 	 */
 	private List<String> generateNameList(String name, int length){
 		List<String> list = new ArrayList();
-		for (int i=0; i<length; i++)
+		for (int i = length - 1; i >= 0; i--)
 			list.add(name + i);
 		//System.out.println(list.toString());
 		return list;
