@@ -9,6 +9,8 @@ import com.cburch.logisim.comp.ComponentDrawContext;
 import com.cburch.logisim.prefs.AppPreferences;
 
 public class Simulator {
+	
+	public static boolean my_mutex_chanta=true;
 	/*begin DEBUGGING
 	private static PrintWriter debug_log;
 	
@@ -157,6 +159,8 @@ public class Simulator {
 				ticksRequested--;
 			}
 			propagator.tick();
+			my_mutex_chanta=true;
+			System.out.println(my_mutex_chanta);
 		}
 	}
 

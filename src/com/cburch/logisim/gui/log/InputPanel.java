@@ -115,9 +115,14 @@ class InputPanel extends LogPanel {
 			}
 			JTextField f1 = entries.get(j*selectedIndex.size());
 			int ticks = Integer.parseInt(f1.getText());
-			System.out.print("tick*"+ticks);
+			System.out.println("tick "+ticks);
 			for(int k=ticks*2;k>0;k--){
 				simulator.tick();
+				simulator.my_mutex_chanta=false;
+				while(!simulator.my_mutex_chanta){
+					System.out.println(simulator.my_mutex_chanta);
+					System.out.println("::" + Simulator.my_mutex_chanta + "::");
+				}
 			}
 		}		
 		//Instance instance = com.cburch.logisim.instance.Instance.getInstanceFor(comp);
