@@ -12,19 +12,16 @@ public class RepresentationMatrix2 {
 	public RepresentationMatrix2(int n) throws InvalidTransitionException{
 		size=n;
 		matrix=new ArrayList<ArrayList<ArrayList<Transition>>>();
-		Transition blank=new Transition(null, null, "", "");
 		ArrayList<Transition> cell;
 		ArrayList<ArrayList<Transition>> row;
 		for(int i=0;i<size;i++){
 			 row=new ArrayList<ArrayList<Transition>>();
 			for(int j=0;j<size;j++){
 				cell=new ArrayList<Transition>();
-				cell.add(blank);
 				row.add(cell);
 			}
 			matrix.add(row);
 		}
-		
 	}
 	public void addTransition(Transition t) throws InvalidTransitionException{
 		int o=t.getOrigin().getId();
