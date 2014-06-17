@@ -21,6 +21,7 @@ public class RepresentationMatrix2 {
 		ArrayList<ArrayList<ArrayList<Transition>>> al3=new ArrayList<ArrayList<ArrayList<Transition>>>();
 		for(int i=0;i<size;i++)
 			matrix.add(al2);
+		
 	}
 	public void addTransition(Transition t) throws InvalidTransitionException{
 		int o=t.getOrigin().getId();
@@ -46,5 +47,8 @@ public class RepresentationMatrix2 {
 	}
 	public int getOutputLength(int l){
 		return this.outputLength;
+	}
+	public int getSize(){
+		return this.size;
 	}
 }
