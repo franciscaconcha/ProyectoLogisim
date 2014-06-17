@@ -29,10 +29,6 @@ public class RepresentationMatrix2 {
 	public void addTransition(Transition t) throws InvalidTransitionException{
 		int o=t.getOrigin().getId();
 		int d=t.getDestiny().getId();
-		Transition blank=new Transition(null, null, "", "");
-		if(matrix.get(o).get(d).get(0).equals(blank)){
-			matrix.get(o).get(d).remove(0);
-		}
 		matrix.get(o).get(d).add(t);
 		
 	}
