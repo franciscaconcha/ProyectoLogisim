@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 import com.cburch.logisim.comp.ComponentFactory;
 
 class InputPanel extends LogPanel {
-	private int modified=0;
+	private boolean notModified = true;
 
 	private static final Font BODY_FONT = new Font("Serif", Font.PLAIN, 14);
 	private  ArrayList<Integer> selectedIndex=new ArrayList<Integer>();
@@ -109,14 +109,12 @@ class InputPanel extends LogPanel {
 				ComponentFactory factory=comp.getFactory();
 				Pin pin1 = (Pin) factory;
 				JTextField val=entries.get(i+j*selectedIndex.size());
-				String txt = val.getText();
-				int value=Integer.parseInt(txt);
+				int value = Integer.parseInt(val.getText());
 				pin1.changeValue(inState, value, 0);
 				System.out.print("entrada:"+i+" value :"+value);
 			}
 			JTextField f1 = entries.get(j*selectedIndex.size());
-			String text = f1.getText();
-			int ticks = Integer.parseInt(text);
+			int ticks = Integer.parseInt(f1.getText());
 			System.out.print("tick*"+ticks);
 			for(int k=ticks*2;k>0;k--){
 				simulator.tick();
@@ -138,7 +136,7 @@ class InputPanel extends LogPanel {
 			GraphicsUtil.drawCenteredText(g, Strings.get("tableEmptyMessage"), sz.width / 2, sz.height / 2);
 			return;
 		}
-		if(modified==0){
+		if(notModified){
 			this.removeAll();
 			entries.clear();
 			bitWidth.clear();
@@ -291,7 +289,7 @@ class InputPanel extends LogPanel {
 
 
 			this.add(buttons, BorderLayout.SOUTH);
-			modified=1;
+			notModified=false;
 		}
 	}
 
@@ -304,7 +302,7 @@ class InputPanel extends LogPanel {
 				selectedIndex.add(j);
 			}
 		}
-		modified=0;
+		notModified=true;
 		revalidate();
 		repaint();
 	}
