@@ -105,18 +105,23 @@ public class Pin extends InstanceFactory {
 	}
 	
 	public void changeValue(InstanceState state,int val, int bit){
-		PinAttributes att = (PinAttributes) state.getAttributeSet();
-		if (!att.isInput()) return;
+		PinAttributes attrs = (PinAttributes) state.getAttributeSet();
+		if (!attrs.isInput()) return;
 		PinState pinState = getState(state);
 		Value setval;
-		if (val == 1) {
-			setval = Value.TRUE;
-		} else if (val == 0) {
-			setval = Value.FALSE;
-		} else {
-			setval = Value.UNKNOWN;
+		if(bit==1){
+			if (val == 1) {
+				setval = Value.TRUE;
+			} else if (val == 0) {
+				setval = Value.FALSE;
+			} else {
+				setval = Value.UNKNOWN;
+			}
+			pinState.sending = pinState.sending.set(0, setval);
 		}
-		pinState.sending = pinState.sending.set(bit, setval);
+		else{
+			pinState.sending = Value.createKnown(new BitWidth(bit),val);
+		}
 		state.fireInvalidated();
 	}
 

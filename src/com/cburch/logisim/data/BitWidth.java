@@ -52,7 +52,7 @@ public class BitWidth implements Comparable<BitWidth> {
 
 	final int width;
 
-	private BitWidth(int width) {
+	public BitWidth(int width) {
 		this.width = width;
 	}
 

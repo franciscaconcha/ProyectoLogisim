@@ -118,7 +118,7 @@ class InputPanel extends LogPanel {
 				Pin pin1 = (Pin) factory;
 				JTextField val=entries.get(i+j*selectedIndex.size());
 				int value = Integer.parseInt(val.getText());
-				pin1.changeValue(inState, value, 0);
+				pin1.changeValue(inState, value, bitWidth.get(i));
 				System.out.println("entrada:"+i+" , "+j+" , "+selectedIndex.size()+" value :"+value+"\n");
 			}
 			JTextField f1 = entries.get(j*clockPosition);
