@@ -61,13 +61,6 @@ public class RegisterSubcircuit {
 		this.right = 600;
 		this.yCoord = 100;
 		this.yClock = 300;
-//		int currentY = top - 40;
-//		for (int i = 0; i < this.bitWidth; i++){
-//			currentY += 40;
-//			inputsLocation.add(Location.create(left, currentY));
-//			outputsLocation.add(Location.create(right, currentY));
-//		}
-//		this.bottom = currentY;
 	}
 	
 	private void addInputs() {

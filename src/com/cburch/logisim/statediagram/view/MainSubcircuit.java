@@ -16,6 +16,7 @@ import com.cburch.logisim.data.AttributeSet;
 import com.cburch.logisim.data.BitWidth;
 import com.cburch.logisim.data.Direction;
 import com.cburch.logisim.data.Location;
+import com.cburch.logisim.file.LogisimFileActions;
 import com.cburch.logisim.instance.StdAttr;
 import com.cburch.logisim.proj.Action;
 import com.cburch.logisim.proj.Project;
@@ -52,7 +53,7 @@ public class MainSubcircuit {
 		this.combinatorial = combinatorial;
 		this.register = register;
 		this.bitWidth = bitWidth;
-		this.main = proj.getCurrentCircuit();
+		this.main = mainSubcircuit();
 		this.mutation = new CircuitMutation(main);
 		this.left = 300;
 		this.right = 700;
@@ -60,6 +61,12 @@ public class MainSubcircuit {
 		this.bottom = 500;
 	}
 
+	public Circuit mainSubcircuit(){
+		Circuit main = new Circuit("SequentialCircuit-Main");
+		proj.doAction(LogisimFileActions.addCircuit(main));
+		return main;
+	}
+	
 	public void create() {
 		addSubcircuits();
 		computeCombinatorialLocations();
@@ -70,6 +77,7 @@ public class MainSubcircuit {
 		addOutputPins();
 		addWires();
 		buildComponents();
+		proj.setCurrentCircuit(main);
 	}
 
 	private void addSubcircuits() {
