@@ -128,8 +128,8 @@ class InputPanel extends LogPanel {
 				simulator.tick();
 				simulator.my_mutex_chanta=false;
 				while(!simulator.my_mutex_chanta){
-					System.out.println(simulator.my_mutex_chanta);
-					System.out.println("::" + Simulator.my_mutex_chanta + "::");
+					/*busy-waiting*/
+					System.out.println("");
 				}
 			}
 		}		
