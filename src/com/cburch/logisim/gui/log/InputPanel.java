@@ -52,6 +52,7 @@ class InputPanel extends LogPanel {
 	final JPanel entriesPanel = new JPanel();
 	private ArrayList<JTextField> entries= new ArrayList<JTextField>();
 	private ArrayList<Integer> bitWidth= new ArrayList<Integer>();
+	private InputPanel thisObject = this;
 
 
 	private class MyListener implements ModelListener {
@@ -102,8 +103,15 @@ class InputPanel extends LogPanel {
 		CircuitState statecirc = model.getCircuitState();
 		Selection sel = model.getSelection();
 		int rows =entries.size()/selectedIndex.size();
+		int clockPosition = 0;
+		for(int i=0; i<selectedIndex.size(); i++){
+			if(sel.get(i).toString().startsWith(Strings.get("clock"))){
+				clockPosition = i;
+			}
+		}
 		for (int j=0;j<rows;j++){
-			for(int i=1;i<selectedIndex.size();i++){
+			for(int i=0;i<selectedIndex.size();i++){
+				if(i==clockPosition) continue;
 				com.cburch.logisim.comp.Component comp = sel.get(i).getComponent();
 				InstanceState inState = statecirc.getInstanceState(comp);
 				ComponentFactory factory=comp.getFactory();
@@ -113,7 +121,7 @@ class InputPanel extends LogPanel {
 				pin1.changeValue(inState, value, 0);
 				System.out.println("entrada:"+i+" , "+j+" , "+selectedIndex.size()+" value :"+value+"\n");
 			}
-			JTextField f1 = entries.get(j*selectedIndex.size());
+			JTextField f1 = entries.get(j*clockPosition);
 			int ticks = Integer.parseInt(f1.getText());
 			System.out.println("tick "+ticks);
 			for(int k=ticks*2;k>0;k--){
@@ -149,8 +157,6 @@ class InputPanel extends LogPanel {
 				public void actionPerformed(ActionEvent e) {
 					simularTicks();						
 				}
-
-				/*debiese recibir la tabla? */
 				
 			});
 			this.setLayout(new GridLayout(0,1));
@@ -198,18 +204,7 @@ class InputPanel extends LogPanel {
 					submit.setEnabled(false);
 					for (int i = 0; i < selectedIndex.size(); i++) {
 						JTextField newTextField=new JTextField();
-						newTextField.getDocument().addDocumentListener(new DocumentListener() {
-							public void changedUpdate(DocumentEvent e) {
-								validateTable(columns, submit);								    
-							}
-							public void removeUpdate(DocumentEvent e) {
-								validateTable(columns, submit);
-							}
-							public void insertUpdate(DocumentEvent e) {
-								validateTable(columns, submit);
-							}
-							
-						});
+						newTextField.getDocument().addDocumentListener(new MyDocumentListener(thisObject, columns, submit));
 						entries.add(newTextField);
 						entriesPanel.add(newTextField);}
 					InputPanel.this.validate();
