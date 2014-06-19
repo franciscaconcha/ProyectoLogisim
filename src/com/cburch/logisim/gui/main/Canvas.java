@@ -670,7 +670,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 		menu.show( this, x, y );
 	}
 
-	private void completeAction() {
+	public void completeAction() {
 		computeSize( false );
 		// TODO for SimulatorPrototype: proj.getSimulator().releaseUserEvents();
 		proj.getSimulator().requestPropagate();
