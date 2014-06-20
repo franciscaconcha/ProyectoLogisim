@@ -89,20 +89,32 @@ public class StateDiagramChecker {
 	}
 
 	private void equivalentTransitionsGetter(ArrayList<String> equivalentTrans) {
-		for(String s: equivalentTrans){
+		
+		ArrayList<String> extensiveInputs = getExtensiveInputs(equivalentTrans);
+		
+		for(String toExtend : extensiveInputs){
+
+			String add1=toExtend.replaceFirst("\\*", "0");
+			String add2=toExtend.replaceFirst("\\*", "1");
+			ArrayList<String> aux=new ArrayList<String>();
+			equivalentTrans.remove(toExtend);
+			aux.add(add1);
+			aux.add(add2);
+			this.equivalentTransitionsGetter(aux);
+			equivalentTrans.addAll(aux);
+		}
+		
+	}
+	
+	private ArrayList<String> getExtensiveInputs(ArrayList<String> inputs){
+		
+		ArrayList<String> extensiveInput = new ArrayList<String>();
+		for(String s: inputs){
 			if(s.contains("*")){
-				int index=s.indexOf("*");
-				String remove=equivalentTrans.get(index);
-				equivalentTrans.remove(index);
-				String add1=remove.replaceFirst("*", "0");
-				String add2=remove.replaceFirst("*", "0");
-				ArrayList<String> aux=new ArrayList<String>();
-				aux.add(add1);
-				aux.add(add2);
-				this.equivalentTransitionsGetter(aux);
-				equivalentTrans.addAll(aux);
+				extensiveInput.add(s);
 			}
 		}
+		return extensiveInput;
 		
 	}
 
@@ -138,7 +150,7 @@ public class StateDiagramChecker {
 		Transition test=t.get(0);
 		
 		for (Transition transition : t){
-			if(transition.getOutput().length()!=test.getInput().length())
+			if(transition.getOutput().length()!=test.getOutput().length())
 				throw new InconsistentOutputLengthException(); 
 		}
 
