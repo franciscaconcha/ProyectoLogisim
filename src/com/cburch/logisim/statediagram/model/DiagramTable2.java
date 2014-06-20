@@ -111,10 +111,12 @@ public class DiagramTable2 {
 		}
 		else{ //Si input es numerico
 			int row;
-			if (i==0)
-				row = Integer.parseInt(input, 2);
-			else
-				row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
+//			if (i==0)
+//				row = Integer.parseInt(input, 2);
+//			else
+//				row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
+			
+			row = (int)( (1 << this.logicInputNumber) * i + Integer.parseInt(input, 2));
 			
 			fillMemoryValues(outputValues, row, Integer.toBinaryString(j)); //general
 			fillLogicValues(outputValues, row, output); //general
