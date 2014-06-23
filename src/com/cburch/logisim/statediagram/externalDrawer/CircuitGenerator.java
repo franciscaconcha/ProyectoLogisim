@@ -143,7 +143,7 @@ public class CircuitGenerator {
 
 		try { // TODO Cambiar mensaje de error
 			DiagramTable2 table = new DiagramTable2(
-					finalModel.getRepresentationMatrix2()); // Segun RepMatrix
+					finalModel.getRepresentationMatrix()); // Segun RepMatrix
 			AnalyzerModel analyzerModel = AnalyzerManager.getAnalyzer()
 					.getModel(); // Obtiene modelo actual
 			table.loadIntoModel(analyzerModel); // Actualiza el modelo

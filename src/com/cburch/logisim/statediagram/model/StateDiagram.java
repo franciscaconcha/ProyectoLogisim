@@ -42,8 +42,9 @@ public class StateDiagram {
 	 * @throws RepeatedTransitionException 
 	 * @throws NoTransitionsException 
 	 * @throws NoStatesException 
+	 * @throws InvalidTransitionException 
 	 */
-	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException{
+	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException, InvalidTransitionException{
 		checker.checkAll(this);
 	}
 	public void addState(String name, int id){
@@ -95,22 +96,9 @@ public class StateDiagram {
 	 * @see RepresentationMatrix
 	 * @return m
 	 */
-	public RepresentationMatrix getRepresentationMatrix(){
-		RepresentationMatrix m=new RepresentationMatrix(states.size());
-		for (Transition t: transitions){
-			int o=t.getOrigin().getId();
-			int d=t.getDestiny().getId();
-			String in=t.getInput();
-			String out=t.getOutput();
-			m.setInput(o, d, in);
-			m.setOutput(o, d, out);
-		}
-		m.setInputLength(m.getInput(0, 0).length());
-		m.setOutputLength(m.getOutput(0, 0).length());
-		return m;							
-	}
-	public RepresentationMatrix2 getRepresentationMatrix2() throws InvalidTransitionException{
-		RepresentationMatrix2 m= new RepresentationMatrix2(states.size());
+
+	public RepresentationMatrix getRepresentationMatrix() throws InvalidTransitionException{
+		RepresentationMatrix m= new RepresentationMatrix(states.size());
 		for(Transition t: transitions){
 			m.addTransition(t);
 		}

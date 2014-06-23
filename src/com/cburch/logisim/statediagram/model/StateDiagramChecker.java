@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
 import com.cburch.logisim.statediagram.model.exceptions.InconsistentOutputLengthException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
 import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
 import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
@@ -16,7 +17,7 @@ import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionExcept
 public class StateDiagramChecker {
 	public StateDiagramChecker(){}
 	
-	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException{
+	public void checkAll(StateDiagram sd) throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException, InvalidTransitionException{
 		this.checkComponentEmpyness(sd);
 		this.checkTransitionsLength(sd);
 		this.checkNoRepeatedTransitions(sd);
@@ -48,13 +49,13 @@ public class StateDiagramChecker {
 		//TODO checkear si hay redundancia considerando asteriscos
 	}
 
-	public void checkTransitionCompleteness(StateDiagram sd) throws MissingTransitionException{
+	public void checkTransitionCompleteness(StateDiagram sd) throws MissingTransitionException, InvalidTransitionException{
 		ArrayList<State> states=sd.getStates();
 		for (State s: states){
 			this.checkOutTransitionsFromState(s,sd);
 		}
 	}
-	public void checkOutTransitionsFromState(State s, StateDiagram sd) throws MissingTransitionException{
+	public void checkOutTransitionsFromState(State s, StateDiagram sd) throws MissingTransitionException, InvalidTransitionException{
 		int l=sd.getRepresentationMatrix().getInputLength();
 		int possibleTransitions=(int)Math.pow(2, l);
 		int[] checkList=new int[possibleTransitions];

@@ -50,7 +50,7 @@ public class DiagramTable2 {
 	 * Crea objeto DiagramTable a partir de un objeto RepresentationMatrix
 	 * @param matrix
 	 */
-	public DiagramTable2(RepresentationMatrix2 matrix){
+	public DiagramTable2(RepresentationMatrix matrix){
 		this.memoryBitNumber = calculateBitNumber(matrix.getSize());
 		this.logicInputNumber = matrix.getInputLength();
 		this.logicOutputNumber = matrix.getOutputLength();
@@ -70,7 +70,7 @@ public class DiagramTable2 {
 	 * @param matrix
 	 * @return
 	 */
-	private Entry[][] generateValues(RepresentationMatrix2 matrix) {
+	private Entry[][] generateValues(RepresentationMatrix matrix) {
 		int size = matrix.getSize(); // Numero de estados
 		ArrayList<Transition> transitions;
 		

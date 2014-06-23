@@ -30,5 +30,4 @@ public class State {
 	public boolean equals(State s){
 		return (this.getId()==s.getId() && this.getName()==s.getName());
 	}
-
 }
