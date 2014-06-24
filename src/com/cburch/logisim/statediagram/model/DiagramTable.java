@@ -66,28 +66,27 @@ public class DiagramTable {
 	}
 	
 	/**
-	 * Genera los valores de las salidas
-	 * POR AHORA NO SOPORTA ENTRADAS/SALIDAS con (*) !!!!!!
-	 * TODO generalizar para strings de largo > 1
+	 * Genera los valores de las salidas, recorre RepresentationMatrix
 	 * @param matrix
 	 * @return
 	 */
 	private Entry[][] generateValues(RepresentationMatrix matrix) {
 		int size = matrix.getSize(); // Numero de estados
-		String input, output;
+		ArrayList<Transition> transitions;
 		
 		Entry[][] outputValues = new Entry[this.outputNames.size()][1 << this.inputNames.size()]; //[Columna][Fila]
 		
 		for (int i=0; i<size; i++ ){ //Numero decimal del estado actual || Fila de RepresentationMatrix
 			for (int j=0; j<size; j++){ //Numero decimal del estado siguiente || Columna de RepresentationMatrix
 				
-				input= matrix.getInput(i, j); //string
-				output= matrix.getOutput(i, j); //string
+				transitions= matrix.getTransitions(i, j); //ArrayList de Transiciones
 				
-				if (input.length() == 0) //Si la casilla indica que no hay transicion
-					continue;
-				else
+				for (Transition transition : transitions){
+					String input, output;
+					input = transition.getInput();
+					output = transition.getOutput();
 					process(i, j, input, output, outputValues);
+				}
 			}
 		}
 		return outputValues;
@@ -104,7 +103,7 @@ public class DiagramTable {
 			String input0 = input.substring(0, index) + "0" + input.substring(index+1, length);
 			String input1 = input.substring(0, index) + "1" + input.substring(index+1, length);
 			
-			System.out.println(i + " " + j + " " + input0 + " " + input1);
+			//System.out.println(i + " " + j + " " + input0 + " " + input1);
 			
 			process(i, j, input0, output, outputValues);
 			process(i, j, input1, output, outputValues);
@@ -112,10 +111,12 @@ public class DiagramTable {
 		}
 		else{ //Si input es numerico
 			int row;
-			if (i==0)
-				row = Integer.parseInt(input, 2);
-			else
-				row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
+//			if (i==0)
+//				row = Integer.parseInt(input, 2);
+//			else
+//				row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
+			
+			row = (int)( (1 << this.logicInputNumber) * i + Integer.parseInt(input, 2));
 			
 			fillMemoryValues(outputValues, row, Integer.toBinaryString(j)); //general
 			fillLogicValues(outputValues, row, output); //general
@@ -136,7 +137,7 @@ public class DiagramTable {
 				entry[i+this.memoryBitNumber][row] = Entry.ONE;
 			else
 				entry[i+this.memoryBitNumber][row] = Entry.DONT_CARE;
-			System.out.println(output.charAt(i));
+			//System.out.println(output.charAt(i));
 		}
 	}
 
@@ -153,7 +154,7 @@ public class DiagramTable {
 			for (int k=0; k< dif; k++)
 				binaryString = "0" + binaryString;
 		}
-		System.out.println("binaryS=" + binaryString + " ");
+		//System.out.println("binaryS=" + binaryString + " ");
 		for (int i = 0; i< this.memoryBitNumber; i++){ //Por cada numero en el string, coincide con columna
 			if (binaryString.charAt(i) == '0')
 				entry[i][row] = Entry.ZERO;

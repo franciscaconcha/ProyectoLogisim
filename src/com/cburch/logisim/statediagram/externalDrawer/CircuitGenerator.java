@@ -14,7 +14,6 @@ import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
 import com.cburch.logisim.statediagram.externalDrawer.gui.viewer.ExternalDiagramDrawer;
 import com.cburch.logisim.statediagram.model.DiagramTable;
-import com.cburch.logisim.statediagram.model.DiagramTable2;
 import com.cburch.logisim.statediagram.model.StateDiagram;
 import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
 import com.cburch.logisim.statediagram.model.exceptions.InconsistentInputLengthException;
@@ -142,7 +141,7 @@ public class CircuitGenerator {
 		}
 
 		try { // TODO Cambiar mensaje de error
-			DiagramTable2 table = new DiagramTable2(
+			DiagramTable table = new DiagramTable(
 					finalModel.getRepresentationMatrix()); // Segun RepMatrix
 			AnalyzerModel analyzerModel = AnalyzerManager.getAnalyzer()
 					.getModel(); // Obtiene modelo actual
