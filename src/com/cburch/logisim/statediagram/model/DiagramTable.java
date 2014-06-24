@@ -19,9 +19,6 @@ public class DiagramTable {
 	private int logicOutputNumber; //Numero de bits de salida del diagrama
 	private int memoryBitNumber; //Numero de bits que necesito para la memoria
 	
-	//TODO Marcar entradas/salidas al registro
-	//TODO Documentar correctamente
-	
 	/**
 	 * Constructor momentaneo, util para demostraciones.
 	 * Genera una tabla default.
@@ -103,20 +100,12 @@ public class DiagramTable {
 			String input0 = input.substring(0, index) + "0" + input.substring(index+1, length);
 			String input1 = input.substring(0, index) + "1" + input.substring(index+1, length);
 			
-			//System.out.println(i + " " + j + " " + input0 + " " + input1);
-			
 			process(i, j, input0, output, outputValues);
 			process(i, j, input1, output, outputValues);
 			return;
 		}
 		else{ //Si input es numerico
-			int row;
-//			if (i==0)
-//				row = Integer.parseInt(input, 2);
-//			else
-//				row = (int) (Math.pow(2, i) + Integer.parseInt(input, 2)); //Fila de DiagramTable, general
-			
-			row = (int)( (1 << this.logicInputNumber) * i + Integer.parseInt(input, 2));
+			int row = (int)( (1 << this.logicInputNumber) * i + Integer.parseInt(input, 2));
 			
 			fillMemoryValues(outputValues, row, Integer.toBinaryString(j)); //general
 			fillLogicValues(outputValues, row, output); //general
@@ -137,7 +126,6 @@ public class DiagramTable {
 				entry[i+this.memoryBitNumber][row] = Entry.ONE;
 			else
 				entry[i+this.memoryBitNumber][row] = Entry.DONT_CARE;
-			//System.out.println(output.charAt(i));
 		}
 	}
 
@@ -154,7 +142,6 @@ public class DiagramTable {
 			for (int k=0; k< dif; k++)
 				binaryString = "0" + binaryString;
 		}
-		//System.out.println("binaryS=" + binaryString + " ");
 		for (int i = 0; i< this.memoryBitNumber; i++){ //Por cada numero en el string, coincide con columna
 			if (binaryString.charAt(i) == '0')
 				entry[i][row] = Entry.ZERO;
@@ -182,7 +169,6 @@ public class DiagramTable {
 		List<String> list = new ArrayList();
 		for (int i = length - 1; i >= 0; i--)
 			list.add(name + i);
-		//System.out.println(list.toString());
 		return list;
 	}
 	
