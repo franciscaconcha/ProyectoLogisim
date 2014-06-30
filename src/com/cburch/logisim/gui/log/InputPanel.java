@@ -119,7 +119,7 @@ class InputPanel extends LogPanel {
 				JTextField val=entries.get(i+j*selectedIndex.size());
 				int value = Integer.parseInt(val.getText());
 				pin1.changeValue(inState, value, bitWidth.get(i));
-				System.out.println("entrada:"+i+" , "+j+" , "+selectedIndex.size()+" value :"+value+"\n");
+				//System.out.println("entrada:"+i+" , "+j+" , "+selectedIndex.size()+" value :"+value+"\n");
 			}
 			JTextField f1 = entries.get(j*clockPosition);
 			int ticks = Integer.parseInt(f1.getText());
@@ -150,76 +150,84 @@ class InputPanel extends LogPanel {
 			return;
 		}
 		if(notModified){
-			this.removeAll();
-			entries.clear();
-			bitWidth.clear();
-			final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
-				public void actionPerformed(ActionEvent e) {
-					simularTicks();						
-				}
-				
-			});
-			this.setLayout(new GridLayout(0,1));
-			JPanel titles = new JPanel();
-			titles.setLayout(new GridLayout(0, columns));		
-			ArrayList<JLabel> componentes = new ArrayList<JLabel>();
+			this.actualizar(sel,columns);
+			
+		}
+	}
 
-			for (int i = 0; i < columns; i++) {
-				if(sel.get(i).toString().startsWith(Strings.get("input"))){
-					BitWidth w = sel.get(i).getComponent().getEnd(0).getWidth();
-					int width = w.getWidth();
-					bitWidth.add(width);
-					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()+" ("+Integer.toString(width)+" bits)"));
-				}
-				else if(sel.get(i).toString().startsWith(Strings.get("clock"))){
-					bitWidth.add(0);
-					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
-					
-				}
-				else{
-					componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
-				}
+
+
+	private void actualizar(Selection sel, final int columns) {
+		this.removeAll();
+		entries.clear();
+		bitWidth.clear();
+		final JButton submit = new JButton(new AbstractAction(Strings.get("inputSimulate")){
+			public void actionPerformed(ActionEvent e) {
+				simularTicks();						
 			}
-			for(int k=0 ; k<componentes.size() ; k++){
-				titles.add(componentes.get(k));
+			
+		});
+		this.setLayout(new GridLayout(0,1));
+		JPanel titles = new JPanel();
+		titles.setLayout(new GridLayout(0, columns));		
+		ArrayList<JLabel> componentes = new ArrayList<JLabel>();
+
+		for (int i = 0; i < columns; i++) {
+			if(sel.get(i).toString().startsWith(Strings.get("input"))){
+				BitWidth w = sel.get(i).getComponent().getEnd(0).getWidth();
+				int width = w.getWidth();
+				bitWidth.add(width);
+				componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()+" ("+Integer.toString(width)+" bits)"));
 			}
-			this.add(titles, BorderLayout.NORTH);
-			final JPanel entriesPanel = new JPanel();
-			entriesPanel.setLayout(new GridLayout(0, columns));
-			for (int i = 0; i < columns; i++) {
-				JTextField newTextField=new JTextField();
-				newTextField.getDocument().addDocumentListener(new MyDocumentListener(this, columns, submit));
-				entries.add(newTextField);
-				entriesPanel.add(entries.get(i));
+			else if(sel.get(i).toString().startsWith(Strings.get("clock"))){
+				bitWidth.add(0);
+				componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
+				
+			}
+			else{
+				componentes.add(new JLabel(sel.get(selectedIndex.get(i)).toShortString()));
+			}
+		}
+		for(int k=0 ; k<componentes.size() ; k++){
+			titles.add(componentes.get(k));
+		}
+		this.add(titles, BorderLayout.NORTH);
+		final JPanel entriesPanel = new JPanel();
+		entriesPanel.setLayout(new GridLayout(0, columns));
+		for (int i = 0; i < columns; i++) {
+			JTextField newTextField=new JTextField();
+			newTextField.getDocument().addDocumentListener(new MyDocumentListener(this, columns, submit));
+			entries.add(newTextField);
+			entriesPanel.add(entries.get(i));
+			InputPanel.this.validate();
+		}
+		JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
+		this.add(scrollEntriesPanel,BorderLayout.CENTER);
+
+
+		JPanel buttons = new JPanel();
+		buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				submit.setEnabled(false);
+				for (int i = 0; i < selectedIndex.size(); i++) {
+					JTextField newTextField=new JTextField();
+					newTextField.getDocument().addDocumentListener(new MyDocumentListener(thisObject, columns, submit));
+					entries.add(newTextField);
+					entriesPanel.add(newTextField);}
 				InputPanel.this.validate();
 			}
-			JScrollPane scrollEntriesPanel = new JScrollPane(entriesPanel);
-			this.add(scrollEntriesPanel,BorderLayout.CENTER);
-
-
-			JPanel buttons = new JPanel();
-			buttons.add(new JButton(new AbstractAction(Strings.get("inputAddButton")) {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					submit.setEnabled(false);
-					for (int i = 0; i < selectedIndex.size(); i++) {
-						JTextField newTextField=new JTextField();
-						newTextField.getDocument().addDocumentListener(new MyDocumentListener(thisObject, columns, submit));
-						entries.add(newTextField);
-						entriesPanel.add(newTextField);}
-					InputPanel.this.validate();
-				}
-			}));
+		}));
 
 
 
-			submit.setEnabled(false);
-			buttons.add(submit);
+		submit.setEnabled(false);
+		buttons.add(submit);
 
 
-			this.add(buttons, BorderLayout.SOUTH);
-			notModified=false;
-		}
+		this.add(buttons, BorderLayout.SOUTH);
+		notModified=false;
+		
 	}
 
 	private void computePreferredSize() {
