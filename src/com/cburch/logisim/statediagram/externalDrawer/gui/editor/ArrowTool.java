@@ -52,7 +52,7 @@ public class ArrowTool extends Tool {
 	 */
 	public ArrowTool(DiagramPane view, DiagramDrawer drawer) {
 		super(view, drawer);
-		this.creator = TransitionCreator.creatorForAutomaton(getDiagram(),
+		this.creator = TransitionCreator.creatorForDiagram(getDiagram(),
 				getView());
 	}
 
@@ -157,6 +157,7 @@ public class ArrowTool extends Tool {
 			showPopup(event);
 
 		if (lastClickedState != null) {
+			getDrawer().saveState();
 			initialPointState.setLocation(lastClickedState.getPoint());
 			if(!lastClickedState.isSelected()){
 				Rectangle bounds = new Rectangle(0, 0, -1, -1);

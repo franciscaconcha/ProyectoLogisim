@@ -197,6 +197,12 @@ public class StateObject{
 
          return point.hashCode();
     }
+    
+    public StateObject copy(){
+    	
+    	return new StateObject(this.id, this.point, this.diagram);
+
+    }
 
 
 

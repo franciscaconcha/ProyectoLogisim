@@ -46,7 +46,7 @@ public class TransitionTool extends Tool {
 	 */
 	public TransitionTool(DiagramPane view, DiagramDrawer drawer) {
 		super(view, drawer);
-		this.creator = TransitionCreator.creatorForAutomaton(getDiagram(),
+		this.creator = TransitionCreator.creatorForDiagram(getDiagram(),
 				getView());
 	}
 

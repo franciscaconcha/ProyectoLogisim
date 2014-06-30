@@ -151,6 +151,8 @@ public abstract class TransitionObject{
     public void setControl(Point p){
         myControlPoint = p; 
     }
+    
+    public abstract TransitionObject copy();
 
 
 	/** The states this transition goes between. */
@@ -204,7 +206,7 @@ public abstract class TransitionObject{
          *            the new to state for the returned transition
          * @return a copy of this trnasition with the new from and to states
          */
-        public TransitionObject copy(StateObject from, StateObject to) {
+        public TransitionObject copy() {
             return new StateTransition(from, to, getInput(), 
                     getOutput());
         }
@@ -318,5 +320,7 @@ public abstract class TransitionObject{
 
         /** The string to push on the stack. */
         protected String myOutput;
+
+
     }
 }

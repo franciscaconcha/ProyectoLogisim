@@ -476,6 +476,34 @@ public class Diagram implements Serializable{
 		return toGet;
 		
 	}
+	
+	public Diagram copy(){
+	
+		Diagram copiedDiagram = new Diagram();  
+		copiedDiagram.setEnvironmentFrame(myEnvFrame);
+		
+		Map<StateObject, StateObject> stateMap = new HashMap<StateObject, StateObject>();
+		//copy of states
+		for (StateObject currentState : states){
+			
+			StateObject copiedState = currentState.copy();
+			stateMap.put(currentState, copiedState);
+			copiedDiagram.addState(copiedState);
+		}
+
+		//copy of transitions
+		for(TransitionObject currentTransition : transitions){
+			
+			TransitionObject copiedTransition = currentTransition.copy();
+			copiedTransition.setFromState(stateMap.get(currentTransition.getFromState()));
+			copiedTransition.setToState(stateMap.get(currentTransition.getToState()));
+			copiedDiagram.addTransition(copiedTransition);
+			
+		}
+		
+		return copiedDiagram;
+		
+	}
 
 	private EnvironmentFrame myEnvFrame = null;
 

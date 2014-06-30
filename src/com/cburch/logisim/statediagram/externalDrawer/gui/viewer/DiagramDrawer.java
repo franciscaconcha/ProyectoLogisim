@@ -54,6 +54,8 @@ public class DiagramDrawer {
 		DrawerListener listener = new DrawerListener();
 		getDiagram().addStateListener(listener);
 		getDiagram().addTransitionListener(listener);
+		history = new ArrayList<Diagram>();
+		posAtHistory = 0;
 
 	}
 
@@ -80,6 +82,7 @@ public class DiagramDrawer {
 	 *            the Graphics object to draw the diagram on
 	 */
 	public void drawDiagram(Graphics g2) {
+		
 		if (!valid)
 			refreshArrowMap();
 
@@ -495,6 +498,36 @@ public class DiagramDrawer {
 		curTransform = af;
 	}
 	
+	public void saveState(){
+		
+		if(!history.isEmpty())
+			history = new ArrayList<Diagram>(history.subList(0, posAtHistory));
+
+		history.add(getDiagram().copy());
+		posAtHistory+=1;
+		
+		//limit
+		if(history.size()>5){
+			posAtHistory--;
+			history.remove(0);
+		}
+		
+	}
+	public void undo(){
+		
+		history.add(diagram.copy());
+		if(posAtHistory >0)
+			setDiagram(history.get(--posAtHistory));
+		
+	}
+	
+	public void redo(){
+		
+		if(history.size()>posAtHistory)
+			setDiagram(history.get(posAtHistory++));
+		
+	}
+
 	private Rectangle mySelectionBounds = new Rectangle(0, 0, -1, -1);
 
 	/** The diagram we're handling. */
@@ -545,12 +578,14 @@ public class DiagramDrawer {
 	/** The state drawer. */
 	public StateDrawer statedrawer = new StateDrawer();
 	
-//	/**Amount to scale by, purely for scroll calclulation*/
 //	private double scaleBy = 1;
 	
 	/**The transform instead*/
 	private AffineTransform curTransform = new AffineTransform();
 	
+	
+	private ArrayList<Diagram> history;
+	private int posAtHistory;
 
 	/**
 	 * This diagram listener takes care of responding to the events.

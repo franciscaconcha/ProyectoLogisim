@@ -88,7 +88,7 @@ public abstract class TransitionCreator {
 	 *         the type of diagram passed in, or <CODE>null</CODE> if this
 	 *         type of diagram is unknown
 	 */
-	public static TransitionCreator creatorForAutomaton(Diagram diagram,
+	public static TransitionCreator creatorForDiagram(Diagram diagram,
 			DiagramPane parent) {
 
 			return new StateTransitionCreator(parent);
