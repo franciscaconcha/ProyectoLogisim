@@ -242,7 +242,7 @@ public class Diagram implements Serializable{
 	 * @param state
 	 *            the state to add
 	 */
-	protected final void addState(StateObject state) {
+	public void addState(StateObject state) {
 		states.add(state);
 		transitionFromStateMap.put(state, new LinkedList<TransitionObject>());
 		transitionToStateMap.put(state, new LinkedList<TransitionObject>());
@@ -281,7 +281,7 @@ public class Diagram implements Serializable{
 
 	/**
 	 * Returns an array that contains every state in this diagram. The array
-	 * is gauranteed to be in order of ascending state IDs.
+	 * is guaranteed to be in order of ascending state IDs.
 	 * 
 	 * @return an array containing all the states in this diagram
 	 */

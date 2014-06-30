@@ -16,8 +16,10 @@
 
 package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.xml;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ArrayList;
+import java.awt.Point;
 import java.io.File;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
@@ -34,8 +36,12 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
+import com.cburch.logisim.statediagram.externalDrawer.diagram.StateObject;
+import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject;
+import com.cburch.logisim.statediagram.externalDrawer.diagram.TransitionObject.StateTransition;
 import com.cburch.logisim.statediagram.externalDrawer.diagramSaver.DiagramSaver;
 //import automata.Automaton;
 import com.cburch.logisim.statediagram.model.StateDiagram;
@@ -47,25 +53,25 @@ import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionExcepti
 //import automata.fsa.FiniteStateAutomaton;
 
 /**
- * Toma un StateDiagram y retorna un archivo XML
+ * Toma un Diagram y retorna un archivo XML
  * con sus estados y transiciones
  */
 
 public class StateDiagramTransducer implements DiagramSaver{
 	
 	private String filename;
-	public void SDtoXML(StateDiagram sd, String filename){
+	public void SDtoXML(Diagram sd, String filename){
 		this.filename = filename;
 		SDdivider(sd);
 	}
 	
 	/**
-	 * Toma un elemento StateDiagram y lo divide
+	 * Toma un elemento Diagram y lo divide
 	 * en su lista de estados y transiciones
 	 */
-	public void SDdivider(StateDiagram SD){
-		ArrayList<State> stateList = SD.getStates();
-		ArrayList<Transition> transitionList = SD.getTransitions();
+	public void SDdivider(Diagram SD){
+		StateObject[] stateList = SD.getStates();
+		TransitionObject[] transitionList = SD.getTransitions();
 		
 		XMLGenerator(stateList,transitionList);
 	}
@@ -74,8 +80,8 @@ public class StateDiagramTransducer implements DiagramSaver{
 	 * Toma una lista de estados y transiciones
 	 * y los va escribiendo en un XML
 	 */
-	public void XMLGenerator(ArrayList<State> states, 
-			ArrayList<Transition> transitions){
+	public void XMLGenerator(StateObject[] states, 
+			TransitionObject[] transitions){
 		
 		try{
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -88,23 +94,27 @@ public class StateDiagramTransducer implements DiagramSaver{
 			doc.appendChild(SDElement);
 			
 			// agrego un nodo por cada estado
-			for(int i = 0; i<states.size(); i++) {
-				State curr=states.get(i);
+			for(int i = 0; i<states.length; i++) {
+				StateObject curr=states[i];
 				Element stateElement = doc.createElement("state");
 				SDElement.appendChild(stateElement);
 			
 				// agrego como atributo el id del estado
 				Attr attr = doc.createAttribute("id");
-				attr.setValue(Integer.toString(curr.getId()));
+				attr.setValue(Integer.toString(curr.getID()));
 				stateElement.setAttributeNode(attr);
+				//nombre
 				Element name = doc.createElement("name");
 				name.appendChild(doc.createTextNode(curr.getName()));
 				stateElement.appendChild(name);
+				//coordenadas
+				Element point = doc.createElement("point");
+				name.appendChild(doc.createTextNode((curr.getPoint().toString())));
 			}
 
 			// agrego un nodo por cada transicion
-			for(int i = 0; i<transitions.size(); i++) {
-				Transition curr=transitions.get(i);
+			for(int i = 0; i<transitions.length; i++) {
+				TransitionObject curr=transitions[i];
 				Element transElement = doc.createElement("transition");
 				SDElement.appendChild(transElement);
 			
@@ -113,24 +123,25 @@ public class StateDiagramTransducer implements DiagramSaver{
 				attr.setValue(Integer.toString(i));
 				transElement.setAttributeNode(attr);
 				// agrego origin, destiny, input, y output como elementos
+				int originname=curr.getFromState().getID();
+				int destinyname=curr.getToState().getID();
+				String Tinput=((StateTransition) curr).getInput();
+				String Toutput=((StateTransition) curr).getOutput();
+				
 				Element origin = doc.createElement("origin");
-				State thisorigin = curr.getOrigin();
-				int originname = thisorigin.getId();
 				origin.appendChild(doc.createTextNode(Integer.toString(originname)));
 				transElement.appendChild(origin);
 				
 				Element destiny = doc.createElement("destiny");
-				State thisdestiny = curr.getDestiny();
-				int destinyname = thisdestiny.getId();
 				destiny.appendChild(doc.createTextNode(Integer.toString(destinyname)));
 				transElement.appendChild(destiny);
 				
 				Element input = doc.createElement("input");
-				input.appendChild(doc.createTextNode(curr.getInput()));
+				input.appendChild(doc.createTextNode(Tinput));
 				transElement.appendChild(input);
 				
 				Element output = doc.createElement("output");
-				output.appendChild(doc.createTextNode(curr.getOutput()));
+				output.appendChild(doc.createTextNode(Toutput));
 				transElement.appendChild(output);
 			}
 			
@@ -161,21 +172,79 @@ public class StateDiagramTransducer implements DiagramSaver{
 	public void saveDiagram(Diagram diagram, String filename) {
 		
 		try {
-			SDtoXML(diagram.getAlternativeModel(), filename);
-		} catch (InvalidTransitionException e) {
+			SDtoXML(diagram, filename);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (AbsentStateException e) {
+		} /*catch (AbsentStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 
+	
 	@Override
 	public Diagram getSavedDiagram(String filename) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Diagram diag = new Diagram();
+		
+		try {	 
+			File XmlFile = new File(filename);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(XmlFile);
+			
+			doc.getDocumentElement().normalize();
+			
+			NodeList sList = doc.getElementsByTagName("state"); //state list
+			NodeList tList = doc.getElementsByTagName("transition"); //transition list
+			
+			//StateObject[] states;
+			//TransitionObject[] transitions;
+			
+			//agrego los estados
+			for (int temp = 0; temp < sList.getLength(); temp++) {
+				 Node nNode = sList.item(temp);
+		 
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					
+					int stateId = Integer.parseInt(eElement.getAttribute("id"));
+					String statePointstring = eElement.getElementsByTagName("point").item(0).getTextContent();
+					String[] parts = statePointstring.split(",");
+					String part1 = parts[0].split("(")[1];
+					String part2 = parts[1].split(")")[0];
+					Point statePoint = new Point(Integer.parseInt(part1),Integer.parseInt(part2));
+					
+					StateObject newstate = new StateObject(stateId,statePoint,diag);
+					
+					diag.addState(newstate);		 
+				}
+			}
+			
+			//agrego las transiciones
+			for(int temp = 0; temp < sList.getLength(); temp++) {
+				 Node nNode = tList.item(temp);
+				 
+				 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					String stateFrom = eElement.getElementsByTagName("origin").item(0).getTextContent();
+					String stateTo = eElement.getElementsByTagName("destiny").item(0).getTextContent();
+					
+					StateObject origin = diag.getStateWithID(Integer.parseInt(stateFrom));
+					StateObject destiny = diag.getStateWithID(Integer.parseInt(stateTo));
+					
+					TransitionObject newtransition = new TransitionObject(origin,destiny);
+					
+					diag.addTransition(newtransition);					
+				 }
+			}
+			
+		    } catch (Exception e) {
+			e.printStackTrace();
+		    }
+		return diag;
 	}
 	
 }
