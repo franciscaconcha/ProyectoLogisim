@@ -14,16 +14,10 @@
  *
  */
 
-
-
-
-
 package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.xml;
 
-import com.cburch.logisim.statediagram.externalDrawer.diagramSaver.file.ParseException;
-
+//import file.ParseException;
 import java.io.Serializable;
-
 import org.w3c.dom.Document;
 
 /**

@@ -14,7 +14,7 @@
  *
  */
 
-package com.cburch.logisim.statediagram.xml;
+package com.cburch.logisim.statediagram.externalDrawer.diagramSaver.xml;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -35,10 +35,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.cburch.logisim.statediagram.externalDrawer.diagram.Diagram;
+import com.cburch.logisim.statediagram.externalDrawer.diagramSaver.DiagramSaver;
 //import automata.Automaton;
 import com.cburch.logisim.statediagram.model.StateDiagram;
 import com.cburch.logisim.statediagram.model.State;
 import com.cburch.logisim.statediagram.model.Transition;
+import com.cburch.logisim.statediagram.model.exceptions.AbsentStateException;
+import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionException;
 //import automata.fsa.FSATransition;
 //import automata.fsa.FiniteStateAutomaton;
 
@@ -47,9 +51,11 @@ import com.cburch.logisim.statediagram.model.Transition;
  * con sus estados y transiciones
  */
 
-public class StateDiagramTransducer{
+public class StateDiagramTransducer implements DiagramSaver{
 	
-	public void SDtoXML(StateDiagram sd){
+	private String filename;
+	public void SDtoXML(StateDiagram sd, String filename){
+		this.filename = filename;
 		SDdivider(sd);
 	}
 	
@@ -132,7 +138,7 @@ public class StateDiagramTransducer{
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\file.xml"));
+			StreamResult result = new StreamResult(new File(filename));
 	 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
@@ -149,6 +155,27 @@ public class StateDiagramTransducer{
 			tfe.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public void saveDiagram(Diagram diagram, String filename) {
+		
+		try {
+			SDtoXML(diagram.getAlternativeModel(), filename);
+		} catch (InvalidTransitionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AbsentStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public Diagram getSavedDiagram(String filename) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
