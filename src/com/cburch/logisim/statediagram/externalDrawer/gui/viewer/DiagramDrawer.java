@@ -499,10 +499,10 @@ public class DiagramDrawer {
 		curTransform = af;
 	}
 	
-	public void saveState(){
+	public void saveHistory(){
 		
-		if(!history.isEmpty())
-			history = new ArrayList<Diagram>(history.subList(0, posAtHistory));
+		if(!history.isEmpty() && posAtHistory>0)
+			history = new ArrayList<Diagram>(history.subList(0, posAtHistory-1));
 
 		history.add(getDiagram().copy());
 		posAtHistory+=1;
@@ -518,14 +518,14 @@ public class DiagramDrawer {
 		
 		history.add(diagram.copy());
 		if(posAtHistory >0)
-			setDiagram(history.get(--posAtHistory));
+			diagram.transform(history.get(--posAtHistory));
 		
 	}
 	
 	public void redo(){
 		
-		if(history.size()>posAtHistory)
-			setDiagram(history.get(posAtHistory++));
+		if(history.size()>posAtHistory+1)
+			diagram.transform(history.get(++posAtHistory));
 		
 	}
 

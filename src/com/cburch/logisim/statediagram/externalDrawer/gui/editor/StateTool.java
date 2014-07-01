@@ -69,6 +69,7 @@ public class StateTool extends Tool {
 	 */
 	public void mousePressed(MouseEvent event) {
 
+		getDrawer().saveHistory();
 		state = getDiagram().createState(event.getPoint());
 		getView().repaint();
 	}

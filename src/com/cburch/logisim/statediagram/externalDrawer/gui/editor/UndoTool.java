@@ -60,7 +60,9 @@ public class UndoTool extends Tool {
 	
 	@Override
 	public void select(EditCanvas view){
-		view.getDrawer().undo();
+		
+		getView().getDrawer().undo();
+		
 		view.repaint();
 	}
 

@@ -482,13 +482,27 @@ public class Diagram implements Serializable{
 		Diagram copiedDiagram = new Diagram();  
 		copiedDiagram.setEnvironmentFrame(myEnvFrame);
 		
+		//listeners
+		Iterator<StateListener> its = stateListeners.iterator();
+		while (its.hasNext()) {
+			StateListener listener = its.next();
+			copiedDiagram.addStateListener(listener);
+		}
+		Iterator<TransitionListener> itt= transitionListeners.iterator();
+		while (itt.hasNext()) {
+			TransitionListener listener = itt.next();
+			copiedDiagram.addTransitionListener(listener);
+		}
+		
 		Map<StateObject, StateObject> stateMap = new HashMap<StateObject, StateObject>();
+		
 		//copy of states
 		for (StateObject currentState : states){
 			
 			StateObject copiedState = currentState.copy();
 			stateMap.put(currentState, copiedState);
 			copiedDiagram.addState(copiedState);
+			
 		}
 
 		//copy of transitions
@@ -502,6 +516,26 @@ public class Diagram implements Serializable{
 		}
 		
 		return copiedDiagram;
+		
+	}
+	
+	public void transform(Diagram other){
+		
+		states.clear();
+		transitions.clear();
+		transitionFromStateMap.clear();
+		transitionToStateMap.clear();
+		transitionArrayFromStateMap.clear();
+		transitionArrayToStateMap.clear();
+		cachedStates = null;
+		cachedTransitions = null;
+		
+		for(StateObject state : other.getStates()){
+			addState(state);
+		}
+		for(TransitionObject trans : other.getTransitions()){
+			addTransition(trans);
+		}
 		
 	}
 

@@ -88,6 +88,7 @@ public class DeleteTool extends Tool {
 		
 		StateObject state = getDrawer().stateAtPoint(event.getPoint());
 		if (state != null) {
+			getDrawer().saveHistory();
 			getDiagram().removeState(state);
 			getView().repaint();
 			return;

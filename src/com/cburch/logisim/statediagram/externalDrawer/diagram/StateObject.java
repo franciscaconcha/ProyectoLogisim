@@ -200,7 +200,9 @@ public class StateObject{
     
     public StateObject copy(){
     	
-    	return new StateObject(this.id, this.point, this.diagram);
+    	Point newPoint = new Point();
+    	newPoint.setLocation(point.getX(), point.getY());
+    	return new StateObject(this.id, newPoint, this.diagram);
 
     }
 

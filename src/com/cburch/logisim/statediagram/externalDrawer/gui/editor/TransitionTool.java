@@ -81,6 +81,7 @@ public class TransitionTool extends Tool {
 		first = getDrawer().stateAtPoint(event.getPoint());
 		if (first == null)
 			return;
+		getDrawer().saveHistory();
 		hover = first.getPoint();
 	}
 
