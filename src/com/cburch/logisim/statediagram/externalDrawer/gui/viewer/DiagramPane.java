@@ -117,17 +117,6 @@ public class DiagramPane extends JPanel implements Scrollable {
 	}
 
 	/**
-	 * Instantiates an DiagramPane with the default diagram drawer as the
-	 * drawer for the passed in diagram.
-	 * 
-	 * @param diagram
-	 *            the diagram to draw
-	 */
-	public DiagramPane(Diagram diagram) {
-		this(new DiagramDrawer(diagram));
-	}
-
-	/**
 	 * Draws itself, and the diagram.
 	 * 
 	 * @param g

@@ -70,7 +70,9 @@ public class OpenTool extends Tool{
 		    if(fileToSave.exists()){
 		    	
 			    Diagram newDiagram = saver.getSavedDiagram(fileToSave.getAbsolutePath());
-			    getView().getDrawer().setDiagram(newDiagram);
+			    newDiagram.setEnvironmentFrame(getDiagram().getEnvironmentFrame());
+			    setDiagram(newDiagram);
+			    
 			    getView().repaint();
 			    
 			    break;

@@ -24,7 +24,7 @@ public class ExternalDiagramDrawer {
 		this.circuitGenerator = circuitGenerator;
 		diagram = new Diagram();
         Environment env = new DiagramEnvironment(diagram);
-        EditorPane editor = new EditorPane(new SelectionDrawer(diagram), new DefaultToolBox(),false,circuitGenerator);
+        EditorPane editor = new EditorPane(new SelectionDrawer(diagram, this), new DefaultToolBox(),false,circuitGenerator);
         
         env.add(editor, "State Diagram Drawer");
 

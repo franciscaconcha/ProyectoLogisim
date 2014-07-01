@@ -35,7 +35,7 @@ import java.awt.*;
  * @author Thomas Finley, Henry Qin
  */
 
-public class TransitionObject{
+public abstract class TransitionObject{
 	/**
 	 * Instantiates a new <CODE>Transition</CODE>.
 	 * 
@@ -152,7 +152,7 @@ public class TransitionObject{
         myControlPoint = p; 
     }
     
-    //public abstract TransitionObject copy();
+    public abstract TransitionObject copy();
 
 
 	/** The states this transition goes between. */

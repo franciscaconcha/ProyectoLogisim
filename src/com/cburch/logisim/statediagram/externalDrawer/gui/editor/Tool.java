@@ -125,6 +125,11 @@ public abstract class Tool extends SuperMouseAdapter {
 	protected Diagram getDiagram() {
 		return diagram;
 	}
+	
+	protected void setDiagram(Diagram diagram){
+		this.diagram = diagram;
+		drawer.setDiagram(diagram);
+	}
 
 	/**
 	 * Returns the key stroke that will activate this tool.

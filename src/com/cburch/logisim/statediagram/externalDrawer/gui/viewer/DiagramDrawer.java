@@ -49,8 +49,10 @@ public class DiagramDrawer {
 	 * @param diagram
 	 *            the diagram to handle
 	 */
-	public DiagramDrawer(Diagram diagram) {
+	public DiagramDrawer(Diagram diagram, ExternalDiagramDrawer mainWindow) {
+		
 		this.diagram = diagram;
+		this.mainWindow = mainWindow;
 		DrawerListener listener = new DrawerListener();
 		getDiagram().addStateListener(listener);
 		getDiagram().addTransitionListener(listener);
@@ -472,12 +474,11 @@ public class DiagramDrawer {
 
 	public void setDiagram(Diagram newAuto) {
 		if (newAuto == null) {
-
-			//System.out.println("Setting diagram null");
 			return;
 		}
 
 		diagram = newAuto;
+		mainWindow.setDiagram(newAuto);
 		this.invalidate();
 	}
 	
@@ -587,6 +588,8 @@ public class DiagramDrawer {
 	private ArrayList<Diagram> history;
 	private int posAtHistory;
 
+	ExternalDiagramDrawer mainWindow;
+	
 	/**
 	 * This diagram listener takes care of responding to the events.
 	 */

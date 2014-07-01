@@ -44,8 +44,8 @@ public class SelectionDrawer extends DiagramDrawer {
 	 * @param diagram
 	 *            the diagram to select
 	 */
-	public SelectionDrawer(Diagram diagram) {
-		super(diagram);
+	public SelectionDrawer(Diagram diagram, ExternalDiagramDrawer mainWindow) {
+		super(diagram, mainWindow);
 	}
 
 	/**

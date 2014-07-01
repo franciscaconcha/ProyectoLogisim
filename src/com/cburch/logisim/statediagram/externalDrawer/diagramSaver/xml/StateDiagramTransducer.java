@@ -109,7 +109,17 @@ public class StateDiagramTransducer implements DiagramSaver{
 				stateElement.appendChild(name);
 				//coordenadas
 				Element point = doc.createElement("point");
-				name.appendChild(doc.createTextNode((curr.getPoint().toString())));
+				//x
+				Element x = doc.createElement("x");
+				x.appendChild(doc.createTextNode(Double.toString(curr.getPoint().getX())));
+				point.appendChild(x);
+				//y
+				Element y = doc.createElement("y");
+				y.appendChild(doc.createTextNode(Double.toString(curr.getPoint().getY())));
+				point.appendChild(y);
+
+				stateElement.appendChild(point);
+				
 			}
 
 			// agrego un nodo por cada transicion
@@ -170,16 +180,8 @@ public class StateDiagramTransducer implements DiagramSaver{
 
 	@Override
 	public void saveDiagram(Diagram diagram, String filename) {
-		
-		try {
-			SDtoXML(diagram, filename);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} /*catch (AbsentStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+
+		SDtoXML(diagram, filename);
 		
 	}
 
@@ -211,11 +213,13 @@ public class StateDiagramTransducer implements DiagramSaver{
 					Element eElement = (Element) nNode;
 					
 					int stateId = Integer.parseInt(eElement.getAttribute("id"));
-					String statePointstring = eElement.getElementsByTagName("point").item(0).getTextContent();
-					String[] parts = statePointstring.split(",");
-					String part1 = parts[0].split("(")[1];
-					String part2 = parts[1].split(")")[0];
-					Point statePoint = new Point(Integer.parseInt(part1),Integer.parseInt(part2));
+					Element point = (Element)eElement.getElementsByTagName("point").item(0);
+					
+					String x = point.getElementsByTagName("x").item(0).getTextContent();
+					String y = point.getElementsByTagName("y").item(0).getTextContent();
+					
+					Point statePoint = new Point();
+					statePoint.setLocation(Double.parseDouble(x), Double.parseDouble(y));
 					
 					StateObject newstate = new StateObject(stateId,statePoint,diag);
 					
@@ -224,18 +228,21 @@ public class StateDiagramTransducer implements DiagramSaver{
 			}
 			
 			//agrego las transiciones
-			for(int temp = 0; temp < sList.getLength(); temp++) {
+			for(int temp = 0; temp < tList.getLength(); temp++) {
 				 Node nNode = tList.item(temp);
 				 
 				 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
 					String stateFrom = eElement.getElementsByTagName("origin").item(0).getTextContent();
 					String stateTo = eElement.getElementsByTagName("destiny").item(0).getTextContent();
+					String input = eElement.getElementsByTagName("input").item(0).getTextContent();
+					String output = eElement.getElementsByTagName("output").item(0).getTextContent();
 					
 					StateObject origin = diag.getStateWithID(Integer.parseInt(stateFrom));
 					StateObject destiny = diag.getStateWithID(Integer.parseInt(stateTo));
 					
-					TransitionObject newtransition = new TransitionObject(origin,destiny);
+					
+					TransitionObject newtransition = new StateTransition(origin,destiny,input,output);
 					
 					diag.addTransition(newtransition);					
 				 }
