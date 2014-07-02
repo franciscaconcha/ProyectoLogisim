@@ -5,7 +5,7 @@ import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionExcepti
 /**
  * Clase Transicion. Contiene setters y getters para los estados que relaciona la transicion 
  * (origen y destino) y para los strings de la transicion (input y output).
- * @author Cate
+ * @author raticate
  *
  */
 
@@ -52,9 +52,6 @@ public class Transition {
 	private boolean checkTransitionMember(String mem){
 		boolean valid=true;
 		char[] charArray=mem.toCharArray();
-		if(mem.length()==0){
-			return valid;
-		}
 		for(char c: charArray){
 			if(c!='1' && c!='0' && c!='*')
 				valid=false;

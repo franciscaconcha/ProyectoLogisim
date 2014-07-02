@@ -2,7 +2,7 @@ package com.cburch.logisim.statediagram.model;
 /**
  * Clase estado, contiene informacion importante de cada estado (nombre e id). Contiene un metodo toString
  * y getters y setters. No creo que sea necesario decir nada mas.
- * @author Cate
+ * @author raticate
  *
  */
 public class State {

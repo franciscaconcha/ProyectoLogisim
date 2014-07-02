@@ -11,13 +11,12 @@ import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionExcepti
 import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
 import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
 import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
-import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
 import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
 /**
  * Clase de Diagrama de Estados, maneja sus estados y transiciones.
  * Tambien tiene un objeto que puede checkear la correctitud y validez
  * del diagrama.
- * @author Cate
+ * @author raticate
  *
  */
 
@@ -35,7 +34,6 @@ public class StateDiagram {
 	/**
 	 * Este metodo se ocupa al final y es el que verifica que el diagrama este
 	 * correcto. 
-	 * @throws notStronglyConnectedDiagram 
 	 * @throws InconsistentOutputLengthException 
 	 * @throws InconsistentInputLengthException 
 	 * @throws MissingTransitionException 
@@ -44,7 +42,7 @@ public class StateDiagram {
 	 * @throws NoStatesException 
 	 * @throws InvalidTransitionException 
 	 */
-	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, NotStronglyConnectedDiagram, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException, InvalidTransitionException{
+	public void isCorrect() throws InconsistentInputLengthException, InconsistentOutputLengthException, MissingTransitionException, RepeatedTransitionException, NoStatesException, NoTransitionsException, InvalidTransitionException{
 		checker.checkAll(this);
 	}
 	public void addState(String name, int id){
