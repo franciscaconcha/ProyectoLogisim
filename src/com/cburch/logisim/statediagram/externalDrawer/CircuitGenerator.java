@@ -22,7 +22,6 @@ import com.cburch.logisim.statediagram.model.exceptions.InvalidTransitionExcepti
 import com.cburch.logisim.statediagram.model.exceptions.MissingTransitionException;
 import com.cburch.logisim.statediagram.model.exceptions.NoStatesException;
 import com.cburch.logisim.statediagram.model.exceptions.NoTransitionsException;
-import com.cburch.logisim.statediagram.model.exceptions.NotStronglyConnectedDiagram;
 import com.cburch.logisim.statediagram.model.exceptions.RepeatedTransitionException;
 import com.cburch.logisim.statediagram.view.MainSubcircuit;
 import com.cburch.logisim.statediagram.view.RegisterSubcircuit;
@@ -124,13 +123,7 @@ public class CircuitGenerator {
 							"Error", JOptionPane.PLAIN_MESSAGE);
 			return;
 
-		} catch (NotStronglyConnectedDiagram e) {
-
-			JOptionPane.showMessageDialog(new JFrame(),
-					"There must be a path between every pair of states.",
-					"Error", JOptionPane.PLAIN_MESSAGE);
-			return;
-
+		
 		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(new JFrame(),
