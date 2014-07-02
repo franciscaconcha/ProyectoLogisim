@@ -19,16 +19,17 @@ public class MenuMouseListener implements MouseListener {
 
 	private Circuit circuit;
 	private ArrayList<Location> locations;
+	private Canvas canvas;
 
-	public MenuMouseListener( ArrayList<Location> locations, Circuit circuit ) {
+	public MenuMouseListener( ArrayList<Location> locations, Circuit circuit, Canvas canvas ) {
 		this.locations = locations;
 		this.circuit = circuit;
+		this.canvas = canvas;
 	}
 
 	@Override
 	public void mouseClicked( MouseEvent arg0 ) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	/*
@@ -74,19 +75,25 @@ public class MenuMouseListener implements MouseListener {
 	@Override
 	public void mouseEntered( MouseEvent arg0 ) {
 		for( Location location : locations ) {
-			for( Component comp : circuit.getComponents( location ) ) {
-				if( comp instanceof Wire ) {
-					ComponentDrawContext context = ( (Wire) comp ).getContext();
-					( (Wire) comp ).draw( context, Color.MAGENTA );
-				}
+			for( Wire wire : circuit.getWires(location ) ) {
+				wire.widthErrorColor = Color.BLUE;
+				//ComponentDrawContext context = ( (Wire) comp ).getContext();
+				//( (Wire) comp ).draw( context, Color.MAGENTA );
 			}
 		}
+		canvas.repaint(); //BORRAR PARA VER LOS SUBMENU
 	}
 
 	@Override
 	public void mouseExited( MouseEvent arg0 ) {
-		// TODO Auto-generated method stub
-
+		for( Location location : locations ) {
+			for( Wire wire : circuit.getWires(location ) ) {
+				wire.widthErrorColor = new Color(255, 123, 0);
+				//ComponentDrawContext context = ( (Wire) comp ).getContext();
+				//( (Wire) comp ).draw( context, Color.MAGENTA );
+			}
+		}
+		canvas.repaint(); //BORRAR PARA VER LOS SUBMENU
 	}
 
 	@Override
@@ -96,9 +103,14 @@ public class MenuMouseListener implements MouseListener {
 	}
 
 	@Override
-	public void mouseReleased( MouseEvent arg0 ) {
-		// TODO Auto-generated method stub
-
+	public void mouseReleased( MouseEvent arg0 ) {/*
+		for( Location location : locations ) {
+			for( Wire wire : circuit.getWires(location ) ) {
+				wire.widthErrorColor = new Color(255, 123, 0);
+				//ComponentDrawContext context = ( (Wire) comp ).getContext();
+				//( (Wire) comp ).draw( context, Color.MAGENTA );
+			}
+		} */
 	}
 
 }

@@ -43,11 +43,12 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	private ComponentDrawContext prevContext;
 	private static final List<Attribute<?>> ATTRIBUTES = Arrays.asList( new Attribute<?>[] { dir_attr, len_attr } );
 	private static final Cache cache = new Cache();
-
+	public Color widthErrorColor = new Color(255, 123, 0);
+	
 	public static Wire create( Location e0, Location e1 ) {
 		return (Wire) cache.get( new Wire( e0, e1 ) );
 	}
-
+	
 	private class EndList extends AbstractList<EndData> {
 		@Override
 		public EndData get( int i ) {

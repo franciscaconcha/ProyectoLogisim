@@ -414,7 +414,7 @@ class CircuitWires {
 				Location t = w.e1;
 				WireBundle wb = bmap.getBundleAt(s);
 				if (!wb.isValid()) {
-					g.setColor(Value.WIDTH_ERROR_COLOR);
+					g.setColor(w.widthErrorColor);//cable
 				} else if (showState) {
 					if (!isValid) g.setColor(Value.NIL_COLOR);
 					else         g.setColor(state.getValue(s).getColor());
@@ -435,7 +435,7 @@ class CircuitWires {
 					WireBundle wb = bmap.getBundleAt(loc);
 					if (wb != null) {
 						if (!wb.isValid()) {
-							g.setColor(Value.WIDTH_ERROR_COLOR);
+							g.setColor(Value.WIDTH_ERROR_COLOR); //punto desviacion
 						} else if (showState) {
 							if (!isValid) g.setColor(Value.NIL_COLOR);
 							else         g.setColor(state.getValue(loc).getColor());
@@ -457,7 +457,7 @@ class CircuitWires {
 					Location t = w.e1;
 					WireBundle wb = bmap.getBundleAt(s);
 					if (!wb.isValid()) {
-						g.setColor(Value.WIDTH_ERROR_COLOR);
+						g.setColor(w.widthErrorColor); //Linea al mover
 					} else if (showState) {
 						if (!isValid) g.setColor(Value.NIL_COLOR);
 						else         g.setColor(state.getValue(s).getColor());
@@ -487,7 +487,7 @@ class CircuitWires {
 						WireBundle wb = bmap.getBundleAt(loc);
 						if (wb != null) {
 							if (!wb.isValid()) {
-								g.setColor(Value.WIDTH_ERROR_COLOR);
+								g.setColor(Value.WIDTH_ERROR_COLOR);//punto al mover
 							} else if (showState) {
 								if (!isValid) g.setColor(Value.NIL_COLOR);
 								else         g.setColor(state.getValue(loc).getColor());

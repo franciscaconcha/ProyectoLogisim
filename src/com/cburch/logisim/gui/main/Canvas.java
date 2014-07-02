@@ -832,12 +832,12 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 				if( !repetidos.contains( width ) ) {
 					JMenuItem jmenuItemNuevo = new JMenuItem( "Establecer Bits de Datos " + width );
 					jmenuItemNuevo.addActionListener( new ActionItemError( locations, width, proj ) );
-					jmenuItemNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit() ) );
+					jmenuItemNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit(), this) );
 					jmenuNuevo.add( jmenuItemNuevo );
 					repetidos.add( width );
 				}
 			}
-			jmenuNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit() ) );
+			jmenuNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit(), this) );
 			menuSugerencias.add( jmenuNuevo );
 			count++;
 		}
