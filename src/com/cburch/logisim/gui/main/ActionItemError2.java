@@ -31,25 +31,13 @@ public class ActionItemError2 implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*Wiring w = new Wiring();
-		Canvas canvas = proj.getFrame().getCanvas();
-		AddTool at = (AddTool) w.getTool("Pin");
-		AttributeSet atrSet = at.getAttributeSet();
-		//Revisar como alterar el numero de bits de datos
-		atrSet.setValue(Pin.ATTR_TRISTATE, false);
-		at.setAttributeSet(atrSet); 
-		at.setState(canvas, 2);
-		
-		MouseEvent mouseEvent = new MouseEvent(canvas, 0, 0, 0, 170, 44, 50, 50, 1, false, 1); 
-		at.mouseReleased(canvas,canvas.getGraphics() , mouseEvent);
-		canvas.completeAction();*/
 		
 		Set<Wire> wires = proj.getCurrentCircuit().getWires();
 		CircuitState state = proj.getCircuitState();
 		
-		for (Wire w2 : wires) {
-			Location s = w2.getE0();
-			Location t = w2.getE1();
+		for (Wire wire : wires) {
+			Location s = wire.getE0();
+			Location t = wire.getE1();
 			System.out.println(s);
 			System.out.println(t);
 			System.out.println(state.getValue(s).getColor());
@@ -71,11 +59,11 @@ public class ActionItemError2 implements ActionListener {
 				Location inicio = Location.create(s.getX()-100, s.getY());
 				Location fin = Location.create(s.getX()-50, s.getY());
 				
-				Wire wire = Wire.create(inicio, fin);
-				System.out.println(wire);
-				//proj.getCurrentCircuit().mutatorAdd(wire);
+				Wire newWire = Wire.create(inicio, fin);
+				System.out.println(newWire);
 				
 			}
+			
 		}
 		
 		
