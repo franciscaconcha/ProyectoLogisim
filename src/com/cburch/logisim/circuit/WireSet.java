@@ -37,4 +37,7 @@ public class WireSet {
 	public boolean containsLocation(Location loc) {
 		return points.contains(loc);
 	}
+	public Set<Wire> getWires(){
+		return wires;
+	}
 }
