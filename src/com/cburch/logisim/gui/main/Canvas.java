@@ -847,10 +847,6 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 		}
 		
 		
-		JButton jmenuPin = new JButton("Agregar Pines");
-		jmenuPin.addActionListener(new PinErrorListener(proj));
-		menuSugerencias.add(jmenuPin );
-		
 	}
 
 	@Override
