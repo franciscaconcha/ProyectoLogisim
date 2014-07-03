@@ -20,13 +20,7 @@ public class MenuMouseListener implements MouseListener {
 	private Circuit circuit;
 	private ArrayList<Location> locations;
 	private Project proj;
-	private int width=0;
-
-	public MenuMouseListener( ArrayList<Location> locations, Canvas canvas ) {
-		this.circuit = canvas.getCircuit();
-		this.proj = canvas.getProject();
-		this.locations = locations;	
-	}
+	private int width;
 	
 	public MenuMouseListener( ArrayList<Location> locations, Canvas canvas, int width ) {
 		this.circuit = canvas.getCircuit();
@@ -72,7 +66,6 @@ public class MenuMouseListener implements MouseListener {
 	
 	@Override
 	public void mouseEntered( MouseEvent arg0 ) {
-		if(width==0) return;
 		SetAttributeAction act = new SetAttributeAction(circuit, Strings.getter("selectionAttributeAction"));
 		for( Location location : locations ) {
 			for( Wire wire : circuit.getWires(location ) ) {
@@ -84,7 +77,6 @@ public class MenuMouseListener implements MouseListener {
 
 	@Override
 	public void mouseExited( MouseEvent arg0 ) {
-		if(width==0) return;
 		SetAttributeAction act = new SetAttributeAction(circuit, Strings.getter("selectionAttributeAction"));
 		for( Location location : locations ) {
 			for( Wire wire : circuit.getWires(location ) ) {
