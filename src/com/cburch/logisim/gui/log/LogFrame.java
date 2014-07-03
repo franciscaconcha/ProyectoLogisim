@@ -140,6 +140,7 @@ public class LogFrame extends LFrame {
 				new SelectionPanel(this),
 				new ScrollPanel(this),
 				new FilePanel(this),
+				new InputPanel(this) //Input de texto usuario, @José Garrido
 		};
 		tabbedPane = new JTabbedPane();
 		for (int index = 0; index < panels.length; index++) {
