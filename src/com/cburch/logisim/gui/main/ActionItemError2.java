@@ -31,7 +31,7 @@ public class ActionItemError2 implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Wiring w = new Wiring();
+		/*Wiring w = new Wiring();
 		Canvas canvas = proj.getFrame().getCanvas();
 		AddTool at = (AddTool) w.getTool("Pin");
 		AttributeSet atrSet = at.getAttributeSet();
@@ -39,12 +39,11 @@ public class ActionItemError2 implements ActionListener {
 		atrSet.setValue(Pin.ATTR_TRISTATE, false);
 		at.setAttributeSet(atrSet); 
 		at.setState(canvas, 2);
-		//Definir si es variable la posición
-		//Como identificar la posicon
 		
 		MouseEvent mouseEvent = new MouseEvent(canvas, 0, 0, 0, 170, 44, 50, 50, 1, false, 1); 
 		at.mouseReleased(canvas,canvas.getGraphics() , mouseEvent);
-		canvas.completeAction();
+		canvas.completeAction();*/
+		
 		Set<Wire> wires = proj.getCurrentCircuit().getWires();
 		CircuitState state = proj.getCircuitState();
 		
@@ -57,6 +56,19 @@ public class ActionItemError2 implements ActionListener {
 			System.out.println(state.getValue(s).getColor());
 			if(state.getValue(s).getColor().equals(new Color(192, 0 ,0))){
 				System.out.println("color correcto");
+				Wiring w = new Wiring();
+				Canvas canvas = proj.getFrame().getCanvas();
+				AddTool at = (AddTool) w.getTool("Pin");
+				AttributeSet atrSet = at.getAttributeSet();
+				//Revisar como alterar el numero de bits de datos
+				atrSet.setValue(Pin.ATTR_TRISTATE, false);
+				at.setAttributeSet(atrSet); 
+				at.setState(canvas, 2);
+				
+				MouseEvent mouseEvent = new MouseEvent(canvas, 0, 0, 0, s.getX()-100, s.getY(), 50, 50, 1, false, 1); 
+				at.mouseReleased(canvas,canvas.getGraphics() , mouseEvent);
+				canvas.completeAction();
+					
 			}
 		}
 		
