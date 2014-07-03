@@ -67,7 +67,14 @@ public class ActionItemError2 implements ActionListener {
 				MouseEvent mouseEvent = new MouseEvent(canvas, 0, 0, 0, s.getX()-100, s.getY(), 50, 50, 1, false, 1); 
 				at.mouseReleased(canvas,canvas.getGraphics() , mouseEvent);
 				canvas.completeAction();
-					
+				
+				Location inicio = Location.create(s.getX()-100, s.getY());
+				Location fin = Location.create(s.getX()-50, s.getY());
+				
+				Wire wire = Wire.create(inicio, fin);
+				System.out.println(wire);
+				//proj.getCurrentCircuit().mutatorAdd(wire);
+				
 			}
 		}
 		
