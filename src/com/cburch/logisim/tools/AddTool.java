@@ -481,7 +481,7 @@ public class AddTool extends Tool {
 	@Override
 	public Cursor getCursor() { return cursor; }
 
-	private void setState(Canvas canvas, int value) {
+	public void setState(Canvas canvas, int value) {
 		if (value == SHOW_GHOST) {
 			if (canvas.getProject().getLogisimFile().contains(canvas.getCircuit())
 					&& AppPreferences.ADD_SHOW_GHOSTS.getBoolean()) {

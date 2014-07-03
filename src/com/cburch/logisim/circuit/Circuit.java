@@ -361,7 +361,7 @@ public class Circuit {
 		staticAttrs.setValue( CircuitAttributes.NAME_ATTR, name );
 	}
 
-	void mutatorAdd( Component c ) {
+	public void mutatorAdd( Component c ) {
 		locker.checkForWritePermission( "add" );
 
 		if( c instanceof Wire ) {

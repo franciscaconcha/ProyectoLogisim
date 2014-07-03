@@ -43,11 +43,12 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	private ComponentDrawContext prevContext;
 	private static final List<Attribute<?>> ATTRIBUTES = Arrays.asList( new Attribute<?>[] { dir_attr, len_attr } );
 	private static final Cache cache = new Cache();
-
+	public Color widthErrorColor = new Color(255, 123, 0);
+	
 	public static Wire create( Location e0, Location e1 ) {
 		return (Wire) cache.get( new Wire( e0, e1 ) );
 	}
-
+	
 	private class EndList extends AbstractList<EndData> {
 		@Override
 		public EndData get( int i ) {
@@ -60,8 +61,8 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 		}
 	}
 
-	final Location e0;
-	final Location e1;
+	private final Location e0;
+	private final Location e1;
 	final boolean is_x_equal;
 
 	private Wire( Location e0, Location e1 ) {
@@ -92,21 +93,21 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	public boolean equals( Object other ) {
 		if( !( other instanceof Wire ) ) return false;
 		Wire w = (Wire) other;
-		return w.e0.equals( this.e0 ) && w.e1.equals( this.e1 );
+		return w.getE0().equals( this.getE0() ) && w.getE1().equals( this.getE1() );
 	}
 
 	@Override
 	public int hashCode() {
-		return e0.hashCode() * 31 + e1.hashCode();
+		return getE0().hashCode() * 31 + getE1().hashCode();
 	}
 
 	public int getLength() {
-		return ( e1.getY() - e0.getY() ) + ( e1.getX() - e0.getX() );
+		return ( getE1().getY() - getE0().getY() ) + ( getE1().getX() - getE0().getX() );
 	}
 
 	@Override
 	public String toString() {
-		return "Wire[" + e0 + "-" + e1 + "]";
+		return "Wire[" + getE0() + "-" + getE1() + "]";
 	}
 
 	//
@@ -129,13 +130,13 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 
 	// location/extent methods
 	public Location getLocation() {
-		return e0;
+		return getE0();
 	}
 
 	public Bounds getBounds() {
-		int x0 = e0.getX();
-		int y0 = e0.getY();
-		return Bounds.create( x0 - 2, y0 - 2, e1.getX() - x0 + 5, e1.getY() - y0 + 5 );
+		int x0 = getE0().getX();
+		int y0 = getE0().getY();
+		return Bounds.create( x0 - 2, y0 - 2, getE1().getX() - x0 + 5, getE1().getY() - y0 + 5 );
 	}
 
 	public Bounds getBounds( Graphics g ) {
@@ -146,12 +147,12 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 		int qx = q.getX();
 		int qy = q.getY();
 		if( is_x_equal ) {
-			int wx = e0.getX();
-			return qx >= wx - 2 && qx <= wx + 2 && e0.getY() <= qy && qy <= e1.getY();
+			int wx = getE0().getX();
+			return qx >= wx - 2 && qx <= wx + 2 && getE0().getY() <= qy && qy <= getE1().getY();
 		}
 		else {
-			int wy = e0.getY();
-			return qy >= wy - 2 && qy <= wy + 2 && e0.getX() <= qx && qx <= e1.getX();
+			int wy = getE0().getY();
+			return qy >= wy - 2 && qy <= wy + 2 && getE0().getX() <= qx && qx <= getE1().getX();
 		}
 	}
 
@@ -172,14 +173,14 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	}
 
 	public boolean endsAt( Location pt ) {
-		return e0.equals( pt ) || e1.equals( pt );
+		return getE0().equals( pt ) || getE1().equals( pt );
 	}
 
 	public void propagate( CircuitState state ) {
 		// Normally this is handled by CircuitWires, and so it won't get
 		// called. The exception is when a wire is added or removed
-		state.markPointAsDirty( e0 );
-		state.markPointAsDirty( e1 );
+		state.markPointAsDirty( getE0() );
+		state.markPointAsDirty( getE1() );
 	}
 
 	//
@@ -187,9 +188,9 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	//
 	public void expose( ComponentDrawContext context ) {
 		java.awt.Component dest = context.getDestination();
-		int x0 = e0.getX();
-		int y0 = e0.getY();
-		dest.repaint( x0 - 5, y0 - 5, e1.getX() - x0 + 10, e1.getY() - y0 + 10 );
+		int x0 = getE0().getX();
+		int y0 = getE0().getY();
+		dest.repaint( x0 - 5, y0 - 5, getE1().getX() - x0 + 10, getE1().getY() - y0 + 10 );
 	}
 
 	public void draw( ComponentDrawContext context ) {
@@ -197,9 +198,12 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 		CircuitState state = context.getCircuitState();
 		Graphics g = context.getGraphics();
 		
-		GraphicsUtil.switchToWidth( g, WIDTH );
-		g.setColor( state.getValue( e0 ).getColor() );
-		g.drawLine( e0.getX(), e0.getY(), e1.getX(), e1.getY() );
+		GraphicsUtil.switchToWidth(g, WIDTH);
+		//Aca se pinta el wires
+		//Ademas se usa la clase Value
+		g.setColor(state.getValue(getE0()).getColor());
+		g.drawLine(getE0().getX(), getE0().getY(),
+			getE1().getX(), getE1().getY());
 	}
 	
 	public void draw( ComponentDrawContext context, Color c ) {
@@ -208,7 +212,7 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 		
 		GraphicsUtil.switchToWidth( g, WIDTH );
 		g.setColor( c );
-		g.drawLine( e0.getX(), e0.getY(), e1.getX(), e1.getY() );
+		g.drawLine( getE0().getX(), getE0().getY(), getE1().getX(), getE1().getY() );
 	}
 	
 	public ComponentDrawContext getContext() {
@@ -289,49 +293,49 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	}
 
 	public Location getEndLocation( int index ) {
-		return index == 0 ? e0 : e1;
+		return index == 0 ? getE0() : getE1();
 	}
 
 	public Location getEnd0() {
-		return e0;
+		return getE0();
 	}
 
 	public Location getEnd1() {
-		return e1;
+		return getE1();
 	}
 
 	public Location getOtherEnd( Location loc ) {
-		return( loc.equals( e0 ) ? e1 : e0 );
+		return( loc.equals( getE0() ) ? getE1() : getE0() );
 	}
 
 	public boolean sharesEnd( Wire other ) {
-		return this.e0.equals( other.e0 ) || this.e1.equals( other.e0 ) || this.e0.equals( other.e1 )
-		      || this.e1.equals( other.e1 );
+		return this.getE0().equals( other.getE0() ) || this.getE1().equals( other.getE0() ) || this.getE0().equals( other.getE1() )
+		      || this.getE1().equals( other.getE1() );
 	}
 
 	public boolean overlaps( Wire other, boolean includeEnds ) {
-		return overlaps( other.e0, other.e1, includeEnds );
+		return overlaps( other.getE0(), other.getE1(), includeEnds );
 	}
 
 	private boolean overlaps( Location q0, Location q1, boolean includeEnds ) {
 		if( is_x_equal ) {
 			int x0 = q0.getX();
-			if( x0 != q1.getX() || x0 != e0.getX() ) return false;
+			if( x0 != q1.getX() || x0 != getE0().getX() ) return false;
 			if( includeEnds ) {
-				return e1.getY() >= q0.getY() && e0.getY() <= q1.getY();
+				return getE1().getY() >= q0.getY() && getE0().getY() <= q1.getY();
 			}
 			else {
-				return e1.getY() > q0.getY() && e0.getY() < q1.getY();
+				return getE1().getY() > q0.getY() && getE0().getY() < q1.getY();
 			}
 		}
 		else {
 			int y0 = q0.getY();
-			if( y0 != q1.getY() || y0 != e0.getY() ) return false;
+			if( y0 != q1.getY() || y0 != getE0().getY() ) return false;
 			if( includeEnds ) {
-				return e1.getX() >= q0.getX() && e0.getX() <= q1.getX();
+				return getE1().getX() >= q0.getX() && getE0().getX() <= q1.getX();
 			}
 			else {
-				return e1.getX() > q0.getX() && e0.getX() < q1.getX();
+				return getE1().getX() > q0.getX() && getE0().getX() < q1.getX();
 			}
 		}
 	}
@@ -341,11 +345,19 @@ public final class Wire implements Component, AttributeSet, CustomHandles, Itera
 	}
 
 	public Iterator<Location> iterator() {
-		return new WireIterator( e0, e1 );
+		return new WireIterator( getE0(), getE1() );
 	}
 
 	public void drawHandles( ComponentDrawContext context ) {
-		context.drawHandle( e0 );
-		context.drawHandle( e1 );
+		context.drawHandle( getE0() );
+		context.drawHandle( getE1() );
+	}
+
+	public Location getE0() {
+		return e0;
+	}
+
+	public Location getE1() {
+		return e1;
 	}
 }

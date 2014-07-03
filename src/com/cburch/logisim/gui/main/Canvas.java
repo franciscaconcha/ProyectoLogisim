@@ -13,12 +13,10 @@ import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import com.cburch.ElementException;
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitEvent;
 import com.cburch.logisim.circuit.CircuitListener;
@@ -64,6 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -540,6 +539,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 	private MyViewport viewport = new MyViewport();
 	private MyProjectListener myProjectListener = new MyProjectListener();
 	private TickCounter tickCounter;
+	private Set<WidthIncompatibilityData> prevExceptions;
 
 	private CanvasPaintThread paintThread;
 	private CanvasPainter painter;
@@ -670,7 +670,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 		menu.show( this, x, y );
 	}
 
-	private void completeAction() {
+	public void completeAction() {
 		computeSize( false );
 		// TODO for SimulatorPrototype: proj.getSimulator().releaseUserEvents();
 		proj.getSimulator().requestPropagate();
@@ -745,6 +745,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 		if( exceptions == null || exceptions.size() == 0 ) {
 			proj.getFrame().getMenuSugerencias().removeAll();
 			proj.getFrame().getMenuSugerencias().setBackground( new Color( 240, 240, 240 ) );
+			System.out.println(  );
 			viewport.setWidthMessage( null );
 			return;
 		}
@@ -813,6 +814,11 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 	}
 
 	private void exceptionProcess( Set<WidthIncompatibilityData> exceptions ) {
+		if( exceptions.equals( prevExceptions )) {
+			return;
+		} else{
+			prevExceptions = exceptions;
+		}
 		JMenu menuSugerencias = proj.getFrame().getMenuSugerencias();
 		menuSugerencias.removeAll();
 		menuSugerencias.setBackground( Color.RED );
@@ -831,16 +837,16 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 				int width = w.getBitWidth( i ).getWidth();
 				if( !repetidos.contains( width ) ) {
 					JMenuItem jmenuItemNuevo = new JMenuItem( "Establecer Bits de Datos " + width );
-					jmenuItemNuevo.addActionListener( new ActionItemError( locations, width, proj ) );
-					jmenuItemNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit() ) );
+					jmenuItemNuevo.addMouseListener( new MenuMouseListener( locations, this, width) );
 					jmenuNuevo.add( jmenuItemNuevo );
 					repetidos.add( width );
 				}
 			}
-			jmenuNuevo.addMouseListener( new MenuMouseListener( locations, proj.getCurrentCircuit() ) );
 			menuSugerencias.add( jmenuNuevo );
 			count++;
 		}
+		
+		
 	}
 
 	@Override

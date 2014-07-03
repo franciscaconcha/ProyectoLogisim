@@ -51,20 +51,20 @@ public class WireUtil {
 		while (!wires.isEmpty()) {
 			Iterator<Wire> it = wires.iterator();
 			Wire w = it.next();
-			Location e0 = w.e0;
-			Location e1 = w.e1;
+			Location e0 = w.getE0();
+			Location e1 = w.getE1();
 			it.remove();
 			boolean found;
 			do {
 				found = false;
 				for (it = wires.iterator(); it.hasNext(); ) {
 					Wire cand = it.next();
-					if (cand.e0.equals(e1)) {
-						e1 = cand.e1;
+					if (cand.getE0().equals(e1)) {
+						e1 = cand.getE1();
 						found = true;
 						it.remove();
-					} else if (cand.e1.equals(e0)) {
-						e0 = cand.e0;
+					} else if (cand.getE1().equals(e0)) {
+						e0 = cand.getE0();
 						found = true;
 						it.remove();
 					}
