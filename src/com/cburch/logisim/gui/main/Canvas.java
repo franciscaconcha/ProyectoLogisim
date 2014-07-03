@@ -835,7 +835,6 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 					repetidos.add( width );
 				}
 			}
-			jmenuNuevo.addMouseListener( new MenuMouseListener( locations, this) );
 			menuSugerencias.add( jmenuNuevo );
 			count++;
 		}
