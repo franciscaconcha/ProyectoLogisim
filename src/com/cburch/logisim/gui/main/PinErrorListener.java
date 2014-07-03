@@ -22,11 +22,11 @@ import com.cburch.logisim.std.wiring.Wiring;
 import com.cburch.logisim.tools.AddTool;
 import com.cburch.logisim.util.StringGetter;
 
-public class ActionItemError2 implements ActionListener {
+public class PinErrorListener implements ActionListener {
 
 	private Project proj;
 
-	public ActionItemError2(Project proj) {
+	public PinErrorListener(Project proj) {
 		this.proj = proj;
 	}
 
@@ -40,11 +40,7 @@ public class ActionItemError2 implements ActionListener {
 		for (Wire wire : wires) {
 			Location s = wire.getE0();
 			Location t = wire.getE1();
-			System.out.println(s);
-			System.out.println(t);
-			System.out.println(state.getValue(s).getColor());
 			if (state.getValue(s).getColor().equals(new Color(192, 0, 0))) {
-				System.out.println("color correcto");
 				Wiring w = new Wiring();
 				
 				AddTool at = (AddTool) w.getTool("Pin");
