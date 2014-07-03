@@ -13,7 +13,6 @@ import java.awt.Rectangle;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -539,6 +538,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 	private MyViewport viewport = new MyViewport();
 	private MyProjectListener myProjectListener = new MyProjectListener();
 	private TickCounter tickCounter;
+	private Set<WidthIncompatibilityData> prevExceptions;
 
 	private CanvasPaintThread paintThread;
 	private CanvasPainter painter;
@@ -744,6 +744,7 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 		if( exceptions == null || exceptions.size() == 0 ) {
 			proj.getFrame().getMenuSugerencias().removeAll();
 			proj.getFrame().getMenuSugerencias().setBackground( new Color( 240, 240, 240 ) );
+			System.out.println(  );
 			viewport.setWidthMessage( null );
 			return;
 		}
@@ -812,6 +813,11 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 	}
 
 	private void exceptionProcess( Set<WidthIncompatibilityData> exceptions ) {
+		if( exceptions.equals( prevExceptions )) {
+			return;
+		} else{
+			prevExceptions = exceptions;
+		}
 		JMenu menuSugerencias = proj.getFrame().getMenuSugerencias();
 		menuSugerencias.removeAll();
 		menuSugerencias.setBackground( Color.RED );
