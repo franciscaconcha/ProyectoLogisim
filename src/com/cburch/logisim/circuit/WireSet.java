@@ -24,8 +24,8 @@ public class WireSet {
 			this.wires = wires;
 			points = new HashSet<Location>();
 			for (Wire w : wires) {
-				points.add(w.e0);
-				points.add(w.e1);
+				points.add(w.getE0());
+				points.add(w.getE1());
 			}
 		}
 	}

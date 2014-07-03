@@ -217,7 +217,7 @@ class CircuitWires {
 	}
 	
 	WireSet getWireSet(Wire start) {
-		WireBundle bundle = getWireBundle(start.e0);
+		WireBundle bundle = getWireBundle(start.getE0());
 		if (bundle == null) return WireSet.EMPTY;
 		HashSet<Wire> wires = new HashSet<Wire>();
 		for (Location loc : bundle.points) {
@@ -294,7 +294,7 @@ class CircuitWires {
 		if (!added) return false;
 
 		if (bounds != Bounds.EMPTY_BOUNDS) { // update bounds
-			bounds = bounds.add(w.e0).add(w.e1);
+			bounds = bounds.add(w.getE0()).add(w.getE1());
 		}
 		return true;
 	}
@@ -306,7 +306,7 @@ class CircuitWires {
 		if (bounds != Bounds.EMPTY_BOUNDS) {
 			// bounds is valid - invalidate if endpoint on border
 			Bounds smaller = bounds.expand(-2);
-			if (!smaller.contains(w.e0) || !smaller.contains(w.e1)) {
+			if (!smaller.contains(w.getE0()) || !smaller.contains(w.getE1())) {
 				bounds = Bounds.EMPTY_BOUNDS;
 			}
 		}
@@ -410,8 +410,8 @@ class CircuitWires {
 		boolean isValid = bmap.isValid();
 		if (hidden == null || hidden.size() == 0) {
 			for (Wire w : wires) {
-				Location s = w.e0;
-				Location t = w.e1;
+				Location s = w.getE0();
+				Location t = w.getE1();
 				WireBundle wb = bmap.getBundleAt(s);
 				if (!wb.isValid()) {
 					g.setColor(w.widthErrorColor);//cable
@@ -453,8 +453,8 @@ class CircuitWires {
 		} else {
 			for (Wire w : wires) {
 				if (!hidden.contains(w)) {
-					Location s = w.e0;
-					Location t = w.e1;
+					Location s = w.getE0();
+					Location t = w.getE1();
 					WireBundle wb = bmap.getBundleAt(s);
 					if (!wb.isValid()) {
 						g.setColor(w.widthErrorColor); //Linea al mover
@@ -660,14 +660,14 @@ class CircuitWires {
 	private void connectWires(BundleMap ret) {
 		// make a WireBundle object for each tree of connected wires
 		for (Wire w : wires) {
-			WireBundle b0 = ret.getBundleAt(w.e0);
+			WireBundle b0 = ret.getBundleAt(w.getE0());
 			if (b0 == null) {
-				WireBundle b1 = ret.createBundleAt(w.e1);
-				b1.points.add(w.e0); ret.setBundleAt(w.e0, b1);
+				WireBundle b1 = ret.createBundleAt(w.getE1());
+				b1.points.add(w.getE0()); ret.setBundleAt(w.getE0(), b1);
 			} else {
-				WireBundle b1 = ret.getBundleAt(w.e1);
+				WireBundle b1 = ret.getBundleAt(w.getE1());
 				if (b1 == null) { // t1 doesn't exist
-					b0.points.add(w.e1); ret.setBundleAt(w.e1, b0);
+					b0.points.add(w.getE1()); ret.setBundleAt(w.getE1(), b0);
 				} else {
 					b1.unite(b0); // unite b0 and b1
 				}
@@ -777,16 +777,16 @@ class CircuitWires {
 		}
 
 		Wire w = it.next();
-		int xmin = w.e0.getX();
-		int ymin = w.e0.getY();
-		int xmax = w.e1.getX();
-		int ymax = w.e1.getY();
+		int xmin = w.getE0().getX();
+		int ymin = w.getE0().getY();
+		int xmax = w.getE1().getX();
+		int ymax = w.getE1().getY();
 		while (it.hasNext()) {
 			w = it.next();
-			int x0 = w.e0.getX(); if (x0 < xmin) xmin = x0;
-			int x1 = w.e1.getX(); if (x1 > xmax) xmax = x1;
-			int y0 = w.e0.getY(); if (y0 < ymin) ymin = y0;
-			int y1 = w.e1.getY(); if (y1 > ymax) ymax = y1;
+			int x0 = w.getE0().getX(); if (x0 < xmin) xmin = x0;
+			int x1 = w.getE1().getX(); if (x1 > xmax) xmax = x1;
+			int y0 = w.getE0().getY(); if (y0 < ymin) ymin = y0;
+			int y1 = w.getE1().getY(); if (y1 > ymax) ymax = y1;
 		}
 		Bounds bds = Bounds.create(xmin, ymin,
 			xmax - xmin + 1, ymax - ymin + 1);

@@ -8,7 +8,7 @@ import com.cburch.logisim.data.Location;
 import com.cburch.logisim.data.Value;
 import com.cburch.logisim.util.SmallSet;
 
-class WireBundle {
+public class WireBundle {
 	private BitWidth width = BitWidth.UNKNOWN;
 	private Value pullValue = Value.UNKNOWN;
 	private WireBundle parent;
