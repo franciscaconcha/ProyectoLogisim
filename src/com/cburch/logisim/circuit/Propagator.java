@@ -344,6 +344,7 @@ public class Propagator {
 	}
 
 	public boolean tick() {
+		System.out.println("tick de la clase Propagator");
 		ticks++;
 		return root.tick(ticks);
 	}

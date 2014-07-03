@@ -9,6 +9,8 @@ import com.cburch.logisim.comp.ComponentDrawContext;
 import com.cburch.logisim.prefs.AppPreferences;
 
 public class Simulator {
+	
+	public static boolean my_mutex_chanta=true;
 	/*begin DEBUGGING
 	private static PrintWriter debug_log;
 	
@@ -65,6 +67,7 @@ public class Simulator {
 		}
 		
 		public synchronized void requestTick()  {
+			System.out.println("request tick, yo estoy en un thread");
 			if (ticksRequested < 16) {
 				ticksRequested++;
 			}
@@ -107,6 +110,7 @@ public class Simulator {
 						} else {
 							ticked = ticksRequested > 0;
 							if (ticked) doTick();
+							System.out.println("doTick de PropagatorManager, clase interna de Simulator, yo estoy en un thread");
 							do {
 								propagateRequested = false;
 								try {
@@ -155,6 +159,8 @@ public class Simulator {
 				ticksRequested--;
 			}
 			propagator.tick();
+			my_mutex_chanta=true;
+			System.out.println(my_mutex_chanta);
 		}
 	}
 
@@ -169,6 +175,7 @@ public class Simulator {
 		= new ArrayList<SimulatorListener>();
 
 	public Simulator() {
+		System.out.println("tick de la clase Simulator");
 		manager = new PropagationManager();
 		ticker = new SimulatorTicker(manager);
 		try {

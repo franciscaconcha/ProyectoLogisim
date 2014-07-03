@@ -53,4 +53,8 @@ class Selection {
 		components.add(toIndex, o);
 		model.fireSelectionChanged(new ModelEvent());
 	}
+	
+	public boolean startsWith(int index, String string){
+		return this.get(index).toString().startsWith(Strings.get(string));
+	}
 }

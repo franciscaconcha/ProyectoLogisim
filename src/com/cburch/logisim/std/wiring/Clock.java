@@ -205,8 +205,8 @@ public class Clock extends InstanceFactory {
 
 	//
 	// package methods
-	//
-	public static boolean tick(CircuitState circState, int ticks, Component comp) {
+		public static boolean tick(CircuitState circState, int ticks, Component comp) {
+			System.out.println("tick de la clase Clock");
 		AttributeSet attrs = comp.getAttributeSet();
 		int durationHigh = attrs.getValue(ATTR_HIGH).intValue();
 		int durationLow = attrs.getValue(ATTR_LOW).intValue();
