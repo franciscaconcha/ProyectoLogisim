@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -844,6 +845,12 @@ public class Canvas extends JPanel implements LocaleListener, CanvasPaneContents
 			menuSugerencias.add( jmenuNuevo );
 			count++;
 		}
+		
+		
+		JButton jmenuPin = new JButton("Agregar Pines");
+		jmenuPin.addActionListener(new PinErrorListener(proj));
+		menuSugerencias.add(jmenuPin );
+		
 	}
 
 	@Override

@@ -196,7 +196,7 @@ public class Frame extends LFrame implements LocaleListener {
 		attrTable = new AttrTable( this );
 		zoom = new ZoomControl( layoutZoomModel );
 
-		testButton = new JButton("boton de prueba");
+		testButton = new JButton("Agregar Pines faltantes");
 		testButton.addActionListener( new PinErrorListener(proj));
 		menuBarPrueba = new JMenuBar();
 		menuSugerencias = new JMenu( "Menu Sugerencias" );
