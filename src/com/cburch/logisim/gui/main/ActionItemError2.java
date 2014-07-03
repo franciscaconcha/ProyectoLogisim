@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
 import java.util.Set;
 
 import com.cburch.logisim.circuit.Circuit;
 import com.cburch.logisim.circuit.CircuitState;
 import com.cburch.logisim.circuit.Wire;
 import com.cburch.logisim.circuit.WireBundle;
+import com.cburch.logisim.comp.Component;
 import com.cburch.logisim.data.AttributeSet;
 import com.cburch.logisim.data.Location;
 import com.cburch.logisim.data.Value;
@@ -49,9 +51,13 @@ public class ActionItemError2 implements ActionListener {
 		for (Wire w2 : wires) {
 			Location s = w2.getE0();
 			Location t = w2.getE1();
+			Collection<? extends Component> componente = proj.getCurrentCircuit().getNonWires(s);
 			System.out.println(s);
 			System.out.println(t);
 			System.out.println(state.getValue(s).getColor());
+			if(state.getValue(s).getColor().equals(new Color(192, 0 ,0))){
+				System.out.println("color correcto");
+			}
 		}
 		
 		
