@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
+import com.cburch.logisim.circuit.Circuit;
+import com.cburch.logisim.circuit.CircuitState;
 import com.cburch.logisim.data.AttributeSet;
 import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.wiring.Pin;
@@ -34,6 +36,9 @@ public class ActionItemError2 implements ActionListener {
 		MouseEvent mouseEvent = new MouseEvent(canvas, 0, 0, 0, 170, 44, 50, 50, 1, false, 1); 
 		at.mouseReleased(canvas,canvas.getGraphics() , mouseEvent);
 		canvas.completeAction();
+		
+		CircuitState state = proj.getCircuitState();
+		
 	}
 
 }

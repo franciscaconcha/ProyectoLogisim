@@ -397,7 +397,7 @@ class CircuitWires {
 			}
 		}
 	}
-
+	//En esta clase se trabaja
 	void draw(ComponentDrawContext context, Collection<Component> hidden) {
 		boolean showState = context.getShowState();
 		CircuitState state = context.getCircuitState();
