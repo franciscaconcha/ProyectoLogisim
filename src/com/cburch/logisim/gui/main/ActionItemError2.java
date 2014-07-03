@@ -50,7 +50,6 @@ public class ActionItemError2 implements ActionListener {
 		for (Wire w2 : wires) {
 			Location s = w2.getE0();
 			Location t = w2.getE1();
-			Collection<? extends Component> componente = proj.getCurrentCircuit().getNonWires(s);
 			System.out.println(s);
 			System.out.println(t);
 			System.out.println(state.getValue(s).getColor());
