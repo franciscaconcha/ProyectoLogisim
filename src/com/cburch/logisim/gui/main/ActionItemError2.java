@@ -9,7 +9,6 @@ import com.cburch.logisim.proj.Project;
 import com.cburch.logisim.std.wiring.Pin;
 import com.cburch.logisim.std.wiring.Wiring;
 import com.cburch.logisim.tools.AddTool;
-import com.cburch.logisim.tools.Tool;
 
 public class ActionItemError2 implements ActionListener {
 
@@ -25,13 +24,16 @@ public class ActionItemError2 implements ActionListener {
 		Canvas canvas = proj.getFrame().getCanvas();
 		AddTool at = (AddTool) w.getTool("Pin");
 		AttributeSet atrSet = at.getAttributeSet();
+		//Revisar como alterar el numero de bits de datos
 		atrSet.setValue(Pin.ATTR_TRISTATE, false);
 		at.setAttributeSet(atrSet); 
 		at.setState(canvas, 2);
+		//Definir si es variable la posición
+		//Como identificar la posicon
+		
 		MouseEvent mouseEvent = new MouseEvent(canvas, 0, 0, 0, 170, 44, 50, 50, 1, false, 1); 
 		at.mouseReleased(canvas,canvas.getGraphics() , mouseEvent);
 		canvas.completeAction();
-		System.out.println("prueba funciona");
 	}
 
 }
