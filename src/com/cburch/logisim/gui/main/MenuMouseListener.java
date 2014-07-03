@@ -69,7 +69,7 @@ public class MenuMouseListener implements MouseListener {
 		SetAttributeAction act = new SetAttributeAction(circuit, Strings.getter("selectionAttributeAction"));
 		for( Location location : locations ) {
 			for( Wire wire : circuit.getWires(location ) ) {
-				wire.widthErrorColor = Color.BLUE;
+				wire.widthErrorColor = Color.CYAN;
 			}
 		}
 		proj.doAction(act);
